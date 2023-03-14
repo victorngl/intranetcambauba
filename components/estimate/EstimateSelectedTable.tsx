@@ -14,11 +14,11 @@ type Product = {
     quantity?: number;
     price: number;
     price_amount?: number;
-  }
+}
 
 export default function EstimateSelectedTable({ data, setSelectedProducts, setTotalAmount, totalAmount }) {
     //Add a item to orçamento
-   
+
     function handleRemoveProduct<T>(index, product) {
         setSelectedProducts(oldValues => {
             setTotalAmount(totalAmount - product.price)
@@ -29,7 +29,10 @@ export default function EstimateSelectedTable({ data, setSelectedProducts, setTo
     return (
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: maxWidth }} size="small" aria-label="a dense table">
-                <TableHead>
+                <TableHead
+                    sx={{
+                        backgroundColor: '#0288d1',
+                    }}>
                     <TableRow>
                         <TableCell>Nome</TableCell>
                         <TableCell align="right">Preço (R$)</TableCell>
@@ -47,7 +50,7 @@ export default function EstimateSelectedTable({ data, setSelectedProducts, setTo
                             </TableCell>
                             <TableCell align="right">R$ {row.price}</TableCell>
                             <TableCell align="right">
-                            <Button onClick={e => handleRemoveProduct(index, row)} color="primary">Excluir</Button></TableCell>
+                                <Button onClick={e => handleRemoveProduct(index, row)} color="primary">Excluir</Button></TableCell>
 
                         </TableRow>
                     ))}

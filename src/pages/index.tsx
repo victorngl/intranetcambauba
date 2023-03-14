@@ -63,7 +63,7 @@ export default function Home() {
       <Estimate>
         <div className='font-bold text-lg'>Buscar Produtos</div>
         <SearchField onChange={(e) => setBusca(e.target.value)} />
-        <Divider className='py-2' />
+        <Divider className='my-2' />
 
         <table>
         {filteredProducts.map((product) => (
@@ -79,11 +79,11 @@ export default function Home() {
           </>
         ))}
         </table>
-        
-        <Divider className='py-2' />
 
-        <p className='text-lg font-bold py-2'>Produtos Selecionados</p>
-        <div className="font-bold text-lg text-right py-2">
+        <Divider className='my-2' />
+
+        <p className='text-lg font-bold my-2'>Produtos Selecionados</p>
+        <div className="font-bold text-lg text-right my-2">
           <p>Valor Total: R$ {totalAmount}</p>
         </div>
 

@@ -12,11 +12,11 @@ function Estimate({ children }) {
             }}
 
         > <Container
-            className="bg-blue-500"
+            className='bg-white rounded-lg p-10'
             sx={{
                 width: maxWidth,
-                color: 'white',
-                pt: 2,
+                color: '#0288d1',
+                
 
             }}>
                 {children}
