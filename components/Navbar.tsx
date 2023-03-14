@@ -36,7 +36,9 @@ function Navbar() {
   };
 
   return (
-    <AppBar position="relative">
+    <AppBar sx={{
+      backgroundColor: 'white',
+    }} position="relative">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
@@ -51,7 +53,7 @@ function Navbar() {
               fontFamily: 'monospace',
               fontWeight: 700,
               letterSpacing: '.3rem',
-              color: 'inherit',
+              color: '#0288d1',
               textDecoration: 'none',
             }}
           >
@@ -65,7 +67,7 @@ function Navbar() {
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
-              color="inherit"
+              color="#0288d1"
             >
               <MenuIcon />
             </IconButton>
@@ -107,7 +109,7 @@ function Navbar() {
               fontFamily: 'monospace',
               fontWeight: 700,
               letterSpacing: '.3rem',
-              color: 'inherit',
+              color: '#0288d1',
               textDecoration: 'none',
             }}
           >
@@ -118,7 +120,7 @@ function Navbar() {
               <Button
                 key={page}
                 onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
+                sx={{ my: 2, color: '#039be5', display: 'block' }}
               >
                 {page}
               </Button>

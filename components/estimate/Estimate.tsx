@@ -1,26 +1,25 @@
-import { Box, maxWidth } from '@mui/material';
+import { Box, maxWidth, maxHeight } from '@mui/material';
 import Container from '@mui/material/Container';
 
-
-function Estimate({children}) {
+function Estimate({ children }) {
     return (
         <Box
+            className="py-5"
             sx={{
                 width: maxWidth,
-                height: 300,
-                backgroundColor: 'primary.dark',
-                '&:hover': {
-                    backgroundColor: 'primary.main',
-                    opacity: [0.9, 0.8, 0.7],
-                },
+                height: maxHeight,
+                backgroundColor: 'primary.main',
             }}
 
-        > <Container sx={{
-            width: maxWidth,
-            color: 'white',
-            pt: 2,
+        > <Container
+            className="bg-blue-500"
+            sx={{
+                width: maxWidth,
+                color: 'white',
+                pt: 2,
 
-        }}> {children}
+            }}>
+                {children}
             </Container>
         </Box>
     )

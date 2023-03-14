@@ -9,9 +9,7 @@ import SearchIcon from '@mui/icons-material/Search';
 function SearchField({ onChange }) {
     return (
     <TextField
-        sx={{
-            backgroundColor: 'white',
-        }}
+        className="bg-white w-full"
         size="small"
         variant="outlined"
         onChange={onChange}
