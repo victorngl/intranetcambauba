@@ -17,8 +17,8 @@ type Product = {
   price_amount?: number;
 }
 
-export default function Home() {
-  const ref = useRef();
+export default function EstimatePage() {
+  
 
   const [products, setProducts] = useState<Product[]>([]);
   const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
