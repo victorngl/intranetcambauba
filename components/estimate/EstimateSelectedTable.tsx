@@ -7,6 +7,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Button, maxWidth } from '@mui/material'
+import { useState } from 'react';
 
 type Product = {
     name: string;
@@ -18,12 +19,16 @@ type Product = {
 
 export default function EstimateSelectedTable({ data, setSelectedProducts, setTotalAmount, totalAmount }) {
     //Add a item to orçamento
+    const [deleteButtonDisabled, setDeleteButtonDisabled] = useState(false);
 
     function handleRemoveProduct<T>(index, product) {
+        //Desabilita o botao para evitar bugs;
+        setDeleteButtonDisabled(true);
         setSelectedProducts(oldValues => {
             setTotalAmount(totalAmount - product.price)
             return oldValues.filter((_, i) => i !== index)
         })
+        setDeleteButtonDisabled(false);
     }
 
     return (
@@ -50,7 +55,7 @@ export default function EstimateSelectedTable({ data, setSelectedProducts, setTo
                             </TableCell>
                             <TableCell align="right">R$ {row.price}</TableCell>
                             <TableCell align="right">
-                                <Button onClick={e => handleRemoveProduct(index, row)} color="primary">Excluir</Button></TableCell>
+                                <Button disabled={deleteButtonDisabled} onClick={e => handleRemoveProduct(index, row)} color="primary">Excluir</Button></TableCell>
 
                         </TableRow>
                     ))}
