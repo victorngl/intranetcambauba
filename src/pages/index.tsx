@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo, useRef } from 'react';
 import Head from 'next/head'
 import Navbar from '../../components/Navbar';
 import Estimate from '../../components/estimate/Estimate';
@@ -6,18 +6,20 @@ import Box from '@mui/material/Box';
 import SearchField from '../../components/estimate/SearchField';
 import ExportEstimatePDF from '../../components/estimate/ExportEstimatePDF';
 import EstimateSelectedTable from '../../components/estimate/EstimateSelectedTable';
-import { Divider, Button } from '@mui/material';
+import { Divider, Button, Container } from '@mui/material';
 import '@fontsource/roboto/400.css';
 
 type Product = {
   name: string;
+  price: number;
   unity?: string;
   quantity?: number;
-  price: number;
   price_amount?: number;
 }
 
 export default function Home() {
+  const ref = useRef();
+
   const [products, setProducts] = useState<Product[]>([]);
   const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
   const [totalAmount, setTotalAmount] = useState<Number>(0.0);
@@ -64,32 +66,29 @@ export default function Home() {
         <div className='font-bold text-lg'>Buscar Produtos</div>
         <SearchField onChange={(e) => setBusca(e.target.value)} />
         <Divider className='my-2' />
-
+        <ExportEstimatePDF selectedProducts={selectedProducts} />
         <table>
-        {filteredProducts.map((product) => (
-          <>
-            
-              <tr key={product.name}>
+          <tbody>
+            {filteredProducts.map((product, index) => (
+              <tr key={index}>
                 <td className="w-20" >{product.name}</td>
                 <td className="w-20" >R$ {product.price}</td>
                 <td> <Button className="text-black rounded bg-white" onClick={e => handleSelectProduct(product)}>Adicionar</Button></td>
               </tr>
-            
-
-          </>
-        ))}
+            ))}
+          </tbody>
         </table>
 
         <Divider className='my-2' />
-
-        <p className='text-lg font-bold my-2'>Produtos Selecionados</p>
-        <div className="font-bold text-lg text-right my-2">
-          <p>Valor Total: R$ {totalAmount}</p>
-        </div>
-
+        {/*div que será o PDF*/}
+        <div ref={ref}>
+          <p className='text-lg font-bold my-2'>Produtos Selecionados</p>
+          <div className="font-bold text-lg text-right my-2">
+            <p>Valor Total: R$ {totalAmount}</p>
+          </div>
         <EstimateSelectedTable data={selectedProducts} setSelectedProducts={setSelectedProducts} setTotalAmount={setTotalAmount} totalAmount={totalAmount} />
-
-      </Estimate>
+      </div>
+    </Estimate>
 
 
 

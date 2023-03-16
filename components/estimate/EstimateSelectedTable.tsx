@@ -32,7 +32,7 @@ export default function EstimateSelectedTable({ data, setSelectedProducts, setTo
     }
 
     return (
-        <TableContainer component={Paper}>
+        <TableContainer component={Paper} id="selectedtable">
             <Table sx={{ minWidth: maxWidth }} size="small" aria-label="a dense table">
                 <TableHead
                     sx={{
@@ -47,7 +47,7 @@ export default function EstimateSelectedTable({ data, setSelectedProducts, setTo
                 <TableBody>
                     {data.map((row, index) => (
                         <TableRow
-                            key={row.name}
+                            key={index}
                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                         >
                             <TableCell component="th" scope="row">
