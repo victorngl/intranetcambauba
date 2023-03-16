@@ -22,7 +22,7 @@ const ExportEstimatePDF = ({selectedProducts}) => {
 		  })
 		//Inserir valor total como texto
 		//doc.text('aaaaaaaaaaaaaaaa', 5, 75);
-		doc.output("dataurlnewwindow");
+		doc.output("dataurlnewwindow", 'Orçamento.pdf');
 
 	};
 

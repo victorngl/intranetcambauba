@@ -22,7 +22,14 @@ export default function Home() {
 
   const [products, setProducts] = useState<Product[]>([]);
   const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
-  const [totalAmount, setTotalAmount] = useState<Number>(0.0);
+  const [selectedQuantity, setSelectedQuantity] = useState<number>(2);
+  const [totalAmount, setTotalAmount] = useState<number>(0.0);
+
+  const [newEstimate, setNewEstimate] = useState({
+    name: "",
+    cnpj: "",
+    products: [],
+  });
 
   const [busca, setBusca] = useState('');
 
@@ -31,6 +38,25 @@ export default function Home() {
       .then((response) => { return response.json(); })
       .then(data => { setProducts(data); })
   }, [])
+
+  const saveEstimate = async (e) => {
+    setNewEstimate({
+      name: "AEMC",
+      cnpj: "00001",
+      products: selectedProducts
+    });
+
+    fetch("/api/estimate/create", {
+      method: "POST",
+      body: JSON.stringify(newEstimate),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+    .then((response) => { return response.json(); })
+    .then(data => { console.log('Orçamento criado')});
+
+  };
 
 
   //Busca no Array
@@ -46,7 +72,8 @@ export default function Home() {
   //Add a item to orçamento
   function handleSelectProduct<Product>(product) {
     setSelectedProducts((prevList) => {
-      setTotalAmount(totalAmount + product.price)
+      setTotalAmount(totalAmount + (product.price * selectedQuantity))
+      product.quantity = selectedQuantity;
       return [product, ...prevList]
     });
   }
@@ -63,32 +90,39 @@ export default function Home() {
       <Navbar />
 
       <Estimate>
-        <div className='font-bold text-lg'>Buscar Produtos</div>
-        <SearchField onChange={(e) => setBusca(e.target.value)} />
-        <Divider className='my-2' />
-        <ExportEstimatePDF selectedProducts={selectedProducts} />
-        <table>
-          <tbody>
-            {filteredProducts.map((product, index) => (
-              <tr key={index}>
-                <td className="w-20" >{product.name}</td>
-                <td className="w-20" >R$ {product.price}</td>
-                <td> <Button className="text-black rounded bg-white" onClick={e => handleSelectProduct(product)}>Adicionar</Button></td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <Box className='font-bold text-lg'>Buscar Produtos
+          <SearchField onChange={(e) => setBusca(e.target.value)} />
 
-        <Divider className='my-2' />
-        {/*div que será o PDF*/}
-        <div ref={ref}>
+          <Divider className='my-2' />
+          <ExportEstimatePDF selectedProducts={selectedProducts} />
+
+          <table>
+            <tbody>
+              {filteredProducts.map((product, index) => (
+                <tr key={index}>
+                  <td className="w-20" >{product.name}</td>
+                  <td className="w-20" >R$ {product.price}</td>
+                  <td> <Button className="text-black rounded bg-white" onClick={e => handleSelectProduct(product)}>Adicionar</Button></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+          <Divider className='my-2' />
+          {/*div que será o PDF*/}
+
           <p className='text-lg font-bold my-2'>Produtos Selecionados</p>
-          <div className="font-bold text-lg text-right my-2">
+          <Box className="font-bold text-lg text-right my-2">
             <p>Valor Total: R$ {totalAmount}</p>
-          </div>
-        <EstimateSelectedTable data={selectedProducts} setSelectedProducts={setSelectedProducts} setTotalAmount={setTotalAmount} totalAmount={totalAmount} />
-      </div>
-    </Estimate>
+          </Box>
+
+          <EstimateSelectedTable data={selectedProducts} setSelectedProducts={setSelectedProducts} setTotalAmount={setTotalAmount} totalAmount={totalAmount} />
+
+          <Divider className='my-5' />
+          <Button onClick={ (e) => saveEstimate(e) }className='bg-green-500 hover:bg-green-200 text-white ml-2'>Salvar</Button>
+
+        </Box>
+      </Estimate>
 
 
 

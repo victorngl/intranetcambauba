@@ -25,7 +25,7 @@ export default function EstimateSelectedTable({ data, setSelectedProducts, setTo
         //Desabilita o botao para evitar bugs;
         setDeleteButtonDisabled(true);
         setSelectedProducts(oldValues => {
-            setTotalAmount(totalAmount - product.price)
+            setTotalAmount(totalAmount - product.price*product.quantity)
             return oldValues.filter((_, i) => i !== index)
         })
         setDeleteButtonDisabled(false);
@@ -40,7 +40,9 @@ export default function EstimateSelectedTable({ data, setSelectedProducts, setTo
                     }}>
                     <TableRow>
                         <TableCell>Nome</TableCell>
-                        <TableCell align="right">Preço (R$)</TableCell>
+                        <TableCell>Quantidade</TableCell>
+                        <TableCell align="right">Preço Unitário (R$)</TableCell>
+                        <TableCell align="right">Valor Total (R$)</TableCell>
                         <TableCell align="right">Ações</TableCell>
                     </TableRow>
                 </TableHead>
@@ -53,7 +55,9 @@ export default function EstimateSelectedTable({ data, setSelectedProducts, setTo
                             <TableCell component="th" scope="row">
                                 {row.name}
                             </TableCell>
+                            <TableCell align="right">{row.quantity}</TableCell>
                             <TableCell align="right">R$ {row.price}</TableCell>
+                            <TableCell align="right">R$ {row.price*row.quantity}</TableCell>
                             <TableCell align="right">
                                 <Button disabled={deleteButtonDisabled} onClick={e => handleRemoveProduct(index, row)} color="primary">Excluir</Button></TableCell>
 

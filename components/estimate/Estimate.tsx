@@ -16,8 +16,6 @@ function Estimate({ children }) {
             sx={{
                 width: maxWidth,
                 color: '#0288d1',
-                
-
             }}>
                 {children}
             </Container>

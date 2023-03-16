@@ -24,3 +24,10 @@ model Product {
   price    Float
   price_amount Float?
 }
+
+model Estimate {
+  id       Int     @id @default(autoincrement())
+  name     String?  
+  cnpj     String?
+  products Json?
+}
