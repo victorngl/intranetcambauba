@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useMemo, useRef } from 'react';
 import Head from 'next/head'
-import Navbar from '../../components/Navbar';
-import Estimate from '../../components/estimate/Estimate';
+import Navbar from '../../../components/Navbar';
+import Estimate from '../../../components/estimate/Estimate';
 import Box from '@mui/material/Box';
-import SearchField from '../../components/estimate/SearchField';
-import ExportEstimatePDF from '../../components/estimate/ExportEstimatePDF';
-import EstimateSelectedTable from '../../components/estimate/EstimateSelectedTable';
+import SearchField from '../../../components/estimate/SearchField';
+import ExportEstimatePDF from '../../../components/estimate/ExportEstimatePDF';
+import EstimateSelectedTable from '../../../components/estimate/EstimateSelectedTable';
 import { Divider, Button, Container } from '@mui/material';
 import '@fontsource/roboto/400.css';
 
@@ -34,7 +34,7 @@ export default function EstimatePage() {
   const [busca, setBusca] = useState('');
 
   useEffect(() => {
-    fetch('api/products/products')
+    fetch('/api/products/products')
       .then((response) => { return response.json(); })
       .then(data => { setProducts(data); })
   }, [])
