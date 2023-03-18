@@ -8,16 +8,27 @@ import ExportEstimatePDF from '../../../components/estimate/ExportEstimatePDF';
 import EstimateSelectedTable from '../../../components/estimate/EstimateSelectedTable';
 import { Divider, Button, Container } from '@mui/material';
 import '@fontsource/roboto/400.css';
+import EstimateShowTable from '../../../components/estimate/EstimateShowTable';
 
 
 export default function EstimatePage() {
   const [estimates, setEstimates] = useState([]);
-
+  const [busca, setBusca] = useState('');
+  
   useEffect(() => {
     fetch('/api/estimate/estimates')
       .then((response) => { return response.json(); })
       .then(data => { setEstimates(data); })
   }, [])
+
+  const filteresEstimates = useMemo(() => {
+    const lowerBusca = busca.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    return estimates
+      .filter((estimate) => estimate.name
+        .toLowerCase()
+        .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+        .includes(lowerBusca))
+  }, [busca, estimates])
 
   return (
     <>
@@ -31,31 +42,21 @@ export default function EstimatePage() {
       <Navbar />
 
 
-      <Box className='font-bold text-lg'>
-        <p>Orçamentos</p>
-
-        <table>
-          <tbody>
-            {estimates.map((estimate, index) => (
-              <tr key={index}>
-                <td className="w-20" >{estimate.name}</td>
-                <td className="w-20" >R$ {estimate.cnpj}</td>
-           
-              </tr>
-            ))}
-          </tbody>
-        </table>
-
+      <Estimate>
+        <p className='font-bold text-lg my-2'>Orçamentos</p>
         <Divider className='my-2' />
-       
-
-
-
-      </Box>
-
-
-
-
+        <Box className='flex items-end'>
+          <Box className='text-left w-6/12'>
+            <p>Buscar</p>
+            <SearchField className='w-full' onChange={(e) => setBusca(e.target.value)}></SearchField>
+          </Box>
+          <Box className='w-6/12 text-right'>
+            <Button>Criar orçamento</Button>
+          </Box>
+        </Box>
+        <Divider className='my-2' />
+        <EstimateShowTable data={filteresEstimates} />
+      </Estimate>
     </>
   )
 }

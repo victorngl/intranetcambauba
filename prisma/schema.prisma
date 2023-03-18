@@ -17,12 +17,18 @@ model User {
 }
 
 model Product {
-  id       Int     @id @default(autoincrement())
-  name     String  
-  unity    String?
-  quantity Int?
-  price    Float
-  price_amount Float?
+  id              Int     @id @default(autoincrement())
+  name            String  
+  unity           String?
+  quantity        Int?
+  price           Float
+  price_amount    Float?
+}
+
+model EstimateStatus {
+  id        Int     @id @default(autoincrement())
+  name      String
+  estimates Estimate[]
 }
 
 model Estimate {
@@ -30,4 +36,6 @@ model Estimate {
   name     String?  
   cnpj     String?
   products Json?
+  status          EstimateStatus @relation(fields: [statusId], references: [id])
+  statusId        Int
 }

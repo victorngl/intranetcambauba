@@ -4,14 +4,18 @@ import { PrismaClient } from "@prisma/client"
 const prisma = new PrismaClient()
 
 export default async function handler(req, res) {
-    const { body } = req;
-    const product = await prisma.estimate.create({
-        data: {
-          name: body.name,
-          cnpj: body.cnpj,
-          products: body.products,
-        },
-      }
-    )
-    res.json(product)
+  const { body } = req;
+  const product = await prisma.estimate.create({
+    data: {
+      name: body.name,
+      cnpj: body.cnpj,
+      status: {
+        connect: {
+          id: Number(body.statudId),
+        }
+
+      },
+      products: body.products,
+    }});
+  res.json(product)
 }

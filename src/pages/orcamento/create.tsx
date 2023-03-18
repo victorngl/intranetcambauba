@@ -28,6 +28,7 @@ export default function EstimatePage() {
   const [newEstimate, setNewEstimate] = useState({
     name: "",
     cnpj: "",
+    statusId: 1,
     products: [],
   });
 
@@ -43,7 +44,8 @@ export default function EstimatePage() {
     setNewEstimate({
       name: "AEMC",
       cnpj: "00001",
-      products: selectedProducts
+      statusId: 1,
+      products: selectedProducts,
     });
 
     fetch("/api/estimate/create", {

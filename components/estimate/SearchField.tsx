@@ -6,10 +6,10 @@ import {
 } from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
 
-function SearchField({ onChange }) {
+function SearchField({ onChange, className }) {
     return (
     <TextField
-        className="bg-white w-full"
+        className={className}
         size="small"
         variant="outlined"
         onChange={onChange}
