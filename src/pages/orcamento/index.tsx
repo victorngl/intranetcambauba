@@ -11,10 +11,12 @@ import '@fontsource/roboto/400.css';
 import EstimateShowTable from '../../../components/estimate/EstimateShowTable';
 
 
+
 export default function EstimatePage() {
+  
   const [estimates, setEstimates] = useState([]);
   const [busca, setBusca] = useState('');
-  
+
   useEffect(() => {
     fetch('/api/estimate/estimates')
       .then((response) => { return response.json(); })
