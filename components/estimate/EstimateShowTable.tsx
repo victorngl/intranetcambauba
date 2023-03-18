@@ -7,9 +7,11 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Button } from '@mui/material';
-
+import { useRouter } from 'next/router'
 
 export default function EstimateShowTable({data}) {
+  const router = useRouter()
+
   return (
     <TableContainer component={Paper}>
       <Table  aria-label="simple table">
@@ -25,7 +27,7 @@ export default function EstimateShowTable({data}) {
         <TableBody>
           {data.map((row) => (
             <TableRow
-              key={row.name}
+              key={row.id}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row">
@@ -33,7 +35,7 @@ export default function EstimateShowTable({data}) {
               </TableCell>
               <TableCell align="right">{row.cnpj}</TableCell>
               <TableCell align="right">{row.status.name}</TableCell>
-              <TableCell align="right"><Button className='bg-yellow-500 text-white font-bold hover:bg-yellow-200'>Editar</Button></TableCell>
+              <TableCell align="right"><Button className='bg-yellow-500 text-white font-bold hover:bg-yellow-200' onClick={(e) => router.push(`/orcamento/edit/${row.id}`)} >Editar</Button></TableCell>
             </TableRow>
           ))}
         </TableBody>
