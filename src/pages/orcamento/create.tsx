@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo, useRef } from 'react';
 import Head from 'next/head'
-import Navbar from '../../../components/Navbar';
+import Navbar from '../../../components/utils/Navbar';
 import Estimate from '../../../components/estimate/Estimate';
 import Box from '@mui/material/Box';
 import SearchField from '../../../components/estimate/SearchField';
@@ -47,7 +47,7 @@ export default function EstimatePage() {
       statusId: 1,
       products: selectedProducts,
     });
-
+    
     fetch("/api/estimate/create", {
       method: "POST",
       body: JSON.stringify(newEstimate),

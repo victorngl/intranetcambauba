@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo, useRef } from 'react';
 import Head from 'next/head'
-import Navbar from '../../../../components/Navbar';
+import Navbar from '../../../../components/utils/Navbar';
 import Estimate from '../../../../components/estimate/Estimate';
 import Box from '@mui/material/Box';
-import { Divider } from '@mui/material';
+import SearchField from '../../../../components/estimate/SearchField';
+import ExportEstimatePDF from '../../../../components/estimate/ExportEstimatePDF';
+import EstimateSelectedTable from '../../../../components/estimate/EstimateSelectedTable';
+import { Divider, Button, Container } from '@mui/material';
 import '@fontsource/roboto/400.css';
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/router';
 
 type Product = {
     name: string;
@@ -15,9 +18,13 @@ type Product = {
     price_amount?: number;
 }
 
-export default function EstimatePage() {
+export default function EditPage() {
     const router = useRouter();
     const { estimateId } = router.query;
+
+    const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
+    const [selectedQuantity, setSelectedQuantity] = useState<number>(2);
+    const [totalAmount, setTotalAmount] = useState<number>(0.0);
 
     const [estimate, setEstimate] = useState({
         name: "",
@@ -32,10 +39,41 @@ export default function EstimatePage() {
         if (estimateId != undefined) {
             fetch(`/api/estimate/${estimateId}`)
                 .then((response) => { return response.json(); })
-                .then(data => { setEstimate(data); })
+                .then(data => { setEstimate(data); setSelectedProducts(data.products) })
         }
     }, [estimateId])
 
+
+    const saveEstimate = async (e) => {
+        fetch("/api/estimate/update", {
+            method: "POST",
+            body: JSON.stringify(estimate),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+            .then((response) => { return response.json(); })
+            .then(data => { console.log('Orçamento atualiado!') });
+
+    };
+
+    //Busca no Array
+    const filteredProducts = useMemo(() => {
+        const lowerBusca = busca.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        return estimate.products
+            .filter((product) => product.name
+                .toLowerCase()
+                .normalize("NFD").replace(/[\ugi0300-\u036f]/g, "")
+                .includes(lowerBusca))
+    }, [busca, estimate.products])
+
+    function handleSelectProduct<Product>(product) {
+        setSelectedProducts((prevList) => {
+            setTotalAmount(totalAmount + (product.price * selectedQuantity))
+            product.quantity = selectedQuantity;
+            return [product, ...prevList]
+        });
+    }
 
     return (
         <>
@@ -49,12 +87,36 @@ export default function EstimatePage() {
             <Navbar />
 
             <Estimate>
-                <Box className='font-bold text-lg'>Editar Orçamento
-
+                <Box className='font-bold text-lg'>Buscar Produtos
+                    <SearchField onChange={(e) => setBusca(e.target.value)} className={'aaa'} />
 
                     <Divider className='my-2' />
-                    <p> Editando o orçamento da empresa {estimate.name}</p>
-                    <p> CNPJ {estimate.cnpj}</p>
+                    <ExportEstimatePDF selectedProducts={selectedProducts} />
+
+                    <table>
+                        <tbody>
+                            {filteredProducts.map((product, index) => (
+                                <tr key={index}>
+                                    <td className="w-20" >{product.name}</td>
+                                    <td className="w-20" >R$ {product.price}</td>
+                                
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+
+                    <Divider className='my-2' />
+                    {/*div que será o PDF*/}
+
+                    <p className='text-lg font-bold my-2'>Produtos Selecionados</p>
+                    <Box className="font-bold text-lg text-right my-2">
+                        <p>Valor Total: R$ {totalAmount}</p>
+                    </Box>
+
+
+
+                    <Divider className='my-5' />
+                    <Button onClick={(e) => saveEstimate(e)} className='bg-green-500 hover:bg-green-200 text-white ml-2'>Salvar</Button>
 
                 </Box>
             </Estimate>

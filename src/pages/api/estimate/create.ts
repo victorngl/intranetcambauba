@@ -5,17 +5,21 @@ const prisma = new PrismaClient()
 
 export default async function handler(req, res) {
   const { body } = req;
+
+  console.log(body.statusId);
+
   const product = await prisma.estimate.create({
     data: {
       name: body.name,
       cnpj: body.cnpj,
       status: {
         connect: {
-          id: Number(body.statudId),
+          id: Number(body.statusId),
         }
 
       },
       products: body.products,
     }});
   res.json(product)
+
 }

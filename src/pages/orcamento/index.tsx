@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo, useRef } from 'react';
 import Head from 'next/head'
-import Navbar from '../../../components/Navbar';
+import Navbar from '../../../components/utils/Navbar';
 import Estimate from '../../../components/estimate/Estimate';
 import Box from '@mui/material/Box';
 import SearchField from '../../../components/estimate/SearchField';
@@ -9,19 +9,22 @@ import EstimateSelectedTable from '../../../components/estimate/EstimateSelected
 import { Divider, Button, Container } from '@mui/material';
 import '@fontsource/roboto/400.css';
 import EstimateShowTable from '../../../components/estimate/EstimateShowTable';
-
+import router from 'next/router';
 
 
 export default function EstimatePage() {
-  
+
   const [estimates, setEstimates] = useState([]);
   const [busca, setBusca] = useState('');
 
   useEffect(() => {
-    fetch('/api/estimate/estimates')
-      .then((response) => { return response.json(); })
-      .then(data => { setEstimates(data); })
-  }, [])
+    if (estimates != []) {
+
+      fetch('/api/estimate/estimates')
+        .then((response) => { return response.json(); })
+        .then(data => { setEstimates(data); })
+    }
+  }, [estimates])
 
   const filteresEstimates = useMemo(() => {
     const lowerBusca = busca.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
@@ -45,6 +48,8 @@ export default function EstimatePage() {
 
 
       <Estimate>
+        
+
         <p className='font-bold text-lg my-2'>Orçamentos</p>
         <Divider className='my-2' />
         <Box className='flex items-end'>
@@ -53,7 +58,7 @@ export default function EstimatePage() {
             <SearchField className='w-full' onChange={(e) => setBusca(e.target.value)}></SearchField>
           </Box>
           <Box className='w-6/12 text-right'>
-            <Button>Criar orçamento</Button>
+            <Button onClick={() => router.push(`/orcamento/create`)}>Criar orçamento</Button>
           </Box>
         </Box>
         <Divider className='my-2' />
