@@ -4,13 +4,16 @@ import { PrismaClient } from "@prisma/client"
 const prisma = new PrismaClient()
 
 export default async function handler(req, res) {
-    const { body } = req
-    
+    const { id } = req.body
+
+    console.log('aaaaaaaaaaaaaaaaaaaaa');
+    console.log(req.body)
+
     const estimate = await prisma.estimate.update({
         where: {
-            id: Number(body.id),
+            id: Number(id),
         },
-        data: body,
+        data: req.body,
     })
     res.json(estimate)
 }

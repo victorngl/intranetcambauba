@@ -20,14 +20,15 @@ type Product = {
 
 export default function EditPage() {
     const router = useRouter();
-    const { estimateId } = router.query;
+    const {estimateId} = router.query;
+
     const [products, setProducts] = useState([]);
     const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
     const [selectedQuantity, setSelectedQuantity] = useState<number>(2);
     const [totalAmount, setTotalAmount] = useState<number>(0.0);
 
-
     const [estimate, setEstimate] = useState({
+        id: 0,
         name: "",
         cnpj: "",
         statusId: 1,
@@ -35,14 +36,14 @@ export default function EditPage() {
     });
 
     const [busca, setBusca] = useState('');
-
+    
     useEffect(() => {
+
         if (estimateId != undefined) {
             fetch(`/api/estimate/${estimateId}`)
                 .then((response) => { return response.json(); })
-                .then(data => { setEstimate(data); setSelectedProducts(data.products) })
+                .then(data => {setEstimate(data); setSelectedProducts(data.products) })
         }
-
 
         fetch('/api/products/products')
             .then((response) => { return response.json(); })
@@ -50,17 +51,21 @@ export default function EditPage() {
 
     }, [estimateId])
 
+    useEffect(()=> {
+        setEstimate({...estimate, products: selectedProducts})
+    }, [selectedProducts])
+
 
     const saveEstimate = async (e) => {
+        console.log(estimate)
         fetch("/api/estimate/update", {
             method: "POST",
             body: JSON.stringify(estimate),
             headers: {
                 "Content-Type": "application/json",
             },
-        })
-            .then((response) => { return response.json(); })
-            .then(data => { console.log('Orçamento atualiado!') });
+        }).then((response) => { return response.json(); })
+        .then(data => { console.log('Orçamento atualiado!') });
 
     };
 
@@ -83,7 +88,7 @@ export default function EditPage() {
     }, [busca, products])
 
 
-
+    
     return (
         <>
             <Head>

@@ -5,6 +5,7 @@ const prisma = new PrismaClient()
 
 export default async function handler(req, res) {
     const estimateId = req.query.id
+
     const estimate = await prisma.estimate.findUnique({
         where: {
             id: Number(estimateId),

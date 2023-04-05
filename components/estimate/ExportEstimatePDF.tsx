@@ -6,7 +6,6 @@ import autoTable from 'jspdf-autotable';
 import {Button} from '@mui/material';
 
 const ExportEstimatePDF = ({selectedProducts}) => {
-	console.log(selectedProducts);
 	const generatePdf = () => {
 		const doc = new jsPDF();
 	

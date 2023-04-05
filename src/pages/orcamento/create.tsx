@@ -32,6 +32,7 @@ export default function EstimatePage() {
     products: [],
   });
 
+  
   const [busca, setBusca] = useState('');
 
   useEffect(() => {
@@ -47,6 +48,7 @@ export default function EstimatePage() {
       statusId: 1,
       products: selectedProducts,
     });
+  
 
     fetch("/api/estimate/create", {
       method: "POST",
@@ -124,7 +126,6 @@ export default function EstimatePage() {
 
           <Box className='flex'>
             <Box className='w-6/12 text-left flex gap-8'>
-              
               <Button onClick={(e) => saveEstimate(e)} className='bg-green-500 hover:bg-green-200 text-white ml-2'>Salvar</Button>
               <ExportEstimatePDF selectedProducts={selectedProducts} />
             </Box>
