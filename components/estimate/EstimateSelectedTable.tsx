@@ -32,15 +32,13 @@ export default function EstimateSelectedTable({ data, setSelectedProducts, setTo
     }
 
     return (
-        <TableContainer component={Paper} id="selectedtable">
-            <Table sx={{ minWidth: maxWidth }} size="small" aria-label="a dense table">
+        <TableContainer className='w-fit md:w-full' component={Paper} id="selectedtable">
+            <Table  size="small" aria-label="a dense table">
                 <TableHead
-                    sx={{
-                        backgroundColor: '#0288d1',
-                    }}>
+                    >
                     <TableRow>
                         <TableCell>Nome</TableCell>
-                        <TableCell>Quantidade</TableCell>
+                        <TableCell align="right">Quantidade</TableCell>
                         <TableCell align="right">Preço Unitário (R$)</TableCell>
                         <TableCell align="right">Valor Total (R$)</TableCell>
                         <TableCell align="right">Ações</TableCell>

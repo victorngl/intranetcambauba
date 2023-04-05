@@ -21,10 +21,11 @@ type Product = {
 export default function EditPage() {
     const router = useRouter();
     const { estimateId } = router.query;
-
+    const [products, setProducts] = useState([]);
     const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
     const [selectedQuantity, setSelectedQuantity] = useState<number>(2);
     const [totalAmount, setTotalAmount] = useState<number>(0.0);
+
 
     const [estimate, setEstimate] = useState({
         name: "",
@@ -41,6 +42,12 @@ export default function EditPage() {
                 .then((response) => { return response.json(); })
                 .then(data => { setEstimate(data); setSelectedProducts(data.products) })
         }
+
+
+        fetch('/api/products/products')
+            .then((response) => { return response.json(); })
+            .then(data => { setProducts(data); })
+
     }, [estimateId])
 
 
@@ -57,16 +64,6 @@ export default function EditPage() {
 
     };
 
-    //Busca no Array
-    const filteredProducts = useMemo(() => {
-        const lowerBusca = busca.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-        return estimate.products
-            .filter((product) => product.name
-                .toLowerCase()
-                .normalize("NFD").replace(/[\ugi0300-\u036f]/g, "")
-                .includes(lowerBusca))
-    }, [busca, estimate.products])
-
     function handleSelectProduct<Product>(product) {
         setSelectedProducts((prevList) => {
             setTotalAmount(totalAmount + (product.price * selectedQuantity))
@@ -74,6 +71,18 @@ export default function EditPage() {
             return [product, ...prevList]
         });
     }
+
+    //Busca no Array
+    const filteredProducts = useMemo(() => {
+        const lowerBusca = busca.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        return products
+            .filter((product) => product.name
+                .toLowerCase()
+                .normalize("NFD").replace(/[\ugi0300-\u036f]/g, "")
+                .includes(lowerBusca))
+    }, [busca, products])
+
+
 
     return (
         <>
@@ -87,42 +96,49 @@ export default function EditPage() {
             <Navbar />
 
             <Estimate>
-                <Box className='font-bold text-lg'>Buscar Produtos
-                    <SearchField onChange={(e) => setBusca(e.target.value)} className={'aaa'} />
+                <p>Nome da Empresa: {estimate.name}</p>
+                <Divider className='my-2' />
+                <Box className='font-bold text-lg'>
+                    <p>Buscar Produtos</p>
+                    <SearchField className='w-6/12' onChange={(e) => setBusca(e.target.value)} />
+                </Box>
 
-                    <Divider className='my-2' />
-                    <ExportEstimatePDF selectedProducts={selectedProducts} />
+                <Divider className='my-2' />
 
-                    <table>
-                        <tbody>
-                            {filteredProducts.map((product, index) => (
-                                <tr key={index}>
-                                    <td className="w-20" >{product.name}</td>
-                                    <td className="w-20" >R$ {product.price}</td>
-                                
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
 
-                    <Divider className='my-2' />
-                    {/*div que será o PDF*/}
+                <table>
+                    <tbody>
+                        {filteredProducts.map((product, index) => (
+                            <tr key={index}>
+                                <td className="w-20" >{product.name}</td>
+                                <td className="w-20" >R$ {product.price}</td>
+                                <td> <Button className="text-black rounded bg-white" onClick={e => handleSelectProduct(product)}>Adicionar</Button></td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
 
-                    <p className='text-lg font-bold my-2'>Produtos Selecionados</p>
-                    <Box className="font-bold text-lg text-right my-2">
-                        <p>Valor Total: R$ {totalAmount}</p>
+                <Divider className='my-2' />
+                {/*div que será o PDF*/}
+
+                <p className='text-lg font-bold my-2'>Produtos Selecionados</p>
+                <Box className="font-bold text-lg text-right my-2">
+                    <p>Valor Total: R$ {totalAmount}</p>
+                </Box>
+
+                <EstimateSelectedTable data={selectedProducts} setSelectedProducts={setSelectedProducts} setTotalAmount={setTotalAmount} totalAmount={totalAmount} />
+                <Divider className='my-5' />
+                <Box className='flex'>
+                    <Box className='w-6/12 text-left flex gap-8'>
+                        <Button onClick={(e) => saveEstimate(e)} className='bg-green-500 hover:bg-green-200 text-white ml-2'>Salvar</Button>
+                        <ExportEstimatePDF selectedProducts={selectedProducts} />
                     </Box>
 
 
 
-                    <Divider className='my-5' />
-                    <Button onClick={(e) => saveEstimate(e)} className='bg-green-500 hover:bg-green-200 text-white ml-2'>Salvar</Button>
-
                 </Box>
-            </Estimate>
-
-
-
+            </Estimate >
         </>
     )
 }
+

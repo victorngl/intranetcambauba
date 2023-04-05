@@ -3,7 +3,7 @@ import React from "react";
 import { jsPDF, HTMLOptionImage } from "jspdf";
 import { toPng, toCanvas } from "html-to-image";
 import autoTable from 'jspdf-autotable';
-
+import {Button} from '@mui/material';
 
 const ExportEstimatePDF = ({selectedProducts}) => {
 	console.log(selectedProducts);
@@ -28,11 +28,11 @@ const ExportEstimatePDF = ({selectedProducts}) => {
 
 	return (
 
-		<div className="button-container">
-		  <button onClick={generatePdf}>
-			Get PDF
-		  </button>
-		</div>
+		
+		  <Button className='bg-blue-500 text-white' onClick={generatePdf}>
+			Exportar para PDF
+		  </Button>
+		
 	
 	  );
 };

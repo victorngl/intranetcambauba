@@ -18,10 +18,10 @@ const style = {
 export default function ConfirmModal({open, setOpen, children, performerDelete, estimateId}) {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-
+    
     return (
         <>
-            <Button onClick={handleOpen}>Open modal</Button>
+           
             <Modal
                 open={open}
                 onClose={handleClose}

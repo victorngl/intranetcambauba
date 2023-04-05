@@ -28,7 +28,6 @@ export default function EstimateShowTable({ data }) {
   return (
     <>
       <ConfirmModal open={modalOpen} setOpen={setModalOpen} performerDelete={deleteEstimate} estimateId={estimateToDelete}><p>Você tem certeza que deseja excluir esse orçamento ?</p></ConfirmModal>
-
       <TableContainer component={Paper}>
         
         <Table aria-label="simple table">

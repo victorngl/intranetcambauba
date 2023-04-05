@@ -18,7 +18,7 @@ type Product = {
 }
 
 export default function EstimatePage() {
-  
+
 
   const [products, setProducts] = useState<Product[]>([]);
   const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
@@ -47,7 +47,7 @@ export default function EstimatePage() {
       statusId: 1,
       products: selectedProducts,
     });
-    
+
     fetch("/api/estimate/create", {
       method: "POST",
       body: JSON.stringify(newEstimate),
@@ -55,8 +55,8 @@ export default function EstimatePage() {
         "Content-Type": "application/json",
       },
     })
-    .then((response) => { return response.json(); })
-    .then(data => { console.log('Orçamento criado')});
+      .then((response) => { return response.json(); })
+      .then(data => { console.log('Orçamento criado') });
 
   };
 
@@ -96,7 +96,7 @@ export default function EstimatePage() {
           <SearchField onChange={(e) => setBusca(e.target.value)} />
 
           <Divider className='my-2' />
-          <ExportEstimatePDF selectedProducts={selectedProducts} />
+          
 
           <table>
             <tbody>
@@ -121,7 +121,17 @@ export default function EstimatePage() {
           <EstimateSelectedTable data={selectedProducts} setSelectedProducts={setSelectedProducts} setTotalAmount={setTotalAmount} totalAmount={totalAmount} />
 
           <Divider className='my-5' />
-          <Button onClick={ (e) => saveEstimate(e) }className='bg-green-500 hover:bg-green-200 text-white ml-2'>Salvar</Button>
+
+          <Box className='flex'>
+            <Box className='w-6/12 text-left flex gap-8'>
+              
+              <Button onClick={(e) => saveEstimate(e)} className='bg-green-500 hover:bg-green-200 text-white ml-2'>Salvar</Button>
+              <ExportEstimatePDF selectedProducts={selectedProducts} />
+            </Box>
+            
+            
+            
+          </Box>
 
         </Box>
       </Estimate>
