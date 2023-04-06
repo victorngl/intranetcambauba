@@ -43,6 +43,10 @@ export default function EstimatePage() {
   useEffect(() => {
     setNewEstimate({ ...newEstimate, products: selectedProducts })
     setButtonAddEnabled(false);
+
+    if(newEstimate.totalprice < 0.2) 
+            setNewEstimate({...newEstimate, totalprice: 0.0})
+
   }, [selectedProducts])
 
   const saveEstimate = async (e: any) => {
@@ -128,12 +132,13 @@ export default function EstimatePage() {
             <p>Valor Total: R$ {newEstimate.totalprice}</p>
           </Box>
 
+          <EstimateSelectedTable data={selectedProducts} setSelectedProducts={setSelectedProducts} setEstimate={setNewEstimate} estimate={newEstimate} />
+
           <Divider className='my-5' />
 
           <Box className='flex'>
             <Box className='w-6/12 text-left flex gap-8'>
               <Button onClick={(e) => saveEstimate(e)} className='bg-green-500 hover:bg-green-200 text-white ml-2'>Salvar</Button>
-              <ExportEstimateExcel selectedProducts={selectedProducts} />
             </Box>
 
 
