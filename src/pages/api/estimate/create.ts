@@ -19,6 +19,7 @@ export default async function handler(req, res) {
 
       },
       products: body.products,
+      totalprice: body.totalprice,
     }});
   res.json(product)
 

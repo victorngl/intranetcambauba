@@ -4,10 +4,10 @@ import Navbar from '../../../components/utils/Navbar';
 import Estimate from '../../../components/estimate/Estimate';
 import Box from '@mui/material/Box';
 import SearchField from '../../../components/estimate/SearchField';
-import ExportEstimatePDF from '../../../components/estimate/ExportEstimatePDF';
 import EstimateSelectedTable from '../../../components/estimate/EstimateSelectedTable';
 import { Divider, Button, Container } from '@mui/material';
 import '@fontsource/roboto/400.css';
+import ExportEstimateExcel from '../../../components/estimate/ExportEstimateExcel';
 
 type Product = {
   name: string;
@@ -18,22 +18,21 @@ type Product = {
 }
 
 export default function EstimatePage() {
-
-
   const [products, setProducts] = useState<Product[]>([]);
   const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
   const [selectedQuantity, setSelectedQuantity] = useState<number>(2);
-  const [totalAmount, setTotalAmount] = useState<number>(0.0);
+  const [buttonAddEnabled, setButtonAddEnabled] = useState<boolean>(false);
 
   const [newEstimate, setNewEstimate] = useState({
     name: "",
     cnpj: "",
     statusId: 1,
     products: [],
+    totalprice: 0,
   });
 
-  
-  const [busca, setBusca] = useState('');
+
+  const [busca, setBusca] = useState<String>('');
 
   useEffect(() => {
     fetch('/api/products/products')
@@ -41,14 +40,19 @@ export default function EstimatePage() {
       .then(data => { setProducts(data); })
   }, [])
 
-  const saveEstimate = async (e) => {
+  useEffect(() => {
+    setNewEstimate({ ...newEstimate, products: selectedProducts })
+    setButtonAddEnabled(false);
+  }, [selectedProducts])
+
+  const saveEstimate = async (e: any) => {
     setNewEstimate({
+      ...newEstimate,
       name: "AEMC",
       cnpj: "00001",
-      statusId: 1,
       products: selectedProducts,
     });
-  
+
 
     fetch("/api/estimate/create", {
       method: "POST",
@@ -74,10 +78,14 @@ export default function EstimatePage() {
   }, [busca, products])
 
   //Add a item to orçamento
-  function handleSelectProduct<Product>(product) {
+  function handleSelectProduct(product: Product) {
+    setButtonAddEnabled(true);
+
     setSelectedProducts((prevList) => {
-      setTotalAmount(totalAmount + (product.price * selectedQuantity))
+      var totalProductPrice = (product.price * selectedQuantity);
+      setNewEstimate({ ...newEstimate, totalprice: newEstimate.totalprice + totalProductPrice })
       product.quantity = selectedQuantity;
+      product.price_amount = totalProductPrice;
       return [product, ...prevList]
     });
   }
@@ -95,10 +103,10 @@ export default function EstimatePage() {
 
       <Estimate>
         <Box className='font-bold text-lg'>Buscar Produtos
-          <SearchField onChange={(e) => setBusca(e.target.value)} />
+          <SearchField className='' onChange={(e) => setBusca(e.target.value)} />
 
           <Divider className='my-2' />
-          
+
 
           <table>
             <tbody>
@@ -106,7 +114,7 @@ export default function EstimatePage() {
                 <tr key={index}>
                   <td className="w-20" >{product.name}</td>
                   <td className="w-20" >R$ {product.price}</td>
-                  <td> <Button className="text-black rounded bg-white" onClick={e => handleSelectProduct(product)}>Adicionar</Button></td>
+                  <td> <Button disabled={buttonAddEnabled} className="text-black rounded bg-white" onClick={e => handleSelectProduct(product)}>Adicionar</Button></td>
                 </tr>
               ))}
             </tbody>
@@ -117,21 +125,19 @@ export default function EstimatePage() {
 
           <p className='text-lg font-bold my-2'>Produtos Selecionados</p>
           <Box className="font-bold text-lg text-right my-2">
-            <p>Valor Total: R$ {totalAmount}</p>
+            <p>Valor Total: R$ {newEstimate.totalprice}</p>
           </Box>
-
-          <EstimateSelectedTable data={selectedProducts} setSelectedProducts={setSelectedProducts} setTotalAmount={setTotalAmount} totalAmount={totalAmount} />
 
           <Divider className='my-5' />
 
           <Box className='flex'>
             <Box className='w-6/12 text-left flex gap-8'>
               <Button onClick={(e) => saveEstimate(e)} className='bg-green-500 hover:bg-green-200 text-white ml-2'>Salvar</Button>
-              <ExportEstimatePDF selectedProducts={selectedProducts} />
+              <ExportEstimateExcel selectedProducts={selectedProducts} />
             </Box>
-            
-            
-            
+
+
+
           </Box>
 
         </Box>

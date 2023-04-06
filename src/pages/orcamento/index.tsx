@@ -4,7 +4,7 @@ import Navbar from '../../../components/utils/Navbar';
 import Estimate from '../../../components/estimate/Estimate';
 import Box from '@mui/material/Box';
 import SearchField from '../../../components/estimate/SearchField';
-import ExportEstimatePDF from '../../../components/estimate/ExportEstimatePDF';
+import ExportEstimatePDF from '../../../components/estimate/ExportEstimateExcel';
 import EstimateSelectedTable from '../../../components/estimate/EstimateSelectedTable';
 import { Divider, Button, Container } from '@mui/material';
 import '@fontsource/roboto/400.css';
@@ -18,12 +18,11 @@ export default function EstimatePage() {
   const [busca, setBusca] = useState('');
 
   useEffect(() => {
-    if (estimates != []) {
-
+    
       fetch('/api/estimate/estimates')
         .then((response) => { return response.json(); })
         .then(data => { setEstimates(data); })
-    }
+    
   }, [estimates])
 
   const filteresEstimates = useMemo(() => {

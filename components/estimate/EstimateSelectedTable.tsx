@@ -6,8 +6,8 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { Button, maxWidth } from '@mui/material'
-import { useState } from 'react';
+import { Button } from '@mui/material'
+import { useEffect, useState } from 'react';
 
 type Product = {
     name: string;
@@ -17,18 +17,18 @@ type Product = {
     price_amount?: number;
 }
 
-export default function EstimateSelectedTable({ data, setSelectedProducts, setTotalAmount, totalAmount }) {
+export default function EstimateSelectedTable({ data, setSelectedProducts, setEstimate, estimate }) {
     //Add a item to orçamento
-    const [deleteButtonDisabled, setDeleteButtonDisabled] = useState(false);
+   
 
     function handleRemoveProduct<T>(index, product) {
         //Desabilita o botao para evitar bugs;
-        setDeleteButtonDisabled(true);
+       
+        let totalProductPrice = (product.price * product.quantity);
+        setEstimate({...estimate, totalprice: estimate.totalprice - totalProductPrice })
         setSelectedProducts(oldValues => {
-            setTotalAmount(totalAmount - product.price*product.quantity)
             return oldValues.filter((_, i) => i !== index)
         })
-        setDeleteButtonDisabled(false);
     }
 
     return (
@@ -57,7 +57,7 @@ export default function EstimateSelectedTable({ data, setSelectedProducts, setTo
                             <TableCell align="right">R$ {row.price}</TableCell>
                             <TableCell align="right">R$ {row.price*row.quantity}</TableCell>
                             <TableCell align="right">
-                                <Button disabled={deleteButtonDisabled} onClick={e => handleRemoveProduct(index, row)} color="primary">Excluir</Button></TableCell>
+                                <Button onClick={e => handleRemoveProduct(index, row)} color="primary">Excluir</Button></TableCell>
 
                         </TableRow>
                     ))}

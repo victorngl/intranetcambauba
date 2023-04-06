@@ -69,7 +69,6 @@ function Navbar() {
               aria-controls="menu-appbar"
               aria-haspopup="true"
               onClick={handleOpenNavMenu}
-              color="#0288d1"
             >
               <MenuIcon />
             </IconButton>

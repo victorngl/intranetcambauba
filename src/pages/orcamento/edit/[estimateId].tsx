@@ -4,11 +4,11 @@ import Navbar from '../../../../components/utils/Navbar';
 import Estimate from '../../../../components/estimate/Estimate';
 import Box from '@mui/material/Box';
 import SearchField from '../../../../components/estimate/SearchField';
-import ExportEstimatePDF from '../../../../components/estimate/ExportEstimatePDF';
 import EstimateSelectedTable from '../../../../components/estimate/EstimateSelectedTable';
 import { Divider, Button, Container } from '@mui/material';
 import '@fontsource/roboto/400.css';
 import { useRouter } from 'next/router';
+import ExportEstimateExcel from '../../../../components/estimate/ExportEstimateExcel';
 
 type Product = {
     name: string;
@@ -20,12 +20,12 @@ type Product = {
 
 export default function EditPage() {
     const router = useRouter();
-    const {estimateId} = router.query;
+    const { estimateId } = router.query;
 
     const [products, setProducts] = useState([]);
     const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
     const [selectedQuantity, setSelectedQuantity] = useState<number>(2);
-    const [totalAmount, setTotalAmount] = useState<number>(0.0);
+    const [buttonAddEnabled, setButtonAddEnabled] = useState<boolean>(false);
 
     const [estimate, setEstimate] = useState({
         id: 0,
@@ -33,26 +33,35 @@ export default function EditPage() {
         cnpj: "",
         statusId: 1,
         products: [],
+        totalprice: 0,
     });
 
     const [busca, setBusca] = useState('');
-    
+
     useEffect(() => {
 
         if (estimateId != undefined) {
             fetch(`/api/estimate/${estimateId}`)
                 .then((response) => { return response.json(); })
-                .then(data => {setEstimate(data); setSelectedProducts(data.products) })
+                .then(data => {
+                    setEstimate(data);
+                    setSelectedProducts(data.products);
+                })
         }
 
         fetch('/api/products/products')
             .then((response) => { return response.json(); })
-            .then(data => { setProducts(data); })
+            .then(data => { setProducts(data) })
 
     }, [estimateId])
 
-    useEffect(()=> {
-        setEstimate({...estimate, products: selectedProducts})
+    useEffect(() => {
+        setEstimate({ ...estimate, products: selectedProducts })
+        setButtonAddEnabled(false);
+
+        if(estimate.totalprice < 0.2) 
+            setEstimate({...estimate, totalprice: 0.0})
+
     }, [selectedProducts])
 
 
@@ -65,18 +74,21 @@ export default function EditPage() {
                 "Content-Type": "application/json",
             },
         }).then((response) => { return response.json(); })
-        .then(data => { console.log('Orçamento atualiado!') });
+            .then(data => { console.log('Orçamento atualiado!') });
 
     };
 
-    function handleSelectProduct<Product>(product) {
+    function handleSelectProduct(product: Product) {
+        setButtonAddEnabled(true);
         setSelectedProducts((prevList) => {
-            setTotalAmount(totalAmount + (product.price * selectedQuantity))
+            let totalProductPrice = (product.price * selectedQuantity);
+            setEstimate({ ...estimate, totalprice: estimate.totalprice + totalProductPrice })
             product.quantity = selectedQuantity;
+            product.price_amount = totalProductPrice;
             return [product, ...prevList]
         });
-    }
 
+    }
     //Busca no Array
     const filteredProducts = useMemo(() => {
         const lowerBusca = busca.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
@@ -88,7 +100,7 @@ export default function EditPage() {
     }, [busca, products])
 
 
-    
+
     return (
         <>
             <Head>
@@ -117,7 +129,7 @@ export default function EditPage() {
                             <tr key={index}>
                                 <td className="w-20" >{product.name}</td>
                                 <td className="w-20" >R$ {product.price}</td>
-                                <td> <Button className="text-black rounded bg-white" onClick={e => handleSelectProduct(product)}>Adicionar</Button></td>
+                                <td> <Button disabled={buttonAddEnabled} className="text-black rounded bg-white" onClick={e => handleSelectProduct(product)}>Adicionar</Button></td>
                             </tr>
                         ))}
                     </tbody>
@@ -128,15 +140,15 @@ export default function EditPage() {
 
                 <p className='text-lg font-bold my-2'>Produtos Selecionados</p>
                 <Box className="font-bold text-lg text-right my-2">
-                    <p>Valor Total: R$ {totalAmount}</p>
+                    <p>Valor Total: R$ {estimate.totalprice}</p>
                 </Box>
 
-                <EstimateSelectedTable data={selectedProducts} setSelectedProducts={setSelectedProducts} setTotalAmount={setTotalAmount} totalAmount={totalAmount} />
+                <EstimateSelectedTable data={selectedProducts} setSelectedProducts={setSelectedProducts} setEstimate={setEstimate} estimate={estimate} />
                 <Divider className='my-5' />
                 <Box className='flex'>
                     <Box className='w-6/12 text-left flex gap-8'>
                         <Button onClick={(e) => saveEstimate(e)} className='bg-green-500 hover:bg-green-200 text-white ml-2'>Salvar</Button>
-                        <ExportEstimatePDF selectedProducts={selectedProducts} />
+                        <ExportEstimateExcel estimate={estimate} selectedProducts={selectedProducts} />
                     </Box>
 
 

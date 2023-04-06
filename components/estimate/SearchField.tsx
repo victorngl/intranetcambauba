@@ -6,7 +6,7 @@ import {
 } from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
 
-function SearchField({ onChange, className }) {
+function SearchField({onChange, className}) {
     return (
     <TextField
         className={className}

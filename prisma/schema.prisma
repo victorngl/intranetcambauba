@@ -15,7 +15,6 @@ model User {
   email       String  @unique
   name        String?
   phone       String?
-  estimates   Estimate[]  
 }
 
 model Product {
@@ -35,12 +34,11 @@ model EstimateStatus {
 
 model Estimate {
   id       Int     @id @default(autoincrement())
-  name     String?  
+  name     String? 
+  company_name     String? 
   cnpj     String?
   products Json?
   status          EstimateStatus @relation(fields: [statusId], references: [id])
   statusId        Int
   totalprice      Float?
-  author          User @relation(fields: [authorId], references: [id])
-  authorId        Int
 }
