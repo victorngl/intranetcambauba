@@ -31,8 +31,8 @@ export default function EstimatePage() {
 
   const [estimate, setEstimate] = useState({
     id: 0,
-    name: "",
-    cnpj: "",
+    name: "AEMC",
+    cnpj: "0001",
     statusId: 1,
     products: [],
     totalprice: 0,
