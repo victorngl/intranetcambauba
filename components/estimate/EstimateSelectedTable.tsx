@@ -17,25 +17,14 @@ type Product = {
     price_amount?: number;
 }
 
-export default function EstimateSelectedTable({ data, setSelectedProducts, setEstimate, estimate }) {
+export default function EstimateSelectedTable({ estimate, handleRemoveProduct }) {
     //Add a item to orçamento
-   
-
-    function handleRemoveProduct<T>(index, product) {
-        //Desabilita o botao para evitar bugs;
-       
-        let totalProductPrice = (product.price * product.quantity);
-        setEstimate({...estimate, totalprice: estimate.totalprice - totalProductPrice })
-        setSelectedProducts(oldValues => {
-            return oldValues.filter((_, i) => i !== index)
-        })
-    }
 
     return (
         <TableContainer className='w-fit md:w-full' component={Paper} id="selectedtable">
-            <Table  size="small" aria-label="a dense table">
+            <Table size="small" aria-label="a dense table">
                 <TableHead
-                    >
+                >
                     <TableRow>
                         <TableCell>Nome</TableCell>
                         <TableCell align="right">Quantidade</TableCell>
@@ -45,7 +34,8 @@ export default function EstimateSelectedTable({ data, setSelectedProducts, setEs
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {data.map((row, index) => (
+                    {estimate.products.map((row, index) => (
+
                         <TableRow
                             key={index}
                             sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -55,7 +45,7 @@ export default function EstimateSelectedTable({ data, setSelectedProducts, setEs
                             </TableCell>
                             <TableCell align="right">{row.quantity}</TableCell>
                             <TableCell align="right">R$ {row.price}</TableCell>
-                            <TableCell align="right">R$ {row.price*row.quantity}</TableCell>
+                            <TableCell align="right">R$ {row.price * row.quantity}</TableCell>
                             <TableCell align="right">
                                 <Button onClick={e => handleRemoveProduct(index, row)} color="primary">Excluir</Button></TableCell>
 

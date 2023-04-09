@@ -9,6 +9,7 @@ import { Divider, Button, Container } from '@mui/material';
 import '@fontsource/roboto/400.css';
 import { useRouter } from 'next/router';
 import ExportEstimateExcel from '../../../../components/estimate/ExportEstimateExcel';
+import { toast } from 'react-toastify';
 
 type Product = {
     name: string;
@@ -22,10 +23,10 @@ export default function EditPage() {
     const router = useRouter();
     const { estimateId } = router.query;
 
+    const notifySaveSuccefull = () => toast.success("Orçamento editado com sucesso!");
+
     const [products, setProducts] = useState([]);
-    const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
     const [selectedQuantity, setSelectedQuantity] = useState<number>(2);
-    const [buttonAddEnabled, setButtonAddEnabled] = useState<boolean>(false);
 
     const [estimate, setEstimate] = useState({
         id: 0,
@@ -39,13 +40,11 @@ export default function EditPage() {
     const [busca, setBusca] = useState('');
 
     useEffect(() => {
-
         if (estimateId != undefined) {
             fetch(`/api/estimate/${estimateId}`)
                 .then((response) => { return response.json(); })
                 .then(data => {
                     setEstimate(data);
-                    setSelectedProducts(data.products);
                 })
         }
 
@@ -55,40 +54,56 @@ export default function EditPage() {
 
     }, [estimateId])
 
-    useEffect(() => {
-        setEstimate({ ...estimate, products: selectedProducts })
-        setButtonAddEnabled(false);
-
-        if(estimate.totalprice < 0.2) 
-            setEstimate({...estimate, totalprice: 0.0})
-
-    }, [selectedProducts])
-
-
     const saveEstimate = async (e) => {
-        console.log(estimate)
         fetch("/api/estimate/update", {
             method: "POST",
             body: JSON.stringify(estimate),
             headers: {
                 "Content-Type": "application/json",
             },
-        }).then((response) => { return response.json(); })
-            .then(data => { console.log('Orçamento atualiado!') });
-
+        }).then((response) => {
+            if (response.ok) {
+                notifySaveSuccefull()
+                router.push('/orcamento')
+            }
+            return response.json();
+        })
     };
 
     function handleSelectProduct(product: Product) {
-        setButtonAddEnabled(true);
-        setSelectedProducts((prevList) => {
-            let totalProductPrice = (product.price * selectedQuantity);
-            setEstimate({ ...estimate, totalprice: estimate.totalprice + totalProductPrice })
-            product.quantity = selectedQuantity;
-            product.price_amount = totalProductPrice;
-            return [product, ...prevList]
+
+        let totalProductPrice = (product.price * selectedQuantity);
+        product.quantity = selectedQuantity;
+        product.price_amount = totalProductPrice;
+
+        let newList = estimate.products;
+        newList.push(product);
+
+        setEstimate({ ...estimate, 
+            products: newList,
+            totalprice: estimate.totalprice + totalProductPrice
+         });
+
+    }
+
+    function handleRemoveProduct(index, product) {
+        //Desabilita o botao para evitar bugs;
+        let totalProductPrice = (product.price * product.quantity);
+
+        let totalAmount = estimate.totalprice - totalProductPrice
+        if (totalAmount < 0.2) { totalAmount = 0; }
+
+        let List = estimate.products;
+        let newList = List.filter((_, i) => i !== index)
+
+        setEstimate({
+            ...estimate,
+            products: newList,
+            totalprice: estimate.totalprice - totalProductPrice,
         });
 
     }
+
     //Busca no Array
     const filteredProducts = useMemo(() => {
         const lowerBusca = busca.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
@@ -98,7 +113,6 @@ export default function EditPage() {
                 .normalize("NFD").replace(/[\ugi0300-\u036f]/g, "")
                 .includes(lowerBusca))
     }, [busca, products])
-
 
 
     return (
@@ -129,7 +143,7 @@ export default function EditPage() {
                             <tr key={index}>
                                 <td className="w-20" >{product.name}</td>
                                 <td className="w-20" >R$ {product.price}</td>
-                                <td> <Button disabled={buttonAddEnabled} className="text-black rounded bg-white" onClick={e => handleSelectProduct(product)}>Adicionar</Button></td>
+                                <td> <Button className="text-black rounded bg-white" onClick={e => handleSelectProduct(product)}>Adicionar</Button></td>
                             </tr>
                         ))}
                     </tbody>
@@ -143,12 +157,12 @@ export default function EditPage() {
                     <p>Valor Total: R$ {estimate.totalprice}</p>
                 </Box>
 
-                <EstimateSelectedTable data={selectedProducts} setSelectedProducts={setSelectedProducts} setEstimate={setEstimate} estimate={estimate} />
+                <EstimateSelectedTable setEstimate={setEstimate} estimate={estimate} handleRemoveProduct={handleRemoveProduct} />
                 <Divider className='my-5' />
                 <Box className='flex'>
                     <Box className='w-6/12 text-left flex gap-8'>
                         <Button onClick={(e) => saveEstimate(e)} className='bg-green-500 hover:bg-green-200 text-white ml-2'>Salvar</Button>
-                        <ExportEstimateExcel estimate={estimate} selectedProducts={selectedProducts} />
+                        <ExportEstimateExcel estimate={estimate} selectedProducts={estimate.products} />
                     </Box>
 
 

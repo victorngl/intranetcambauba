@@ -6,8 +6,6 @@ const prisma = new PrismaClient()
 export default async function handler(req, res) {
   const { body } = req;
 
-  console.log(body);
-
   const product = await prisma.estimate.create({
     data: {
       name: body.name,

@@ -14,7 +14,7 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import Link from 'next/link';
 
-const pages      = ['Orçamento', 'Produtos'];
+const pages = ['Orçamento', 'Produtos'];
 const pagesLink = ['/orcamento/', '/produtos/'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
@@ -91,9 +91,11 @@ function Navbar() {
               }}
             >
               {pages.map((page, index) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Link href={pagesLink[index]}><Typography textAlign="center">{page}</Typography></Link>
-                </MenuItem>
+                <Link href={pagesLink[index]}>
+                  <MenuItem key={page} onClick={handleCloseNavMenu}>
+                    <Typography textAlign="center">{page}</Typography>
+                  </MenuItem>
+                </Link>
               ))}
             </Menu>
           </Box>
@@ -123,7 +125,7 @@ function Navbar() {
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: '#039be5', display: 'block' }}
               >
-               <Link href={pagesLink[index]}>{page}</Link> 
+                <Link href={pagesLink[index]}>{page}</Link>
               </Button>
             ))}
           </Box>

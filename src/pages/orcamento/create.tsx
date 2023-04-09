@@ -8,6 +8,9 @@ import EstimateSelectedTable from '../../../components/estimate/EstimateSelected
 import { Divider, Button, Container } from '@mui/material';
 import '@fontsource/roboto/400.css';
 import ExportEstimateExcel from '../../../components/estimate/ExportEstimateExcel';
+import { toast } from 'react-toastify';
+import { useRouter } from 'next/router';
+
 
 type Product = {
   name: string;
@@ -18,19 +21,22 @@ type Product = {
 }
 
 export default function EstimatePage() {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
-  const [selectedQuantity, setSelectedQuantity] = useState<number>(2);
-  const [buttonAddEnabled, setButtonAddEnabled] = useState<boolean>(false);
+  const router = useRouter();
+  
+  const notifyCreateSuccefull = () => toast.success("Orçamento criado com sucesso!");
 
-  const [newEstimate, setNewEstimate] = useState({
+
+  const [products, setProducts] = useState<Product[]>([]);
+  const [selectedQuantity, setSelectedQuantity] = useState<number>(2);
+
+  const [estimate, setEstimate] = useState({
+    id: 0,
     name: "",
     cnpj: "",
     statusId: 1,
     products: [],
     totalprice: 0,
   });
-
 
   const [busca, setBusca] = useState<String>('');
 
@@ -40,33 +46,69 @@ export default function EstimatePage() {
       .then(data => { setProducts(data); })
   }, [])
 
-  useEffect(() => {
-    setNewEstimate({ ...newEstimate, products: selectedProducts })
-    setButtonAddEnabled(false);
 
-    if(newEstimate.totalprice < 0.2) 
-            setNewEstimate({...newEstimate, totalprice: 0.0})
+  //Add a item to orçamento
+  function handleSelectProduct(product: Product) {
 
-  }, [selectedProducts])
+    let totalProductPrice = (product.price * selectedQuantity);
+    product.quantity = selectedQuantity;
+    product.price_amount = totalProductPrice;
 
-  const saveEstimate = async (e: any) => {
-    setNewEstimate({
-      ...newEstimate,
-      name: "AEMC",
-      cnpj: "00001",
-      products: selectedProducts,
+    let newList = estimate.products;
+    newList.push(product);
+
+    setEstimate({
+      ...estimate,
+      products: newList,
+      totalprice: estimate.totalprice + totalProductPrice
     });
 
+  }
+
+  function handleRemoveProduct(index, product) {
+    //Desabilita o botao para evitar bugs;
+    let totalProductPrice = (product.price * product.quantity);
+
+    let totalAmount = estimate.totalprice - totalProductPrice
+    if (totalAmount < 0.2) { totalAmount = 0; }
+
+    let List = estimate.products;
+    let newList = List.filter((_, i) => i !== index)
+
+    setEstimate({
+      ...estimate,
+      products: newList,
+      totalprice: estimate.totalprice - totalProductPrice,
+    });
+
+  }
+
+  const saveEstimate = async (e: any) => {
+    setEstimate({
+      ...estimate,
+      name: "AEMC",
+      cnpj: "00001",
+    });
 
     fetch("/api/estimate/create", {
       method: "POST",
-      body: JSON.stringify(newEstimate),
+      body: JSON.stringify(estimate),
       headers: {
         "Content-Type": "application/json",
       },
     })
-      .then((response) => { return response.json(); })
-      .then(data => { console.log('Orçamento criado') });
+      .then((response) => {
+        if (response.ok) {
+          notifyCreateSuccefull()
+          router.push('/orcamento')
+        }
+        return response.json();
+      })
+      .then(data => {
+
+        console.log('Orçamento criado'); console.log(data)
+
+      });
 
   };
 
@@ -81,18 +123,7 @@ export default function EstimatePage() {
         .includes(lowerBusca))
   }, [busca, products])
 
-  //Add a item to orçamento
-  function handleSelectProduct(product: Product) {
-    setButtonAddEnabled(true);
 
-    setSelectedProducts((prevList) => {
-      var totalProductPrice = (product.price * selectedQuantity);
-      setNewEstimate({ ...newEstimate, totalprice: newEstimate.totalprice + totalProductPrice })
-      product.quantity = selectedQuantity;
-      product.price_amount = totalProductPrice;
-      return [product, ...prevList]
-    });
-  }
 
   return (
     <>
@@ -118,7 +149,7 @@ export default function EstimatePage() {
                 <tr key={index}>
                   <td className="w-20" >{product.name}</td>
                   <td className="w-20" >R$ {product.price}</td>
-                  <td> <Button disabled={buttonAddEnabled} className="text-black rounded bg-white" onClick={e => handleSelectProduct(product)}>Adicionar</Button></td>
+                  <td> <Button className="text-black rounded bg-white" onClick={e => handleSelectProduct(product)}>Adicionar</Button></td>
                 </tr>
               ))}
             </tbody>
@@ -129,10 +160,10 @@ export default function EstimatePage() {
 
           <p className='text-lg font-bold my-2'>Produtos Selecionados</p>
           <Box className="font-bold text-lg text-right my-2">
-            <p>Valor Total: R$ {newEstimate.totalprice}</p>
+            <p>Valor Total: R$ {estimate.totalprice}</p>
           </Box>
 
-          <EstimateSelectedTable data={selectedProducts} setSelectedProducts={setSelectedProducts} setEstimate={setNewEstimate} estimate={newEstimate} />
+          <EstimateSelectedTable estimate={estimate} handleRemoveProduct={handleRemoveProduct} />
 
           <Divider className='my-5' />
 
@@ -140,8 +171,6 @@ export default function EstimatePage() {
             <Box className='w-6/12 text-left flex gap-8'>
               <Button onClick={(e) => saveEstimate(e)} className='bg-green-500 hover:bg-green-200 text-white ml-2'>Salvar</Button>
             </Box>
-
-
 
           </Box>
 

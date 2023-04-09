@@ -1,11 +1,8 @@
 
 import React from "react";
-import { CSVLink } from 'react-csv';
 import XLSX from 'sheetjs-style';
 import { Button } from "@mui/material";
 
-
-const fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
 const fileExtension = '.xlsx';
 
 const ExportEstimateExcel = ({estimate, selectedProducts}) => {
@@ -46,6 +43,8 @@ const ExportEstimateExcel = ({estimate, selectedProducts}) => {
 		
 		const merge = [
 			{ s: { r: 0, c: 0 }, e: { r: 0, c: 1 } },
+			{ s: { r: 1, c: 0 }, e: { r: 1, c: 1 } },
+			{ s: { r: 2, c: 0 }, e: { r: 2, c: 1 } },
 		  ];
 		
 		ws["!merges"] = merge;

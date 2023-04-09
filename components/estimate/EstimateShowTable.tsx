@@ -35,6 +35,7 @@ export default function EstimateShowTable({ data }) {
             <TableRow>
               <TableCell>Nome da Empresa</TableCell>
               <TableCell align="right">CNPJ</TableCell>
+              <TableCell align="right">Valor Total</TableCell>
               <TableCell align="right">Status</TableCell>
               <TableCell align="right">Ações</TableCell>
 
@@ -50,12 +51,13 @@ export default function EstimateShowTable({ data }) {
                   {row.name}
                 </TableCell>
                 <TableCell align="right">{row.cnpj}</TableCell>
+                <TableCell align="right">R$ {row.totalprice}</TableCell>
                 <TableCell align="right">{row.status.name}</TableCell>
                 <TableCell align="right">
                   <Button className='bg-red-500 text-white font-bold mr-2 hover:bg-red-200' onClick={() => {setEstimateToDelete(row.id); setModalOpen(true)}}>
                     Excluir
                   </Button>
-                  <Button className='bg-yellow-500 text-white font-bold hover:bg-yellow-200' onClick={(e) => router.push(`/orcamento/edit/ ${row.id}`)}>
+                  <Button className='bg-yellow-500 text-white font-bold hover:bg-yellow-200' onClick={(e) => router.push(`/orcamento/edit/${row.id}`)}>
                     Editar
                   </Button>
                 </TableCell>
