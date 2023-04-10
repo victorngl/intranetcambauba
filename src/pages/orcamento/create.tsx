@@ -5,13 +5,13 @@ import Estimate from '../../../components/estimate/Estimate';
 import Box from '@mui/material/Box';
 import SearchField from '../../../components/estimate/SearchField';
 import EstimateSelectedTable from '../../../components/estimate/EstimateSelectedTable';
-import { Divider, Button, Container } from '@mui/material';
+import { Divider, Button, Container, Typography } from '@mui/material';
 import '@fontsource/roboto/400.css';
 import ExportEstimateExcel from '../../../components/estimate/ExportEstimateExcel';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
 import CompanyInfo from '../../../components/estimate/CompanyInfo';
-
+import EditSelectedProduct from '../../../components/estimate/EditSelectedProduct';
 
 type Product = {
   name: string;
@@ -26,9 +26,9 @@ export default function EstimatePage() {
 
   const notifyCreateSuccefull = () => toast.success("Orçamento criado com sucesso!");
 
-
+ 
+  const [selectedProduct, setSelectedProduct] = useState<Product | undefined>(undefined);
   const [products, setProducts] = useState<Product[]>([]);
-  const [selectedQuantity, setSelectedQuantity] = useState<number>(2);
 
   const [estimate, setEstimate] = useState({
     id: 0,
@@ -49,10 +49,9 @@ export default function EstimatePage() {
 
 
   //Add a item to orçamento
-  function handleSelectProduct(product: Product) {
+  function handleAddProduct(product: Product) {
 
-    let totalProductPrice = (product.price * selectedQuantity);
-    product.quantity = selectedQuantity;
+    let totalProductPrice = (product.price * product.quantity);
     product.price_amount = totalProductPrice;
 
     let newList = estimate.products;
@@ -65,6 +64,8 @@ export default function EstimatePage() {
     });
 
   }
+
+
 
   function handleRemoveProduct(index, product) {
     //Desabilita o botao para evitar bugs;
@@ -107,15 +108,23 @@ export default function EstimatePage() {
 
   };
 
+  function handleSelectProduct(product: Product) {
+    setSelectedProduct(product);
+  }
 
   //Busca no Array
   const filteredProducts = useMemo(() => {
     const lowerBusca = busca.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-    return products
+
+    const filtered = products
       .filter((product) => product.name
         .toLowerCase()
         .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
         .includes(lowerBusca))
+
+    const limited = filtered.filter((val, i) => i < 5)
+
+    return limited
   }, [busca, products])
 
 
@@ -134,31 +143,37 @@ export default function EstimatePage() {
       <Estimate>
         <CompanyInfo estimate={estimate} setEstimate={setEstimate} />
 
-        <Box className='font-bold text-lg'>Buscar Produtos
-          <SearchField className='' onChange={(e) => setBusca(e.target.value)} />
+        <Box className='font-bold text-lg'>
+          <Typography variant="h6">
+            Buscar Produtos
+          </Typography>
+          <SearchField className='w-full' onChange={(e) => setBusca(e.target.value)} />
 
           <Divider className='my-2' />
 
-
-          <table>
-            <tbody>
-              {filteredProducts.map((product, index) => (
-                <tr key={index}>
-                  <td className="w-20" >{product.name}</td>
-                  <td className="w-20" >R$ {product.price}</td>
-                  <td> <Button className="text-black rounded bg-white" onClick={e => handleSelectProduct(product)}>Adicionar</Button></td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <div className='w-full md:flex'>
+            <div className='md:w-8/12 h-min '>
+              <table className='w-8/12'>
+                <tbody className=''>
+                  {filteredProducts.map((product, index) => (
+                    <tr className='' key={index}>
+                      <td className="w-max" >{product.name}</td>
+                      <td className="w-max" >R$ {product.price}</td>
+                      <td className='w-max text-right pr-10'> <Button className="text-black rounded bg-blue-400" onClick={e => handleSelectProduct(product)}>Selecionar</Button></td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <EditSelectedProduct selectedProduct={selectedProduct} setSelectedProduct={setSelectedProduct} handleAddProduct={handleAddProduct} />
+          </div>
 
           <Divider className='my-2' />
-          {/*div que será o PDF*/}
 
-          <p className='text-lg font-bold my-2'>Produtos Selecionados</p>
-          <Box className="font-bold text-lg text-right my-2">
-            <p>Valor Total: R$ {estimate.totalprice}</p>
-          </Box>
+          <div className="flex items-center justify-between font-bold w-full mb-5">
+            <p className='text-left'>Produtos Selecionados</p>
+            <p className='text-right'>Valor Total: R$ {estimate.totalprice}</p>
+          </div>
 
           <EstimateSelectedTable estimate={estimate} handleRemoveProduct={handleRemoveProduct} />
 

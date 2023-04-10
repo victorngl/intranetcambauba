@@ -108,12 +108,17 @@ export default function EditPage() {
     //Busca no Array
     const filteredProducts = useMemo(() => {
         const lowerBusca = busca.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-        return products
-            .filter((product) => product.name
-                .toLowerCase()
-                .normalize("NFD").replace(/[\ugi0300-\u036f]/g, "")
-                .includes(lowerBusca))
-    }, [busca, products])
+    
+        const filtered = products
+          .filter((product) => product.name
+            .toLowerCase()
+            .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+            .includes(lowerBusca))
+        
+        const limited = filtered.filter((val,i)=>i<5)
+    
+        return limited
+      }, [busca, products])
 
 
     return (
