@@ -10,6 +10,7 @@ import '@fontsource/roboto/400.css';
 import ExportEstimateExcel from '../../../components/estimate/ExportEstimateExcel';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
+import CompanyInfo from '../../../components/estimate/CompanyInfo';
 
 
 type Product = {
@@ -22,7 +23,7 @@ type Product = {
 
 export default function EstimatePage() {
   const router = useRouter();
-  
+
   const notifyCreateSuccefull = () => toast.success("Orçamento criado com sucesso!");
 
 
@@ -31,8 +32,8 @@ export default function EstimatePage() {
 
   const [estimate, setEstimate] = useState({
     id: 0,
-    name: "AEMC",
-    cnpj: "0001",
+    name: "",
+    cnpj: "",
     statusId: 1,
     products: [],
     totalprice: 0,
@@ -78,18 +79,12 @@ export default function EstimatePage() {
     setEstimate({
       ...estimate,
       products: newList,
-      totalprice: estimate.totalprice - totalProductPrice,
+      totalprice: totalAmount,
     });
 
   }
 
   const saveEstimate = async (e: any) => {
-    setEstimate({
-      ...estimate,
-      name: "AEMC",
-      cnpj: "00001",
-    });
-
     fetch("/api/estimate/create", {
       method: "POST",
       body: JSON.stringify(estimate),
@@ -137,6 +132,8 @@ export default function EstimatePage() {
       <Navbar />
 
       <Estimate>
+        <CompanyInfo estimate={estimate} setEstimate={setEstimate} />
+
         <Box className='font-bold text-lg'>Buscar Produtos
           <SearchField className='' onChange={(e) => setBusca(e.target.value)} />
 

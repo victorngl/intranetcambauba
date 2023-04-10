@@ -10,6 +10,7 @@ import '@fontsource/roboto/400.css';
 import { useRouter } from 'next/router';
 import ExportEstimateExcel from '../../../../components/estimate/ExportEstimateExcel';
 import { toast } from 'react-toastify';
+import CompanyInfo from '../../../../components/estimate/CompanyInfo';
 
 type Product = {
     name: string;
@@ -99,7 +100,7 @@ export default function EditPage() {
         setEstimate({
             ...estimate,
             products: newList,
-            totalprice: estimate.totalprice - totalProductPrice,
+            totalprice: totalAmount,
         });
 
     }
@@ -127,7 +128,7 @@ export default function EditPage() {
             <Navbar />
 
             <Estimate>
-                <p>Nome da Empresa: {estimate.name}</p>
+                <CompanyInfo estimate={estimate} setEstimate={setEstimate} />
                 <Divider className='my-2' />
                 <Box className='font-bold text-lg'>
                     <p>Buscar Produtos</p>
