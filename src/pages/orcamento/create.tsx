@@ -12,21 +12,15 @@ import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
 import CompanyInfo from '../../../components/estimate/CompanyInfo';
 import EditSelectedProduct from '../../../components/estimate/EditSelectedProduct';
+import FilteredListProducts from '../../../components/estimate/FilteredListProducts';
 
-type Product = {
-  name: string;
-  price: number;
-  unity?: string;
-  quantity?: number;
-  price_amount?: number;
-}
+import { Product } from '../../../types/types';
 
 export default function EstimatePage() {
   const router = useRouter();
 
   const notifyCreateSuccefull = () => toast.success("Orçamento criado com sucesso!");
 
- 
   const [selectedProduct, setSelectedProduct] = useState<Product | undefined>(undefined);
   const [products, setProducts] = useState<Product[]>([]);
 
@@ -65,8 +59,6 @@ export default function EstimatePage() {
 
   }
 
-
-
   function handleRemoveProduct(index, product) {
     //Desabilita o botao para evitar bugs;
     let totalProductPrice = (product.price * product.quantity);
@@ -86,6 +78,8 @@ export default function EstimatePage() {
   }
 
   const saveEstimate = async (e: any) => {
+    e.preventDefault();
+
     fetch("/api/estimate/create", {
       method: "POST",
       body: JSON.stringify(estimate),
@@ -100,11 +94,7 @@ export default function EstimatePage() {
         }
         return response.json();
       })
-      .then(data => {
-
-        console.log('Orçamento criado'); console.log(data)
-
-      });
+    
 
   };
 
@@ -141,9 +131,13 @@ export default function EstimatePage() {
       <Navbar />
 
       <Estimate>
+
+        <form onSubmit={(e) => saveEstimate(e)}>
+
         <CompanyInfo estimate={estimate} setEstimate={setEstimate} />
 
         <Box className='font-bold text-lg'>
+
           <Typography variant="h6">
             Buscar Produtos
           </Typography>
@@ -152,43 +146,25 @@ export default function EstimatePage() {
           <Divider className='my-2' />
 
           <div className='w-full md:flex'>
-            <div className='md:w-8/12 h-min '>
-              <table className='w-8/12'>
-                <tbody className=''>
-                  {filteredProducts.map((product, index) => (
-                    <tr className='' key={index}>
-                      <td className="w-max" >{product.name}</td>
-                      <td className="w-max" >R$ {product.price}</td>
-                      <td className='w-max text-right pr-10'> <Button className="text-black rounded bg-blue-400" onClick={e => handleSelectProduct(product)}>Selecionar</Button></td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+            <FilteredListProducts filteredProducts={filteredProducts} handleSelectProduct={handleSelectProduct} />
             <EditSelectedProduct selectedProduct={selectedProduct} setSelectedProduct={setSelectedProduct} handleAddProduct={handleAddProduct} />
           </div>
 
           <Divider className='my-2' />
-
-          <div className="flex items-center justify-between font-bold w-full mb-5">
-            <p className='text-left'>Produtos Selecionados</p>
-            <p className='text-right'>Valor Total: R$ {estimate.totalprice}</p>
-          </div>
-
           <EstimateSelectedTable estimate={estimate} handleRemoveProduct={handleRemoveProduct} />
-
           <Divider className='my-5' />
 
           <Box className='flex'>
             <Box className='w-6/12 text-left flex gap-8'>
-              <Button onClick={(e) => saveEstimate(e)} className='bg-green-500 hover:bg-green-200 text-white ml-2'>Salvar</Button>
+              <Button type='submit' className='bg-green-500 hover:bg-green-200 text-white ml-2'>Salvar</Button>
             </Box>
-
           </Box>
-
+          
         </Box>
-      </Estimate>
 
+        </form>
+
+      </Estimate>
 
 
     </>

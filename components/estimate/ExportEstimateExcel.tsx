@@ -3,25 +3,33 @@ import React from "react";
 import XLSX from 'sheetjs-style';
 import { Button } from "@mui/material";
 
+
+import { Product } from "../../types/types";
+
 const fileExtension = '.xlsx';
 
-const ExportEstimateExcel = ({estimate, selectedProducts}) => {
+const ExportEstimateExcel = ({estimate}) => {
 	
-	const exportToExcel = async (products) => {
+	const exportToExcel = async (products: Product[]) => {
 		var wb = XLSX.utils.book_new();
 		const ws = XLSX.utils.json_to_sheet(products);
 		XLSX.utils.book_append_sheet(wb, ws, 'Orçamento');
 		XLSX.writeFile(wb, 'Orçamento' + fileExtension);
 	}
 	
-	const exportToExcelArray = async (products) => {
+	const exportToExcelArray = async (products: Product[]) => {
 		
+
 		var headerName = [ ['Eficaz Industrial - Orçamento'] ];
 		var companyName = [ [`Nome da Empresa: ${estimate.name}`] ];
-		var companyCNPJ = [ [`CNPJ: ${estimate.cnpj}`] ];
-		var Heading = [ ["Código", "Nome do Produto", "Unidade", "Quantidade", "Preço", "Valor Total", ] ];
+		var companyCNPJ = [ [`CNPJ: ${estimate.cnpj}`] ]; 
+		
+		var Heading = [ ["Código", "Nome do Produto", "Unidade", "Preço Unitário (R$)", "Quantidade", "Valor Total (R$)", ] ];
+		const sortedHeader = ['id', 'name', 'unity', 'price', 'quantity', 'price_amount'];
+
 		var totalValueLines = [["Valor Total", [`R$ ${estimate.totalprice}`]]]
 		var blankLine = [];
+		
 
 		
 		var wb = XLSX.utils.book_new();
@@ -30,7 +38,7 @@ const ExportEstimateExcel = ({estimate, selectedProducts}) => {
 		XLSX.utils.sheet_add_aoa(ws, companyName, 		{ origin: 'A2' });
 		XLSX.utils.sheet_add_aoa(ws, companyCNPJ, 		{ origin: 'A3' });
 		XLSX.utils.sheet_add_aoa(ws, Heading, 			{ origin: 'A5' } );
-		XLSX.utils.sheet_add_json(ws, products, 		{ origin: 'A6', skipHeader: true });
+		XLSX.utils.sheet_add_json(ws, products, 		{ origin: 'A6', header: sortedHeader, skipHeader: true});
 		XLSX.utils.sheet_add_aoa(ws, blankLine, 		{ origin: -1 });
 		XLSX.utils.sheet_add_aoa(ws, totalValueLines, 	{ origin: { r: -1, c: 4 } });
 		
@@ -38,7 +46,7 @@ const ExportEstimateExcel = ({estimate, selectedProducts}) => {
 			{wch:10},
 			{wch:20},
 			{wch:12},
-			{wch:10},
+			{wch:20},
 			{wch:10},
 			{wch:20},
 		];
@@ -58,7 +66,7 @@ const ExportEstimateExcel = ({estimate, selectedProducts}) => {
 
 	return (
 		<>
-		<Button className='bg-blue-500 text-white' onClick={ (e) => { exportToExcelArray(selectedProducts) }}>
+		<Button className='bg-blue-500 text-white' onClick={ (e) => { exportToExcelArray(estimate.products) }}>
 			Exportar para Excel
 		</Button>
 		</>

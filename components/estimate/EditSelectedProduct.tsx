@@ -41,9 +41,9 @@ function EditSelectedProduct({ selectedProduct, setSelectedProduct, handleAddPro
                             </div>
 
                             <div className="my-5">
-                                <Button className='bg-blue-400 text-white mr-5' onClick={addQuantity}>+</Button>
+                                <Button className='bg-red-400 text-white mr-5' onClick={removeQuantity}>-</Button>
                                 {selectedQuantity}
-                                <Button className='bg-red-400 text-white ml-5' onClick={removeQuantity}>-</Button>
+                                <Button className='bg-blue-400 text-white ml-5' onClick={addQuantity}>+</Button>
                             </div>
 
                             <div>

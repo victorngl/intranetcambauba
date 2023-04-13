@@ -5,177 +5,178 @@ import Estimate from '../../../../components/estimate/Estimate';
 import Box from '@mui/material/Box';
 import SearchField from '../../../../components/estimate/SearchField';
 import EstimateSelectedTable from '../../../../components/estimate/EstimateSelectedTable';
-import { Divider, Button, Container } from '@mui/material';
+import { Divider, Button, Container, Typography } from '@mui/material';
 import '@fontsource/roboto/400.css';
 import { useRouter } from 'next/router';
 import ExportEstimateExcel from '../../../../components/estimate/ExportEstimateExcel';
 import { toast } from 'react-toastify';
 import CompanyInfo from '../../../../components/estimate/CompanyInfo';
+import EditSelectedProduct from '../../../../components/estimate/EditSelectedProduct';
+import FilteredListProducts from '../../../../components/estimate/FilteredListProducts';
 
-type Product = {
-    name: string;
-    price: number;
-    unity?: string;
-    quantity?: number;
-    price_amount?: number;
-}
+import { Product } from '../../../../types/types';
+
 
 export default function EditPage() {
-    const router = useRouter();
-    const { estimateId } = router.query;
+  const router = useRouter();
+  const { estimateId } = router.query;
 
-    const notifySaveSuccefull = () => toast.success("Orçamento editado com sucesso!");
+  const notifySaveSuccefull = () => toast.success("Orçamento editado com sucesso!");
 
-    const [products, setProducts] = useState([]);
-    const [selectedQuantity, setSelectedQuantity] = useState<number>(2);
+  const [selectedProduct, setSelectedProduct] = useState<Product | undefined>(undefined);
 
-    const [estimate, setEstimate] = useState({
-        id: 0,
-        name: "",
-        cnpj: "",
-        statusId: 1,
-        products: [],
-        totalprice: 0,
+  const [products, setProducts] = useState<Product[]>([]);
+
+  const [estimate, setEstimate] = useState({
+    id: 0,
+    name: "",
+    cnpj: "",
+    statusId: 1,
+    products: [],
+    totalprice: 0,
+  });
+
+  const [busca, setBusca] = useState('');
+
+  useEffect(() => {
+    if (estimateId != undefined) {
+      fetch(`/api/estimate/${estimateId}`)
+        .then((response) => { return response.json(); })
+        .then(data => {
+          setEstimate(data);
+        })
+    }
+
+    fetch('/api/products/products')
+      .then((response) => { return response.json(); })
+      .then(data => { setProducts(data) })
+
+  }, [estimateId])
+
+  const saveEstimate = async (e) => {
+    e.preventDefault();
+
+    fetch("/api/estimate/update", {
+      method: "POST",
+      body: JSON.stringify(estimate),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((response) => {
+      if (response.ok) {
+        notifySaveSuccefull()
+        router.push('/orcamento')
+      }
+      return response.json();
+    })
+  };
+
+  //Add a item to orçamento
+  function handleAddProduct(product: Product) {
+
+    let totalProductPrice = (product.price * product.quantity);
+    product.price_amount = totalProductPrice;
+
+    let newList = estimate.products;
+    newList.push(product);
+
+    setEstimate({
+      ...estimate,
+      products: newList,
+      totalprice: estimate.totalprice + totalProductPrice
     });
 
-    const [busca, setBusca] = useState('');
+  }
 
-    useEffect(() => {
-        if (estimateId != undefined) {
-            fetch(`/api/estimate/${estimateId}`)
-                .then((response) => { return response.json(); })
-                .then(data => {
-                    setEstimate(data);
-                })
-        }
+  function handleSelectProduct(product: Product) {
+    setSelectedProduct(product);
+  }
 
-        fetch('/api/products/products')
-            .then((response) => { return response.json(); })
-            .then(data => { setProducts(data) })
+  function handleRemoveProduct(index, product) {
+    //Desabilita o botao para evitar bugs;
+    let totalProductPrice = (product.price * product.quantity);
 
-    }, [estimateId])
+    let totalAmount = estimate.totalprice - totalProductPrice
+    if (totalAmount < 0.2) { totalAmount = 0; }
 
-    const saveEstimate = async (e) => {
-        fetch("/api/estimate/update", {
-            method: "POST",
-            body: JSON.stringify(estimate),
-            headers: {
-                "Content-Type": "application/json",
-            },
-        }).then((response) => {
-            if (response.ok) {
-                notifySaveSuccefull()
-                router.push('/orcamento')
-            }
-            return response.json();
-        })
-    };
+    let List = estimate.products;
+    let newList = List.filter((_, i) => i !== index)
 
-    function handleSelectProduct(product: Product) {
+    setEstimate({
+      ...estimate,
+      products: newList,
+      totalprice: totalAmount,
+    });
 
-        let totalProductPrice = (product.price * selectedQuantity);
-        product.quantity = selectedQuantity;
-        product.price_amount = totalProductPrice;
+  }
 
-        let newList = estimate.products;
-        newList.push(product);
+  //Busca no Array
+  const filteredProducts = useMemo(() => {
+    const lowerBusca = busca.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
 
-        setEstimate({ ...estimate, 
-            products: newList,
-            totalprice: estimate.totalprice + totalProductPrice
-         });
+    const filtered = products
+      .filter((product) => product.name
+        .toLowerCase()
+        .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+        .includes(lowerBusca))
 
-    }
+    const limited = filtered.filter((val, i) => i < 5)
 
-    function handleRemoveProduct(index, product) {
-        //Desabilita o botao para evitar bugs;
-        let totalProductPrice = (product.price * product.quantity);
-
-        let totalAmount = estimate.totalprice - totalProductPrice
-        if (totalAmount < 0.2) { totalAmount = 0; }
-
-        let List = estimate.products;
-        let newList = List.filter((_, i) => i !== index)
-
-        setEstimate({
-            ...estimate,
-            products: newList,
-            totalprice: totalAmount,
-        });
-
-    }
-
-    //Busca no Array
-    const filteredProducts = useMemo(() => {
-        const lowerBusca = busca.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-    
-        const filtered = products
-          .filter((product) => product.name
-            .toLowerCase()
-            .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
-            .includes(lowerBusca))
-        
-        const limited = filtered.filter((val,i)=>i<5)
-    
-        return limited
-      }, [busca, products])
+    return limited
+  }, [busca, products])
 
 
-    return (
-        <>
-            <Head>
-                <title>EFICAZ - Orçamento</title>
-                <meta name="description" content="Generated by create next app" />
-                <meta name="viewport" content="width=device-width, initial-scale=1" />
-                <link rel="icon" href="/favicon.ico" />
-            </Head>
+  return (
+    <>
+      <Head>
+        <title>EFICAZ - Orçamento</title>
+        <meta name="description" content="Generated by create next app" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
 
-            <Navbar />
+      <Navbar />
 
-            <Estimate>
-                <CompanyInfo estimate={estimate} setEstimate={setEstimate} />
-                <Divider className='my-2' />
-                <Box className='font-bold text-lg'>
-                    <p>Buscar Produtos</p>
-                    <SearchField className='w-6/12' onChange={(e) => setBusca(e.target.value)} />
-                </Box>
+      <Estimate>
 
-                <Divider className='my-2' />
+        <form onSubmit={(e) => saveEstimate(e)}>
 
+          <CompanyInfo estimate={estimate} setEstimate={setEstimate} />
 
-                <table>
-                    <tbody>
-                        {filteredProducts.map((product, index) => (
-                            <tr key={index}>
-                                <td className="w-20" >{product.name}</td>
-                                <td className="w-20" >R$ {product.price}</td>
-                                <td> <Button className="text-black rounded bg-white" onClick={e => handleSelectProduct(product)}>Adicionar</Button></td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+          <Box className='font-bold text-lg'>
 
-                <Divider className='my-2' />
-                {/*div que será o PDF*/}
+            <Typography variant="h6">
+              Buscar Produtos
+            </Typography>
+            <SearchField className='w-full' onChange={(e) => setBusca(e.target.value)} />
 
-                <p className='text-lg font-bold my-2'>Produtos Selecionados</p>
-                <Box className="font-bold text-lg text-right my-2">
-                    <p>Valor Total: R$ {estimate.totalprice}</p>
-                </Box>
+            <Divider className='my-2' />
 
-                <EstimateSelectedTable setEstimate={setEstimate} estimate={estimate} handleRemoveProduct={handleRemoveProduct} />
-                <Divider className='my-5' />
-                <Box className='flex'>
-                    <Box className='w-6/12 text-left flex gap-8'>
-                        <Button onClick={(e) => saveEstimate(e)} className='bg-green-500 hover:bg-green-200 text-white ml-2'>Salvar</Button>
-                        <ExportEstimateExcel estimate={estimate} selectedProducts={estimate.products} />
-                    </Box>
+            <div className='w-full md:flex'>
+              <FilteredListProducts filteredProducts={filteredProducts} handleSelectProduct={handleSelectProduct} />
+              <EditSelectedProduct selectedProduct={selectedProduct} setSelectedProduct={setSelectedProduct} handleAddProduct={handleAddProduct} />
+            </div>
 
+            <Divider className='my-2' />
+            <EstimateSelectedTable estimate={estimate} handleRemoveProduct={handleRemoveProduct} />
+            <Divider className='my-5' />
 
+            <Box className='flex'>
+              <Box className='w-6/12 text-left flex gap-8'>
+                <Button type='submit' className='bg-green-500 hover:bg-green-200 text-white ml-2'>Salvar</Button>
+                <ExportEstimateExcel estimate={estimate} />
+              </Box>
+            </Box>
 
-                </Box>
-            </Estimate >
-        </>
-    )
+          </Box>
+
+        </form>
+
+      </Estimate>
+    </>
+  )
 }
+
+// <ExportEstimateExcel estimate={estimate} selectedProducts={estimate.products} />
+
 

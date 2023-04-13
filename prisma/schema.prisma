@@ -21,8 +21,8 @@ model Product {
   id              Int     @id @default(autoincrement())
   name            String  
   unity           String?
-  quantity        Int?
   price           Float
+  quantity        Int?  @default(1)
   price_amount    Float?
 }
 

@@ -20,5 +20,6 @@ export default async function handler(req, res) {
       totalprice: body.totalprice,
     }});
   res.json(product)
+  
 
 }
