@@ -10,6 +10,7 @@ import { Divider, Button, Container } from '@mui/material';
 import '@fontsource/roboto/400.css';
 import EstimateShowTable from '../../../components/estimate/EstimateShowTable';
 import router from 'next/router';
+import TemporaryTable from '../../../components/estimate/TemporaryTable';
 
 
 export default function EstimatePage() {
@@ -18,11 +19,11 @@ export default function EstimatePage() {
   const [busca, setBusca] = useState('');
 
   useEffect(() => {
-    
-      fetch('/api/estimate/estimates')
-        .then((response) => { return response.json(); })
-        .then(data => { setEstimates(data); })
-    
+
+    fetch('/api/estimate/estimates')
+      .then((response) => { return response.json(); })
+      .then(data => { setEstimates(data); })
+
   }, [estimates])
 
   const filteresEstimates = useMemo(() => {
@@ -45,23 +46,25 @@ export default function EstimatePage() {
 
       <Navbar />
 
-
       <Estimate>
-        
 
         <p className='font-bold text-lg my-2'>Orçamentos</p>
+
         <Divider className='my-2' />
-        <Box className='flex items-end'>
-          <Box className='text-left w-6/12'>
+
+        <div className='flex items-end'>
+          <div className='text-left w-6/12'>
             <p>Buscar</p>
             <SearchField className='w-full' onChange={(e) => setBusca(e.target.value)}></SearchField>
-          </Box>
-          <Box className='w-6/12 text-right'>
+          </div>
+          <div className='w-6/12 text-right'>
             <Button onClick={() => router.push(`/orcamento/create`)}>Criar orçamento</Button>
-          </Box>
-        </Box>
+          </div>
+        </div>
+
         <Divider className='my-2' />
-        <EstimateShowTable data={filteresEstimates} />
+
+        <TemporaryTable data={filteresEstimates} />
       </Estimate>
     </>
   )

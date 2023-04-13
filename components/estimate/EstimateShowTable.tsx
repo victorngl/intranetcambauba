@@ -28,16 +28,16 @@ export default function EstimateShowTable({ data }) {
   return (
     <>
       <ConfirmModal open={modalOpen} setOpen={setModalOpen} performerDelete={deleteEstimate} estimateId={estimateToDelete}><p>Você tem certeza que deseja excluir esse orçamento ?</p></ConfirmModal>
-      <TableContainer component={Paper}>
-        
-        <Table aria-label="simple table">
+      <TableContainer className='w-fit md:w-full bg-red-100' component={Paper}>
+
+        <Table>
           <TableHead>
             <TableRow>
-              <TableCell>Nome da Empresa</TableCell>
-              <TableCell align="right">CNPJ</TableCell>
-              <TableCell align="right">Valor Total</TableCell>
-              <TableCell align="right">Status</TableCell>
-              <TableCell align="right">Ações</TableCell>
+              <TableCell align="center">Nome da Empresa</TableCell>
+              <TableCell className='invisible md:visible' align="center">CNPJ</TableCell>
+              <TableCell align="center">Valor Total</TableCell>
+              <TableCell align="center">Status</TableCell>
+              <TableCell align="center">Ações</TableCell>
 
             </TableRow>
           </TableHead>
@@ -47,19 +47,19 @@ export default function EstimateShowTable({ data }) {
                 key={row.id}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
-                <TableCell component="th" scope="row">
-                  {row.name}
-                </TableCell>
-                <TableCell align="right">{row.cnpj}</TableCell>
-                <TableCell align="right">R$ {row.totalprice}</TableCell>
-                <TableCell align="right">{row.status.name}</TableCell>
-                <TableCell align="right">
-                  <Button className='bg-red-500 text-white font-bold mr-2 hover:bg-red-200' onClick={() => {setEstimateToDelete(row.id); setModalOpen(true)}}>
-                    Excluir
-                  </Button>
-                  <Button className='bg-yellow-500 text-white font-bold hover:bg-yellow-200' onClick={(e) => router.push(`/orcamento/edit/${row.id}`)}>
-                    Editar
-                  </Button>
+                <TableCell align="center">{row.name}</TableCell>
+                <TableCell align="center">{row.cnpj}</TableCell>
+                <TableCell align="center">R$ {row.totalprice}</TableCell>
+                <TableCell align="center">{row.status.name}</TableCell>
+                <TableCell align="center">
+                  <div className='flex bg-blue-100 justify-center'>
+                    <Button className='bg-red-500 text-white font-bold mr-2 hover:bg-red-200' onClick={() => { setEstimateToDelete(row.id); setModalOpen(true) }}>
+                      Excluir
+                    </Button>
+                    <Button className='bg-yellow-500 text-white font-bold hover:bg-yellow-200' onClick={(e) => router.push(`/orcamento/edit/${row.id}`)}>
+                      Editar
+                    </Button>
+                  </div>
                 </TableCell>
               </TableRow>
             ))}
