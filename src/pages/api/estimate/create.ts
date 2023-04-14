@@ -6,7 +6,7 @@ const prisma = new PrismaClient()
 export default async function handler(req, res) {
   const { body } = req;
 
-  const product = await prisma.estimate.create({
+  const estimate = await prisma.estimate.create({
     data: {
       name: body.name,
       cnpj: body.cnpj,
@@ -19,7 +19,7 @@ export default async function handler(req, res) {
       products: body.products,
       totalprice: body.totalprice,
     }});
-  res.json(product)
+  res.json(estimate)
   
 
 }

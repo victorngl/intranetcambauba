@@ -4,10 +4,12 @@ import { PrismaClient } from "@prisma/client"
 const prisma = new PrismaClient()
 
 export default async function handler(req, res) {
-    const estimates = await prisma.estimate.findMany({
-        include: {
-            status: true,
+    const productId = req.query.id
+
+    const product = await prisma.estimate.findUnique({
+        where: {
+            id: Number(productId),
         }
     })
-    res.json(estimates)
+    res.json(product)
 }

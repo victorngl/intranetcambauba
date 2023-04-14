@@ -94,7 +94,7 @@ export default function EstimatePage() {
         }
         return response.json();
       })
-    
+
 
   };
 
@@ -134,33 +134,35 @@ export default function EstimatePage() {
 
         <form onSubmit={(e) => saveEstimate(e)}>
 
-        <CompanyInfo estimate={estimate} setEstimate={setEstimate} />
+          <CompanyInfo estimate={estimate} setEstimate={setEstimate} />
 
-        <Box className='font-bold text-lg'>
+          <Box className='font-bold text-lg'>
 
-          <Typography variant="h6">
-            Buscar Produtos
-          </Typography>
-          <SearchField className='w-full' onChange={(e) => setBusca(e.target.value)} />
+            <div>
+              <Typography variant="h6">
+                Buscar Produtos
+              </Typography>
+              <SearchField className='w-full' onChange={(e) => setBusca(e.target.value)} />
+            </div>
 
-          <Divider className='my-2' />
+            <Divider className='my-2' />
 
-          <div className='w-full md:flex md:space-x-4'>
-            <FilteredListProducts filteredProducts={filteredProducts} handleSelectProduct={handleSelectProduct} />
-            <EditSelectedProduct selectedProduct={selectedProduct} setSelectedProduct={setSelectedProduct} handleAddProduct={handleAddProduct} />
-          </div>
+            <div className='w-full md:flex md:space-x-4 mb-5'>
+              <FilteredListProducts filteredProducts={filteredProducts} handleSelectProduct={handleSelectProduct} />
+              <EditSelectedProduct selectedProduct={selectedProduct} setSelectedProduct={setSelectedProduct} handleAddProduct={handleAddProduct} />
+            </div>
 
-          <Divider className='my-2' />
-          <EstimateSelectedTable estimate={estimate} handleRemoveProduct={handleRemoveProduct} />
-          <Divider className='my-5' />
+            <Divider className='my-2' />
+            <EstimateSelectedTable estimate={estimate} handleRemoveProduct={handleRemoveProduct} />
+            <Divider className='my-5' />
 
-          <Box className='flex'>
-            <Box className='w-6/12 text-left flex gap-8'>
-              <Button type='submit' className='bg-green-500 hover:bg-green-200 text-white ml-2'>Salvar</Button>
+            <Box className='flex'>
+              <Box className='w-6/12 text-left flex gap-8'>
+                <Button type='submit' className='bg-green-500 hover:bg-green-200 text-white ml-2'>Salvar</Button>
+              </Box>
             </Box>
+
           </Box>
-          
-        </Box>
 
         </form>
 
