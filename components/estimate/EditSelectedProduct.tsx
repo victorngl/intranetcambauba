@@ -35,8 +35,8 @@ function EditSelectedProduct({ selectedProduct, setSelectedProduct, handleAddPro
                 {selectedProduct != undefined ?
                     <div className="flex justify-center text-center">
                         <div>
-                            <div>
-                                <p>Nome: {selectedProduct.name}</p>
+                            <div className="space-y-4">
+                                <p className="text-xs">Nome: {selectedProduct.name}</p>
                                 <p>Preço: R$ {selectedProduct.price}</p>
                             </div>
 

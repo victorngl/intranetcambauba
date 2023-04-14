@@ -145,7 +145,7 @@ export default function EstimatePage() {
 
           <Divider className='my-2' />
 
-          <div className='w-full md:flex'>
+          <div className='w-full md:flex md:space-x-4'>
             <FilteredListProducts filteredProducts={filteredProducts} handleSelectProduct={handleSelectProduct} />
             <EditSelectedProduct selectedProduct={selectedProduct} setSelectedProduct={setSelectedProduct} handleAddProduct={handleAddProduct} />
           </div>
