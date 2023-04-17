@@ -12,12 +12,7 @@ import EditSelectedProduct from '../../../components/estimate/EditSelectedProduc
 import FilteredListProducts from '../../../components/estimate/FilteredListProducts';
 import CompanyInfo from '../../../components/estimate/CompanyInfo';
 import Footer from '../../../components/footer/Footer';
-<<<<<<< HEAD
 import Header from '../../../components/header/Header';
-=======
-import Header from '../../../components/Header/Header';
->>>>>>> bb1c3a1d0e5fe88cc2fe4def6bc9ae0a62404e2e
-
 
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
