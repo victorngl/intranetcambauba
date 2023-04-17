@@ -23,8 +23,8 @@ function EditSelectedProduct({ selectedProduct, setSelectedProduct, handleAddPro
         }
     }
 
-    const addProductList = () => {
-        handleAddProduct(selectedProduct)
+    const addProductList = (product) => {
+        handleAddProduct(product)
         setSelectedQuantity(1);
         setSelectedProduct(undefined)
     }

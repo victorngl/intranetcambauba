@@ -15,7 +15,7 @@ const style = {
   };
 
   
-export default function ProductsModal({open, setOpen, children }) {
+export default function ProductsModal({open, setOpen }) {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     

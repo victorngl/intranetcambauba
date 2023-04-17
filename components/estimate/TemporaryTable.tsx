@@ -1,14 +1,8 @@
 import * as React from 'react';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+
 import { Button } from '@mui/material';
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import ConfirmModal from '../utils/ConfirmModal';
 
 export default function EstimateShowTable({ data }) {
@@ -32,11 +26,13 @@ export default function EstimateShowTable({ data }) {
       <div className='rounded-lg shadow hidden md:block'>
         <table className='w-full'>
           <thead className='bg-gray-50 border-b-2 border-gray-200'>
-            <th className='p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap'>Nome</th>
-            <th className='p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap'>CNPJ</th>
-            <th className='p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap'>Status</th>
-            <th className='p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap'>Valor Total</th>
-            <th className='p-3 text-sm font-semibold tracking-wide text-left'>Ações</th>
+            <tr>
+              <th className='p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap'>Nome</th>
+              <th className='p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap'>CNPJ</th>
+              <th className='p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap'>Status</th>
+              <th className='p-3 text-sm font-semibold tracking-wide text-left whitespace-nowrap'>Valor Total</th>
+              <th className='p-3 text-sm font-semibold tracking-wide text-left'>Ações</th>
+            </tr>
           </thead>
 
           <tbody className='divide-y divide-gray-100'>
@@ -45,15 +41,15 @@ export default function EstimateShowTable({ data }) {
               <td className='p-3 text-sm text-gray-700 whitespace-nowrap'>12636788743</td>
               <td className='p-3 text-sm text-gray-700 whitespace-nowrap'>Em Andamento</td>
               <td className='p-3 text-sm text-gray-700 whitespace-nowrap'>R$ 100000</td>
-              <td>
-                <div className='flex gap-2'>
-                  <Button className='bg-red-500 text-white  hover:bg-red-200' onClick={() => { setEstimateToDelete(row.id); setModalOpen(true) }}>
-                    Excluir
-                  </Button>
-                  <Button className='bg-yellow-500 text-white hover:bg-yellow-200' onClick={(e) => router.push(`/orcamento/edit/${row.id}`)}>
-                    Editar
-                  </Button>
-                </div>
+              <td className='gap-2 flex'>
+
+                <Button className='bg-red-500 text-white  hover:bg-red-200' onClick={() => { setEstimateToDelete(row.id); setModalOpen(true) }}>
+                  Excluir
+                </Button>
+                <Button className='bg-yellow-500 text-white hover:bg-yellow-200' onClick={(e) => router.push(`/orcamento/edit/${row.id}`)}>
+                  Editar
+                </Button>
+
               </td>
             </tr>
           </tbody>
