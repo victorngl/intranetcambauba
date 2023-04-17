@@ -5,7 +5,6 @@ const pagesLink = ['/orcamento/', '/produtos/'];
 const settings = ['Dashboard', 'Perfil', 'Suporte', 'Sair'];
 const settingsLink = ['/', '/perfil/', '/suporte/', '/signout/'];
 
-
 function Navbar() {
 
   return (

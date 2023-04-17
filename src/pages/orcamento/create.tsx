@@ -14,6 +14,7 @@ import Header from '../../../components/header/Header';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
 import { Product } from '../../../types/types';
+import Head from 'next/head';
 
 export default function EstimatePage() {
   const router = useRouter();
@@ -120,7 +121,10 @@ export default function EstimatePage() {
 
   return (
     <>
-      <Header title={'Orçamento'} />
+      <Head>
+        <title>Eficaz - Criar Orçamento</title>
+      </Head>
+      
       <Navbar />
       <Container>
 
@@ -136,7 +140,7 @@ export default function EstimatePage() {
 
             <div>
               <p>Buscar Produtos</p>
-              <SearchField className='w-full' onChange={(e) => setBusca(e.target.value)} />
+              <SearchField onChange={ (e) => setBusca(e.target.value)} />
             </div>
 
             <Divider className='my-4' />

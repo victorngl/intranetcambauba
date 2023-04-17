@@ -1,14 +1,7 @@
 import * as React from 'react';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import { Button } from '@mui/material';
+
 import { useRouter } from 'next/router'
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import ConfirmModal from '../utils/ConfirmModal';
 
 export default function EstimateShowTable({ data }) {
@@ -28,44 +21,71 @@ export default function EstimateShowTable({ data }) {
   return (
     <>
       <ConfirmModal open={modalOpen} setOpen={setModalOpen} performerDelete={deleteEstimate} estimateId={estimateToDelete}><p>Você tem certeza que deseja excluir esse orçamento ?</p></ConfirmModal>
-      <TableContainer className='w-fit md:w-full bg-red-100' component={Paper}>
 
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell align="center">Nome da Empresa</TableCell>
-              <TableCell className='invisible md:visible' align="center">CNPJ</TableCell>
-              <TableCell align="center">Valor Total</TableCell>
-              <TableCell align="center">Status</TableCell>
-              <TableCell align="center">Ações</TableCell>
-
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {data.map((row) => (
-              <TableRow
-                key={row.id}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-              >
-                <TableCell align="center">{row.name}</TableCell>
-                <TableCell align="center">{row.cnpj}</TableCell>
-                <TableCell align="center">R$ {row.totalprice}</TableCell>
-                <TableCell align="center">{row.status.name}</TableCell>
-                <TableCell align="center">
-                  <div className='flex bg-blue-100 justify-center'>
-                    <Button className='bg-red-500 text-white font-bold mr-2 hover:bg-red-200' onClick={() => { setEstimateToDelete(row.id); setModalOpen(true) }}>
+      <div className='hidden md:block'>
+        <table className="w-fit md:w-full text-sm text-gray-500 dark:text-gray-400">
+          <thead className="text-xs text-gray-700 bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
+            <tr className='items-center'>
+              <th scope="col" className="text-center py-3">Nome</th>
+              <th scope="col" className="text-center py-3">CNPJ</th>
+              <th scope="col" className="text-center py-3">Status</th>
+              <th scope="col" className="text-center py-3">Valor Total (R$)</th>
+              <th scope="col" className="text-center py-3">Ações</th>
+            </tr>
+          </thead>
+          <tbody className=''>
+            {data.map((estimate, index) => (
+              <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                <td scope="row" className="text-center px-6 py-2 font-medium text-gray-900 dark:text-white">
+                  {estimate.name}
+                </td>
+                <td scope="row" className="text-center px-6 py-2 font-medium text-gray-900 dark:text-white whitespace-nowrap">
+                  R$ {estimate.cnpj}</td>
+                <td scope="row" className="w-32 text-center px-6 py-2 font-medium text-gray-900 dark:text-white">
+                  {estimate.status.name}</td>
+                <td scope="row" className="text-center px-6 py-2 font-medium text-gray-900 dark:text-white whitespace-nowrap">
+                  R$ {estimate.totalprice}</td>
+                <td scope="row" className="text-center px-6 py-2 font-medium text-gray-900 dark:text-white">
+                  <div className='flex gap-2 justify-center'>
+                    <button className='p-2 rounded bg-red-500 text-white  hover:bg-red-200' onClick={() => { setEstimateToDelete(estimate.id); setModalOpen(true) }}>
                       Excluir
-                    </Button>
-                    <Button className='bg-yellow-500 text-white font-bold hover:bg-yellow-200' onClick={(e) => router.push(`/orcamento/edit/${row.id}`)}>
+                    </button>
+                    <button className='p-2 rounded bg-yellow-400 text-white hover:bg-yellow-200' onClick={(e) => router.push(`/orcamento/edit/${estimate.id}`)}>
                       Editar
-                    </Button>
+                    </button>
                   </div>
-                </TableCell>
-              </TableRow>
+                </td>
+              </tr>
             ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+          </tbody>
+        </table>
+      </div>
+
+
+      <div className='md:hidden space-y-3'>
+        {data.map((estimate, index) => (
+          <div className='grid grid-cols-1 shadow'>
+            <div className='bg-white p-4 rounded-lg shadow space-y-2'>
+              <div className='items-center space-y-3 text-lg'>
+                <div className='text-sm'><label className='font-bold'>Nome: </label>{estimate.name}</div>
+                <div className='text-sm'><label className='font-bold'>CNPJ: </label>{estimate.cnpj}</div>
+                <div className='text-sm'><label className='font-bold'>Status: </label>{estimate.status.name}</div>
+                <div className='text-sm'><label className='font-bold'>Valor Total: </label>R$ {estimate.totalprice}</div>
+              </div>
+              <div>
+                <div className='flex gap-2 justify-center'>
+                  <button className='p-2 rounded bg-red-500 text-white  hover:bg-red-200' onClick={() => { setEstimateToDelete(estimate.id); setModalOpen(true) }}>
+                    Excluir
+                  </button>
+                  <button className='p-2 rounded bg-yellow-400 text-white hover:bg-yellow-200' onClick={(e) => router.push(`/orcamento/edit/${estimate.id}`)}>
+                    Editar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
     </>
   );
 }

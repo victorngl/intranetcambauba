@@ -15,6 +15,7 @@ import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
 import { Product } from '../../../../types/types';
 import ExportEstimateExcel from '../../../../components/estimate/ExportEstimateExcel';
+import Head from 'next/head';
 
 
 export default function EditPage() {
@@ -128,7 +129,10 @@ export default function EditPage() {
 
   return (
     <>
-      <Header title={'Orçamento'} />
+      <Head>
+        <title>Eficaz - Editar Orçamento</title>
+      </Head>
+      
       <Navbar />
       <Container>
 
@@ -144,7 +148,7 @@ export default function EditPage() {
             
             <div>
               <p>Buscar Produtos</p>
-              <SearchField className='w-full' onChange={(e) => setBusca(e.target.value)} />
+              <SearchField onChange={(e) => setBusca(e.target.value)} />
             </div>
 
             <Divider className='my-4' />

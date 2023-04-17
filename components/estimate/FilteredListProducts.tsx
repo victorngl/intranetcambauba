@@ -4,11 +4,9 @@ import ProductsModal from '../utils/ProductsModal';
 
 function FilteredListProducts({ filteredProducts, handleSelectProduct }) {
 
-    const [listProductsModal, setListProductsModal] = useState(false)
-
     return (
         <>
-            <ProductsModal open={listProductsModal} setOpen={setListProductsModal} />
+            <ProductsModal />
 
             <div className='md:w-8/12 space-y-2 border-dashed border-2 p-2'>
 
@@ -25,8 +23,8 @@ function FilteredListProducts({ filteredProducts, handleSelectProduct }) {
                         </tbody>
                     </table>
                 </div>
-
-                <div className='text-center w-full h-14 items-center flex justify-center'><button type='button' onClick={(e) => { setListProductsModal(true) }} className='rounded p-2 text-base text-center text-white bg-blue-500 hover:bg-blue-700'>Mostrar mais produtos</button></div>
+                                
+                <div className='text-center w-full h-14 items-center flex justify-center'><button data-modal-target="defaultModal" data-modal-toggle="defaultModal" type='button' onClick={(e) => { console.log('modal abriu') }} className='rounded p-2 text-base text-center text-white bg-blue-500 hover:bg-blue-700'>Mostrar mais produtos</button></div>
 
             </div>
         </>
