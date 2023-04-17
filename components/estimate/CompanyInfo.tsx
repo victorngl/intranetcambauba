@@ -1,4 +1,3 @@
-import { Grid, Box, CardContent, TextField } from "@mui/material";
 import InputMask from 'react-input-mask';
 
 function CompanyInfo({estimate, setEstimate}) {
@@ -11,20 +10,20 @@ function CompanyInfo({estimate, setEstimate}) {
     return (
         <>
             <div className="justify-center items-center pb-10">
-                <div className="flex flex-col rounded-[20px] bg-white bg-clip-border shadow-3xl shadow-shadow-500 flex flex-col w-full bg-white">
+                <div className="rounded-lg bg-white bg-clip-border shadow-3xl shadow-shadow-500 flex flex-col w-full bg-white">
                     <div className="relative flex flex-row justify-between">
-                        <h4 className="text-xl font-bold text-navy-700 dark:text-white mb-3">
+                        <h2 className="text-xl font-semibold text-navy-700 dark:text-white mb-3">
                            Dados da Empresa
-                        </h4>
+                        </h2>
                     </div>
                     <div className="mb-3">
                         <label htmlFor="name" className="text-sm text-navy-700 dark:text-white font-bold">Nome da Empresa</label>
-                        <input required value={estimate.name} onChange={(e) => handleFormChange(e)} type="text" name="name" id="name" placeholder="" className="mt-2 flex h-12 w-full items-center justify-center rounded-xl border bg-white/0 p-3 text-sm outline-none border-gray-200" />
+                        <input required value={estimate.name} onChange={(e) => handleFormChange(e)} type="text" name="name" id="name" placeholder="" className="mt-2 flex h-12 w-full items-center justify-center rounded-lg border bg-white/0 p-3 text-sm outline-none border-gray-200" />
                     </div>
 
                     <div className="mb-3">
                         <label htmlFor="cnpj" className="text-sm text-navy-700 dark:text-white font-bold">CNPJ da Empresa</label>
-                        <InputMask required value={estimate.cnpj} onChange={(e) => handleFormChange(e)} mask="99.999.999/9999-99" name="cnpj" type="text" id="cnpj" placeholder="" className="mt-2 flex h-12 w-full items-center justify-center rounded-xl border bg-white/0 p-3 text-sm outline-none border-gray-200" ></InputMask>
+                        <InputMask required value={estimate.cnpj} onChange={(e) => handleFormChange(e)} mask="99.999.999/9999-99" name="cnpj" type="text" id="cnpj" placeholder="" className="mt-2 flex h-12 w-full items-center justify-center rounded-lg border bg-white/0 p-3 text-sm outline-none border-gray-200" ></InputMask>
                     </div>
 
                     {/*

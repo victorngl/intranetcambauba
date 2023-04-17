@@ -1,4 +1,3 @@
-import { Button } from "@mui/material";
 import { useState } from "react";
 
 function EditSelectedProduct({ selectedProduct, setSelectedProduct, handleAddProduct }) {
@@ -41,18 +40,15 @@ function EditSelectedProduct({ selectedProduct, setSelectedProduct, handleAddPro
                             </div>
 
                             <div className="my-5">
-                                <Button className='bg-red-400 text-white mr-5' onClick={removeQuantity}>-</Button>
+                                <button className='px-5 py-2 rounded bg-red-400 text-white mr-5' onClick={removeQuantity}>-</button>
                                 {selectedQuantity}
-                                <Button className='bg-blue-400 text-white ml-5' onClick={addQuantity}>+</Button>
+                                <button className='px-5 py-2 rounded bg-blue-400 text-white ml-5' onClick={addQuantity}>+</button>
                             </div>
 
                             <div>
-                                <Button onClick={(e) => addProductList(selectedProduct)}>Adicionar Produto</Button>
+                                <button className='bg-primary-hover text-white p-3 text-base rounded-lg' onClick={(e) => addProductList(selectedProduct)}>Adicionar Produto</button>
                             </div>
 
-                            <div>
-                                <Button onClick={(e) => handleUnselectProduct()}>Alterar Produto</Button>
-                            </div>
                         </div>
                     </div>
                     :

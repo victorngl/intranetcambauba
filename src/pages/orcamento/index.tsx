@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useMemo, useRef } from 'react';
 import Head from 'next/head'
 import Navbar from '../../../components/utils/Navbar';
-import Estimate from '../../../components/estimate/Estimate';
+import Estimate from '../../../components/estimate/Container';
 import Box from '@mui/material/Box';
 import SearchField from '../../../components/estimate/SearchField';
 import ExportEstimatePDF from '../../../components/estimate/ExportEstimateExcel';

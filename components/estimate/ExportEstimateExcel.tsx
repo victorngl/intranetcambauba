@@ -1,8 +1,6 @@
 
 import React from "react";
 import XLSX from 'sheetjs-style';
-import { Button } from "@mui/material";
-
 
 import { Product } from "../../types/types";
 
@@ -66,9 +64,9 @@ const ExportEstimateExcel = ({estimate}) => {
 
 	return (
 		<>
-		<Button className='bg-blue-500 text-white' onClick={ (e) => { exportToExcelArray(estimate.products) }}>
+		<button className='text-sm p-4 rounded bg-blue-500 hover:bg-blue-700 text-white' onClick={ (e) => { exportToExcelArray(estimate.products) }}>
 			Exportar para Excel
-		</Button>
+		</button>
 		</>
 	  );
 };

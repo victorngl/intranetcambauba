@@ -1,11 +1,9 @@
 import React, { useEffect, useState, useMemo, useRef } from 'react';
 
-import Box from '@mui/material/Box';
-import { Divider, Button, Typography } from '@mui/material';
-import '@fontsource/roboto/400.css';
+import { Divider, Typography } from '@mui/material';
 
 import Navbar from '../../../components/utils/Navbar';
-import Estimate from '../../../components/estimate/Estimate';
+import Container from '../../../components/estimate/Container';
 import SearchField from '../../../components/estimate/SearchField';
 import EstimateSelectedTable from '../../../components/estimate/EstimateSelectedTable';
 import EditSelectedProduct from '../../../components/estimate/EditSelectedProduct';
@@ -123,21 +121,22 @@ export default function EstimatePage() {
 
   return (
     <>
-      <Header title={'Orçamento'}/>
+      <Header title={'Orçamento'} />
       <Navbar />
+      <Container>
 
-      <Estimate>
+        <div className='h-12 border-b-2 divide-secondary mb-5'>
+          <h4 className="text-2xl font-bold dark:text-white">Criar orçamento</h4>
+        </div>
 
         <form onSubmit={(e) => saveEstimate(e)}>
 
           <CompanyInfo estimate={estimate} setEstimate={setEstimate} />
 
-          <Box className='font-bold text-lg'>
+          <div className='font-bold text-lg'>
 
             <div>
-              <Typography variant="h6">
-                Buscar Produtos
-              </Typography>
+              <p>Buscar Produtos</p>
               <SearchField className='w-full' onChange={(e) => setBusca(e.target.value)} />
             </div>
 
@@ -149,21 +148,21 @@ export default function EstimatePage() {
             </div>
 
             <Divider className='my-2' />
-              <EstimateSelectedTable estimate={estimate} handleRemoveProduct={handleRemoveProduct} />
+            <EstimateSelectedTable estimate={estimate} handleRemoveProduct={handleRemoveProduct} />
             <Divider className='my-5' />
 
-            <Box className='flex'>
-              <Box className='w-6/12 text-left flex gap-8'>
-                <Button type='submit' className='bg-green-500 hover:bg-green-200 text-white ml-2'>Salvar</Button>
-              </Box>
-            </Box>
+            <div className='flex'>
+              <div className='w-6/12 text-left flex gap-8'>
+                <button type='submit' className='p-4 rounded text-sm bg-green-500 hover:bg-green-800 text-white'>Salvar</button>
+              </div>
+            </div>
 
-          </Box>
+          </div>
 
         </form>
 
-      </Estimate>
-      <Footer/>
+      </Container>
+      <Footer />
 
     </>
   )

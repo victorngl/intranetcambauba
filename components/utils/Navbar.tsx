@@ -1,5 +1,3 @@
-import * as React from 'react';
-
 import Link from 'next/link';
 
 const pages = ['Orçamento', 'Produtos'];
@@ -13,7 +11,7 @@ function Navbar() {
   return (
     <>
       <nav className="bg-white border-gray-200 dark:bg-gray-900">
-        <div className="max-w-screen-xl flex items-center justify-between mx-auto p-4">
+        <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
           <a href="https://flowbite.com/" className="flex items-center">
             <img src="https://flowbite.com/docs/images/logo.svg" className="h-8 mr-3" alt="Flowbite Logo" />
             <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Eficaz</span>
@@ -52,7 +50,7 @@ function Navbar() {
                 xmlns="http://www.w3.org/2000/svg">
                 <path fillRule="evenodd"
                   d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-                  clip-rule="evenodd"></path>
+                  clipRule="evenodd"></path>
               </svg>
             </button>
           </div>
@@ -62,7 +60,7 @@ function Navbar() {
               {pages.map((page, index) => (
                 <li key={index}>
                   <Link href={pagesLink[index]}
-                    className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
+                    className="block py-2 pl-3 pr-4 text-text-primary rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-primary-hover md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
                     {page}</Link>
                 </li>
               ))}
