@@ -19,7 +19,7 @@ function FilteredListProducts({ filteredProducts, handleSelectProduct }) {
                                 <tr className='items-center flex justify-between space-y-3' key={index}>
                                     <td className="text-xs md:text-sm w-8/12" >{product.name}</td>
                                     <td className="text-xs md:text-sm text-right whitespace-nowrap" >R$ {product.price}</td>
-                                    <td className='text-right'> <button type='button' className="text-white rounded bg-blue-500 p-2 text-xs" onClick={e => handleSelectProduct(product)}>Selecionar</button></td>
+                                    <td className='text-right'><button type='button' className="text-white rounded bg-blue-500 p-2 text-xs" onClick={e => handleSelectProduct(product)}>Selecionar</button></td>
                                 </tr>
                             ))}
                         </tbody>

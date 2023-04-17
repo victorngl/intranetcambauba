@@ -40,13 +40,13 @@ function EditSelectedProduct({ selectedProduct, setSelectedProduct, handleAddPro
                             </div>
 
                             <div className="my-5">
-                                <button className='px-5 py-2 rounded bg-red-400 text-white mr-5' onClick={removeQuantity}>-</button>
+                                <button type='button' className='px-5 py-2 rounded bg-red-400 text-white mr-5' onClick={removeQuantity}>-</button>
                                 {selectedQuantity}
-                                <button className='px-5 py-2 rounded bg-blue-400 text-white ml-5' onClick={addQuantity}>+</button>
+                                <button type='button' className='px-5 py-2 rounded bg-blue-400 text-white ml-5' onClick={addQuantity}>+</button>
                             </div>
 
                             <div>
-                                <button className='bg-primary-hover text-white p-3 text-base rounded-lg' onClick={(e) => addProductList(selectedProduct)}>Adicionar Produto</button>
+                                <button className='bg-primary-hover text-white p-2 text-sm rounded-lg' onClick={(e) => addProductList(selectedProduct)}>Adicionar Produto</button>
                             </div>
 
                         </div>
