@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useMemo, useRef } from 'react';
 
-import { Divider, Typography } from '@mui/material';
-
+import Divider from '../../../../components/utils/Divider';
 import Navbar from '../../../../components/utils/Navbar';
 import Container from '../../../../components/estimate/Container';
 import SearchField from '../../../../components/estimate/SearchField';
@@ -148,21 +147,21 @@ export default function EditPage() {
               <SearchField className='w-full' onChange={(e) => setBusca(e.target.value)} />
             </div>
 
-            <Divider className='my-2' />
+            <Divider className='my-4' />
 
             <div className='w-full md:flex md:space-x-4 mb-10'>
               <FilteredListProducts filteredProducts={filteredProducts} handleSelectProduct={handleSelectProduct} />
               <EditSelectedProduct selectedProduct={selectedProduct} setSelectedProduct={setSelectedProduct} handleAddProduct={handleAddProduct} />
             </div>
 
-            <Divider className='my-2' />
+            <Divider className='my-4' />
             <EstimateSelectedTable estimate={estimate} handleRemoveProduct={handleRemoveProduct} />
-            <Divider className='my-5' />
+            <Divider className='my-4' />
 
             <div className='flex'>
               <div className='w-6/12 text-left flex gap-8'>
                 <button type='submit' className='p-4 rounded text-sm bg-green-500 hover:bg-green-800 text-white'>Salvar</button>
-                <ExportEstimateExcel estimate={estimate} selectedProducts={estimate.products} />
+                <ExportEstimateExcel estimate={estimate} />
               </div>
             </div>
 

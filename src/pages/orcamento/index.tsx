@@ -1,15 +1,14 @@
-import React, { useEffect, useState, useMemo, useRef } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import Head from 'next/head'
-import Navbar from '../../../components/utils/Navbar';
-import Estimate from '../../../components/estimate/Container';
-import Box from '@mui/material/Box';
-import SearchField from '../../../components/estimate/SearchField';
-import ExportEstimatePDF from '../../../components/estimate/ExportEstimateExcel';
-import EstimateSelectedTable from '../../../components/estimate/EstimateSelectedTable';
-import { Divider, Button, Container } from '@mui/material';
-import '@fontsource/roboto/400.css';
-import EstimateShowTable from '../../../components/estimate/EstimateShowTable';
 import router from 'next/router';
+
+import Navbar from '../../../components/utils/Navbar';
+import Container from '../../../components/estimate/Container';
+import SearchField from '../../../components/estimate/SearchField';
+import Divider from '../../../components/utils/Divider';
+
+import EstimateShowTable from '../../../components/estimate/EstimateShowTable';
+
 import TemporaryTable from '../../../components/estimate/TemporaryTable';
 
 
@@ -46,7 +45,7 @@ export default function EstimatePage() {
 
       <Navbar />
 
-      <Estimate>
+      <Container>
 
         <p className='font-bold text-lg my-2'>Orçamentos</p>
 
@@ -58,14 +57,15 @@ export default function EstimatePage() {
             <SearchField className='w-full' onChange={(e) => setBusca(e.target.value)}></SearchField>
           </div>
           <div className='w-6/12 text-right'>
-            <Button onClick={() => router.push(`/orcamento/create`)}>Criar orçamento</Button>
+            <button type='button' className='p-3 font-bold rounded-lg bg-green-400 text-white' onClick={() => router.push(`/orcamento/create`)}>Criar orçamento</button>
           </div>
         </div>
 
         <Divider className='my-2' />
 
         <TemporaryTable data={filteresEstimates} />
-      </Estimate>
+        
+      </Container>
     </>
   )
 }

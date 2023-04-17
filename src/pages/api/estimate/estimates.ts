@@ -5,9 +5,15 @@ const prisma = new PrismaClient()
 
 export default async function handler(req, res) {
     const estimates = await prisma.estimate.findMany({
+        orderBy: [
+            {
+                createdAt: 'desc',
+            },
+        ],
         include: {
             status: true,
         }
     })
+    
     res.json(estimates)
 }

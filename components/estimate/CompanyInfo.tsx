@@ -9,7 +9,7 @@ function CompanyInfo({estimate, setEstimate}) {
 
     return (
         <>
-            <div className="justify-center items-center pb-10">
+            <div className="justify-center items-center">
                 <div className="rounded-lg bg-white bg-clip-border shadow-3xl shadow-shadow-500 flex flex-col w-full bg-white">
                     <div className="relative flex flex-row justify-between">
                         <h2 className="text-xl font-semibold text-navy-700 dark:text-white mb-3">

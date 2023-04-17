@@ -64,7 +64,7 @@ const ExportEstimateExcel = ({estimate}) => {
 
 	return (
 		<>
-		<button className='text-sm p-4 rounded bg-blue-500 hover:bg-blue-700 text-white' onClick={ (e) => { exportToExcelArray(estimate.products) }}>
+		<button type="button" className='text-sm p-4 rounded bg-blue-500 hover:bg-blue-700 text-white' onClick={ (e) => { exportToExcelArray(estimate.products) }}>
 			Exportar para Excel
 		</button>
 		</>
