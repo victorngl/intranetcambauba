@@ -26,7 +26,7 @@ const Pagination = ({ items, pageSize, currentPage, onPageChange }) => {
     const activePaginationLink  = "px-3 py-2 leading-tight font-semibold text-gray-800 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
 
     return (
-        <div className="p-4 flex justify-center">
+        <div className="p-3 flex bg-red-200 justify-center">
             <nav>
                 <ul className="inline-flex -space-x-px">
                     <li>

@@ -16,7 +16,6 @@ import { Product } from '../../../types/types';
 import Head from 'next/head';
 
 export default function EstimatePage() {
-  console.log('aaa')
   const router = useRouter();
 
   const notifyCreateSuccefull = () => toast.success("Orçamento criado com sucesso!");
