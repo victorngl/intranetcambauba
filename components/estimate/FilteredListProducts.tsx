@@ -1,15 +1,14 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import ProductsModal from '../utils/ProductsModal';
 
-function FilteredListProducts({ filteredProducts, handleSelectProduct }) {
-
+function FilteredListProducts({ products, filteredProducts, handleSelectProduct }) {
     const [openModalMoreProducts, SetOpenModalMoreProducts] = useState(false);
 
     return (
         
         <>
-            <ProductsModal open={openModalMoreProducts} setOpen={SetOpenModalMoreProducts} />
+            <ProductsModal open={openModalMoreProducts} setOpen={SetOpenModalMoreProducts} products={products} handleSelectProduct={handleSelectProduct} />
 
             <div className='md:w-8/12 space-y-2 border-dashed border-2 border-gray-400 p-2'>
 

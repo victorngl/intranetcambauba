@@ -49,7 +49,7 @@ const ExportEstimateExcel = ({ estimate }) => {
 
 		var wscols = [
 			{ wch: 10 },
-			{ wch: 20 },
+			{ wch: 60 },
 			{ wch: 12 },
 			{ wch: 20 },
 			{ wch: 10 },

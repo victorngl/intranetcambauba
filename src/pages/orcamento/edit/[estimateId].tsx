@@ -124,7 +124,6 @@ export default function EditPage() {
     return limited
   }, [busca, products])
 
-
   return (
     <>
       <Head>
@@ -152,7 +151,7 @@ export default function EditPage() {
             <Divider className='my-4' />
 
             <div className='w-full md:flex md:space-x-4 mb-10'>
-              <FilteredListProducts filteredProducts={filteredProducts} handleSelectProduct={handleSelectProduct} />
+              <FilteredListProducts products={products} filteredProducts={filteredProducts} handleSelectProduct={handleSelectProduct} />
               <EditSelectedProduct selectedProduct={selectedProduct} setSelectedProduct={setSelectedProduct} handleAddProduct={handleAddProduct} />
             </div>
 

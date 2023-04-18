@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
 const pages = ['Orçamento', 'Produtos'];
-const pagesLink = ['/orcamento/', '/produtos/'];
+const pagesLink = ['/orcamento/', '/produto/'];
 const settings = ['Dashboard', 'Perfil', 'Suporte', 'Sair'];
 const settingsLink = ['/', '/perfil/', '/suporte/', '/signout/'];
 

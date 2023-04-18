@@ -123,7 +123,7 @@ export default function EstimatePage() {
       <Head>
         <title>Eficaz - Criar Orçamento</title>
       </Head>
-      
+
       <Navbar />
       <Container>
 
@@ -139,13 +139,13 @@ export default function EstimatePage() {
 
             <div>
               <p>Buscar Produtos</p>
-              <SearchField onChange={ (e) => setBusca(e.target.value)} />
+              <SearchField onChange={(e) => setBusca(e.target.value)} />
             </div>
 
             <Divider className='my-4' />
 
             <div className='w-full md:flex md:space-x-4 mb-10'>
-              <FilteredListProducts filteredProducts={filteredProducts} handleSelectProduct={handleSelectProduct} />
+              <FilteredListProducts products={products} filteredProducts={filteredProducts} handleSelectProduct={handleSelectProduct} />
               <EditSelectedProduct selectedProduct={selectedProduct} setSelectedProduct={setSelectedProduct} handleAddProduct={handleAddProduct} />
             </div>
 
@@ -156,7 +156,7 @@ export default function EstimatePage() {
             <div className='flex'>
               <div className='w-6/12 text-left flex gap-8'>
                 <button type='submit' className='p-4 rounded text-sm bg-green-500 hover:bg-green-800 text-white'>Salvar</button>
-                
+
               </div>
             </div>
 

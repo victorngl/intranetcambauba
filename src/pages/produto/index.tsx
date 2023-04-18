@@ -7,41 +7,43 @@ import Container from '../../../components/estimate/Container';
 import SearchField from '../../../components/estimate/SearchField';
 import Divider from '../../../components/utils/Divider';
 
-import EstimateShowTable from '../../../components/estimate/EstimateShowTable';
 import Footer from '../../../components/footer/Footer';
+import ProductsShowTable from '../../../components/product/ProductsShowTable';
 
-export default function EstimatePage() {
+import { Product } from '../../../types/types';
 
-  const [estimates, setEstimates] = useState([]);
-  const [busca, setBusca] = useState('');
+export default function ProdutosPage() {
+
+  const [products, setProducts] = useState<Product[]>([]);
+  const [busca, setBusca] = useState<string>('');
 
   useEffect(() => {
 
-    fetch('/api/estimate/estimates')
+    fetch('/api/products/products')
       .then((response) => { return response.json(); })
-      .then(data => { setEstimates(data); })
+      .then(data => { setProducts(data); })
 
-  }, [estimates])
+  }, [products])
 
-  const filteresEstimates = useMemo(() => {
+  const filteredProducts = useMemo(() => {
     const lowerBusca = busca.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-    return estimates
-      .filter((estimate) => estimate.name
+    return products
+      .filter((product) => product.name
         .toLowerCase()
         .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
         .includes(lowerBusca))
-  }, [busca, estimates])
+  }, [busca, products])
 
   return (
     <>
       <Head>
-        <title>Eficaz - Orçamentos</title>
+        <title>Eficaz - Produtos</title>
       </Head>
 
       <Navbar />
       <Container>
 
-        <p className='font-bold text-lg my-2'>Orçamentos</p>
+        <p className='font-bold text-lg my-2'>Produtos</p>
 
         <Divider className='my-2' />
 
@@ -50,14 +52,14 @@ export default function EstimatePage() {
           <p>Buscar</p>
           <div className='flex justify-between'>
             <SearchField onChange={(e) => setBusca(e.target.value)}></SearchField>
-            <button type='button' className='text-sm p-2 font-semibold rounded-lg bg-green-500 text-white' onClick={() => router.push(`/orcamento/create`)}>Criar orçamento</button>
+            <button type='button' className='text-sm p-2 font-semibold rounded bg-green-500 text-white' onClick={() => router.push(`/orcamento/create`)}>Criar produto</button>
           </div>
 
         </div>
 
         <Divider className='my-2' />
 
-        <EstimateShowTable data={filteresEstimates} />
+        <ProductsShowTable data={filteredProducts} />
 
       </Container>
       <Footer />
