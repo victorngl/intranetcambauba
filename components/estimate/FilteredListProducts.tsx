@@ -11,7 +11,7 @@ function FilteredListProducts({ filteredProducts, handleSelectProduct }) {
             <div className='md:w-8/12 space-y-2 border-dashed border-2 p-2'>
 
                 <div className='w-full'>
-                    <table className='h-full'>
+                    <table className='w-full h-full'>
                         <tbody className='divide-y-2'>
                             {filteredProducts.map((product, index) => (
                                 <tr className='items-center flex justify-between space-y-3' key={index}>
@@ -24,7 +24,7 @@ function FilteredListProducts({ filteredProducts, handleSelectProduct }) {
                     </table>
                 </div>
                                 
-                <div className='text-center w-full h-14 items-center flex justify-center'><button data-modal-target="defaultModal" data-modal-toggle="defaultModal" type='button' onClick={(e) => { console.log('modal abriu') }} className='rounded p-2 text-base text-center text-white bg-blue-500 hover:bg-blue-700'>Mostrar mais produtos</button></div>
+                <div className='text-center w-full h-14 items-center flex justify-center'><button data-modal-target="staticModal" data-modal-toggle="staticModal" type='button' onClick={(e) => { console.log('modal abriu') }} className='rounded p-2 text-base text-center text-white bg-blue-500 hover:bg-blue-700'>Mostrar mais produtos</button></div>
 
             </div>
         </>

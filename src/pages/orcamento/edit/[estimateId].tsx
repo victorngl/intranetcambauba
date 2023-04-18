@@ -9,7 +9,6 @@ import EditSelectedProduct from '../../../../components/estimate/EditSelectedPro
 import FilteredListProducts from '../../../../components/estimate/FilteredListProducts';
 import CompanyInfo from '../../../../components/estimate/CompanyInfo';
 import Footer from '../../../../components/footer/Footer';
-import Header from '../../../../components/header/Header';
 
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/router';
@@ -17,6 +16,7 @@ import { Product } from '../../../../types/types';
 import ExportEstimateExcel from '../../../../components/estimate/ExportEstimateExcel';
 import Head from 'next/head';
 
+import 'flowbite';
 
 export default function EditPage() {
   const router = useRouter();
@@ -137,9 +137,9 @@ export default function EditPage() {
       <Container>
 
         <div className='h-12 border-b-2 divide-secondary mb-5'>
-          <h4 className="text-2xl font-bold dark:text-white">Criar orçamento</h4>
+          <h4 className="text-2xl font-bold dark:text-white">Editar orçamento - #{estimate.id}</h4>
         </div>
-
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/flowbite.min.js"></script>
         <form onSubmit={(e) => saveEstimate(e)}>
 
           <CompanyInfo estimate={estimate} setEstimate={setEstimate} />

@@ -26,6 +26,7 @@ export default function EstimateShowTable({ data }) {
         <table className="w-fit md:w-full text-sm text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-gray-700 bg-gray-200 dark:bg-gray-700 dark:text-gray-400">
             <tr className='items-center'>
+              <th scope="col" className="text-center py-3">Código</th>
               <th scope="col" className="text-center py-3">Nome</th>
               <th scope="col" className="text-center py-3">CNPJ</th>
               <th scope="col" className="text-center py-3">Status</th>
@@ -37,10 +38,13 @@ export default function EstimateShowTable({ data }) {
             {data.map((estimate, index) => (
               <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                 <td scope="row" className="text-center px-6 py-2 font-medium text-gray-900 dark:text-white">
+                  #{estimate.id}
+                </td>
+                <td scope="row" className="text-center px-6 py-2 font-medium text-gray-900 dark:text-white">
                   {estimate.name}
                 </td>
                 <td scope="row" className="text-center px-6 py-2 font-medium text-gray-900 dark:text-white whitespace-nowrap">
-                  R$ {estimate.cnpj}</td>
+                  {estimate.cnpj}</td>
                 <td scope="row" className="w-32 text-center px-6 py-2 font-medium text-gray-900 dark:text-white">
                   {estimate.status.name}</td>
                 <td scope="row" className="text-center px-6 py-2 font-medium text-gray-900 dark:text-white whitespace-nowrap">
