@@ -16,8 +16,6 @@ import { Product } from '../../../../types/types';
 import ExportEstimateExcel from '../../../../components/estimate/ExportEstimateExcel';
 import Head from 'next/head';
 
-import 'flowbite';
-
 export default function EditPage() {
   const router = useRouter();
   const { estimateId } = router.query;

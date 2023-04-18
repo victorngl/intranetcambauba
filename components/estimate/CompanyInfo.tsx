@@ -18,12 +18,12 @@ function CompanyInfo({estimate, setEstimate}) {
                     </div>
                     <div className="mb-3">
                         <label htmlFor="name" className="text-sm text-navy-700 dark:text-white font-bold">Nome da Empresa</label>
-                        <input required value={estimate.name} onChange={(e) => handleFormChange(e)} type="text" name="name" id="name" placeholder="" className="mt-2 flex h-12 w-full items-center justify-center rounded-lg border bg-white/0 p-3 text-sm outline-none border-gray-200" />
+                        <input required value={estimate.name} onChange={(e) => handleFormChange(e)} type="text" name="name" id="name" placeholder="" className="mt-2 flex h-12 w-full items-center justify-center rounded-lg border bg-white/0 p-3 text-sm outline-none border-gray-200 focus:border-gray-500 bg-gray-100" />
                     </div>
 
                     <div className="mb-3">
                         <label htmlFor="cnpj" className="text-sm text-navy-700 dark:text-white font-bold">CNPJ da Empresa</label>
-                        <InputMask required value={estimate.cnpj} onChange={(e) => handleFormChange(e)} mask="99.999.999/9999-99" name="cnpj" type="text" id="cnpj" placeholder="" className="mt-2 flex h-12 w-full items-center justify-center rounded-lg border bg-white/0 p-3 text-sm outline-none border-gray-200"></InputMask>
+                        <InputMask required value={estimate.cnpj} onChange={(e) => handleFormChange(e)} mask="99.999.999/9999-99" name="cnpj" type="text" id="cnpj" placeholder="" className="mt-2 flex h-12 w-full items-center justify-center rounded-lg border bg-white/0 p-3 text-sm outline-none focus:border-gray-500 bg-gray-100"></InputMask>
                     </div>
 
                     {/*

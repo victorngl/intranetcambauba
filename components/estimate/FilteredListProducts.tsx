@@ -4,11 +4,14 @@ import ProductsModal from '../utils/ProductsModal';
 
 function FilteredListProducts({ filteredProducts, handleSelectProduct }) {
 
-    return (
-        <>
-            <ProductsModal />
+    const [openModalMoreProducts, SetOpenModalMoreProducts] = useState(false);
 
-            <div className='md:w-8/12 space-y-2 border-dashed border-2 p-2'>
+    return (
+        
+        <>
+            <ProductsModal open={openModalMoreProducts} setOpen={SetOpenModalMoreProducts} />
+
+            <div className='md:w-8/12 space-y-2 border-dashed border-2 border-gray-400 p-2'>
 
                 <div className='w-full'>
                     <table className='w-full h-full'>
@@ -24,7 +27,7 @@ function FilteredListProducts({ filteredProducts, handleSelectProduct }) {
                     </table>
                 </div>
                                 
-                <div className='text-center w-full h-14 items-center flex justify-center'><button data-modal-target="staticModal" data-modal-toggle="staticModal" type='button' onClick={(e) => { console.log('modal abriu') }} className='rounded p-2 text-base text-center text-white bg-blue-500 hover:bg-blue-700'>Mostrar mais produtos</button></div>
+                <div className='text-center w-full h-14 items-center flex justify-center'><button type='button' onClick={(e) => { SetOpenModalMoreProducts(true) }} className='rounded p-2 text-base text-center text-white bg-blue-500 hover:bg-blue-700'>Mostrar mais produtos</button></div>
 
             </div>
         </>

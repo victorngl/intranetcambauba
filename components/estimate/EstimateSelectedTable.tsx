@@ -21,7 +21,7 @@ export default function EstimateSelectedTable({ estimate, handleRemoveProduct })
                     </thead>
                     <tbody className=''>
                         {estimate.products.map((row, index) => (
-                            <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                            <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                                 <td scope="row" className="text-center px-6 py-2 font-medium text-gray-900 dark:text-white">
                                     {row.name}
                                 </td>
@@ -42,27 +42,23 @@ export default function EstimateSelectedTable({ estimate, handleRemoveProduct })
 
             <div className='block md:hidden space-y-2'>
                 {estimate.products.map((row, index) => (
-                    <>
-                    <div></div>
-                        <div className='divide-y-2 rounded border-2'>
-                            <div className='grid grid-cols-2 p-2'>
-                                <p className='text-sm'>Nome:</p>
-                                <p className='text-xs white'>{row.name}</p>
-                            </div>
-                            <div className='grid grid-cols-2 p-2'>
-                                <p className='text-sm'>Preço Unitário (R$):</p>
-                                <p className='text-xs'>R$ {row.price}</p>
-                            </div>
-                            <div className='grid grid-cols-2 p-2'>
-                                <p className='text-sm'>Quantidade:</p>
-                                <p className='text-xs'>{row.quantity} {row.unity}</p>
-                            </div>
-                            <div className='grid grid-cols-2 p-2'>
-                                <button className='w-24 text-sm bg-red-500 text-white p-1 rounded-lg font-semibold' type="button" onClick={e => handleRemoveProduct(index, row)}>Excluir</button>
-                            </div>
-
+                    <div key={index} className='divide-y-2 rounded border-2'>
+                        <div className='grid grid-cols-2 p-2'>
+                            <p className='text-sm'>Nome:</p>
+                            <p className='text-xs white'>{row.name}</p>
                         </div>
-                    </>
+                        <div className='grid grid-cols-2 p-2'>
+                            <p className='text-sm'>Preço Unitário (R$):</p>
+                            <p className='text-xs'>R$ {row.price}</p>
+                        </div>
+                        <div className='grid grid-cols-2 p-2'>
+                            <p className='text-sm'>Quantidade:</p>
+                            <p className='text-xs'>{row.quantity} {row.unity}</p>
+                        </div>
+                        <div className='grid grid-cols-2 p-2'>
+                            <button className='w-24 text-sm bg-red-500 text-white p-1 rounded-lg font-semibold' type="button" onClick={e => handleRemoveProduct(index, row)}>Excluir</button>
+                        </div>
+                    </div>
                 ))}
             </div>
         </>

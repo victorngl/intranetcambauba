@@ -30,7 +30,7 @@ function EditSelectedProduct({ selectedProduct, setSelectedProduct, handleAddPro
 
     return (
         <>
-            <div className='md:w-4/12 border-dashed	border-2 p-2 border-indigo-200 h-max my-5 md:my-0'>
+            <div className='md:w-4/12 border-dashed	border-2 p-2 border-gray-400 h-max my-5 md:my-0'>
                 {selectedProduct != undefined ?
                     <div className="flex justify-center text-center">
                         <div>
@@ -46,7 +46,7 @@ function EditSelectedProduct({ selectedProduct, setSelectedProduct, handleAddPro
                             </div>
 
                             <div>
-                                <button className='bg-primary-hover text-white p-2 text-sm rounded-lg' onClick={(e) => addProductList(selectedProduct)}>Adicionar Produto</button>
+                                <button className='bg-blue-500 text-white p-2 text-sm rounded' onClick={(e) => addProductList(selectedProduct)}>Adicionar Produto</button>
                             </div>
 
                         </div>
