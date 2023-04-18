@@ -11,17 +11,15 @@ import EstimateShowTable from '../../../components/estimate/EstimateShowTable';
 import Footer from '../../../components/footer/Footer';
 
 export default function EstimatePage() {
-
   const [estimates, setEstimates] = useState([]);
   const [busca, setBusca] = useState('');
 
   useEffect(() => {
-
     fetch('/api/estimate/estimates')
       .then((response) => { return response.json(); })
       .then(data => { setEstimates(data); })
 
-  }, [estimates])
+  }, [])
 
   const filteresEstimates = useMemo(() => {
     const lowerBusca = busca.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");

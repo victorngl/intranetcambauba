@@ -13,17 +13,16 @@ import ProductsShowTable from '../../../components/product/ProductsShowTable';
 import { Product } from '../../../types/types';
 
 export default function ProdutosPage() {
-
+  
   const [products, setProducts] = useState<Product[]>([]);
   const [busca, setBusca] = useState<string>('');
 
   useEffect(() => {
-
     fetch('/api/products/products')
       .then((response) => { return response.json(); })
       .then(data => { setProducts(data); })
 
-  }, [products])
+  }, [])
 
   const filteredProducts = useMemo(() => {
     const lowerBusca = busca.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");

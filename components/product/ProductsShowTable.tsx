@@ -3,8 +3,21 @@ import * as React from 'react';
 import { useRouter } from 'next/router'
 import { useState } from 'react';
 import ConfirmModal from '../utils/ConfirmModal';
+import Pagination from '../utils/Paginations';
+import { paginate } from '../../helpers/paginate';
 
 export default function ProductsShowTable({ data }) {
+
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const pageSize = 70;
+
+  const paginatedProducts = paginate(data, currentPage, pageSize);
+
+  const onPageChange = (page) => {
+    setCurrentPage(page);
+  };
+
   const router = useRouter();
 
   const [modalOpen, setModalOpen] = useState(false)
@@ -34,8 +47,8 @@ export default function ProductsShowTable({ data }) {
             </tr>
           </thead>
           <tbody className=''>
-            {data.map((product, index) => (
-              <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+            {paginatedProducts.map((product, index) => (
+              <tr key={product.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                 <td scope="row" className="text-center px-6 py-2 font-medium text-gray-900 dark:text-white">
                   #{product.id}
                 </td>
@@ -62,10 +75,9 @@ export default function ProductsShowTable({ data }) {
         </table>
       </div>
 
-
       <div className='md:hidden space-y-3'>
-        {data.map((product, index) => (
-          <div className='grid grid-cols-1 shadow'>
+        {paginatedProducts.map((product, index) => (
+          <div key={product.id} className='grid grid-cols-1 shadow'>
             <div className='bg-white p-4 rounded-lg shadow space-y-2'>
               <div className='items-center space-y-3 text-lg'>
                 <div className='text-sm'><label className='font-bold'>Nome: </label>{product.name}</div>
@@ -86,6 +98,13 @@ export default function ProductsShowTable({ data }) {
           </div>
         ))}
       </div>
+
+      <Pagination
+        items={data.length} // 100
+        currentPage={currentPage} // 1
+        pageSize={pageSize} // 10
+        onPageChange={onPageChange}
+      />
     </>
   );
 }
