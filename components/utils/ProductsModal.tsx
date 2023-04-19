@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { useMemo, useState } from 'react';
-import SearchField from '../estimate/SearchField';
+import SearchField from './SearchField';
 
 const style = {
     position: 'absolute' as 'absolute',

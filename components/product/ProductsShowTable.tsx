@@ -49,15 +49,15 @@ export default function ProductsShowTable({ data }) {
           <tbody className=''>
             {paginatedProducts.map((product, index) => (
               <tr key={product.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                <td scope="row" className="text-center px-6 py-2 font-medium text-gray-900 dark:text-white">
+                <td scope="row" className="text-center px-6 py-2 font-semibold text-gray-900 dark:text-white">
                   #{product.id}
                 </td>
-                <td scope="row" className="text-center px-6 py-2 font-medium text-gray-900 dark:text-white">
+                <td scope="row" className="text-left px-6 py-2 font-medium text-gray-900 dark:text-white">
                   {product.name}
                 </td>
                 <td scope="row" className="text-center px-6 py-2 font-medium text-gray-900 dark:text-white whitespace-nowrap">
                   {product.unity}</td>
-                <td scope="row" className="w-32 text-center px-6 py-2 font-medium text-gray-900 dark:text-white">
+                <td scope="row" className="w-32 text-center px-6 py-2 font-bold text-gray-900 dark:text-white">
                   R$ {product.price}</td>
                 <td scope="row" className="text-center px-6 py-2 font-medium text-gray-900 dark:text-white">
                   <div className='flex gap-2 justify-center'>

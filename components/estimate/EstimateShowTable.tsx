@@ -36,7 +36,7 @@ export default function EstimateShowTable({ data }) {
           </thead>
           <tbody className=''>
             {data.map((estimate, index) => (
-              <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+              <tr key={estimate.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                 <td scope="row" className="text-center px-6 py-2 font-medium text-gray-900 dark:text-white">
                   #{estimate.id}
                 </td>
@@ -68,7 +68,7 @@ export default function EstimateShowTable({ data }) {
 
       <div className='md:hidden space-y-3'>
         {data.map((estimate, index) => (
-          <div className='grid grid-cols-1 shadow'>
+          <div key={estimate.id} className='grid grid-cols-1 shadow'>
             <div className='bg-white p-4 rounded-lg shadow space-y-2'>
               <div className='items-center space-y-3 text-lg'>
                 <div className='text-sm'><label className='font-bold'>Nome: </label>{estimate.name}</div>
