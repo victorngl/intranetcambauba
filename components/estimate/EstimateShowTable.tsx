@@ -6,7 +6,7 @@ import ConfirmModal from '../utils/ConfirmModal';
 import { paginate } from '../../helpers/paginate';
 import Pagination from '../utils/Paginations';
 
-export default function EstimateShowTable({ data, setData }) {
+export default function EstimateShowTable({ dataRaw, data, setData }) {
   const router = useRouter();
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -26,7 +26,7 @@ export default function EstimateShowTable({ data, setData }) {
             if(response.ok)
               return response.json(); })
         .then( (resData) => {
-          setData(paginatedEstimates.filter(estimate => estimate.id !== resData.id))
+          setData(dataRaw.filter(estimate => estimate.id !== resData.id))
         })
     }
   }

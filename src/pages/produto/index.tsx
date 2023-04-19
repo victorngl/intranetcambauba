@@ -51,14 +51,14 @@ export default function ProdutosPage() {
           <p>Buscar</p>
           <div className='flex justify-between'>
             <SearchField onChange={(e) => setBusca(e.target.value)}></SearchField>
-            <button type='button' className='text-sm p-2 font-semibold rounded bg-green-500 text-white' onClick={() => router.push(`/orcamento/create`)}>Criar produto</button>
+            <button type='button' className='text-sm p-2 font-semibold rounded bg-green-500 text-white' onClick={() => router.push(`/produto/create`)}>Criar produto</button>
           </div>
 
         </div>
 
         <Divider className='my-2' />
 
-        <ProductsShowTable data={filteredProducts} setData={setProducts} />
+        <ProductsShowTable dataRaw={products} data={filteredProducts} setData={setProducts} />
 
       </Container>
       <Footer />

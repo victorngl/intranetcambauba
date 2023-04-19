@@ -13,11 +13,11 @@ function ProductInfo({product, setProduct}) {
                 <div className="rounded-lg bg-white bg-clip-border shadow-3xl shadow-shadow-500 flex flex-col w-full bg-white">
                     <div className="relative flex flex-row justify-between">
                         <h2 className="text-xl font-semibold text-navy-700 dark:text-white mb-3">
-                           Dados da Empresa
+                           Dados do Produto
                         </h2>
                     </div>
                     <div className="mb-3">
-                        <label htmlFor="name" className="text-sm text-navy-700 dark:text-white font-bold">Nome da Empresa</label>
+                        <label htmlFor="name" className="text-sm text-navy-700 dark:text-white font-bold">Nome</label>
                         <input required value={product.name} onChange={(e) => handleFormChange(e)} type="text" name="name" id="name" placeholder="" className="mt-2 flex h-12 w-full items-center justify-center rounded-lg border bg-white/0 p-3 text-sm outline-none border-gray-200 focus:border-gray-500 bg-gray-100" />
                     </div>
 

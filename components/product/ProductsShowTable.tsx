@@ -7,7 +7,7 @@ import Pagination from '../utils/Paginations';
 import { paginate } from '../../helpers/paginate';
 
 
-export default function ProductsShowTable({ data, setData }) {
+export default function ProductsShowTable({ data, setData, dataRaw }) {
 
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 70;
@@ -30,8 +30,8 @@ export default function ProductsShowTable({ data, setData }) {
           if (response.ok)
             return response.json();
         })
-        .then((data) => {
-          setData(paginatedProducts.filter(product => product.id !== data.id))
+        .then((resData) => {
+          setData(dataRaw.filter(product => product.id !== resData.id))
         })
     }
   }
