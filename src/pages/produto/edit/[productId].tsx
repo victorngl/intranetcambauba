@@ -18,7 +18,11 @@ export default function EditPage() {
 
   const notifySaveSuccefull = () => toast.success("Produto editado com sucesso!");
 
-  const [product, setProduct] = useState<Product>({});
+  const [product, setProduct] = useState<Product>({
+    id: 0,
+    name: '',
+    price: 0,
+  });
 
   useEffect(() => {
     if (productId != undefined) {

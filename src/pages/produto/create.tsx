@@ -17,7 +17,11 @@ export default function EditPage() {
  
   const notifySaveSuccefull = () => toast.success("Produto criado com sucesso!");
 
-  const [product, setProduct] = useState<Product>({});
+  const [product, setProduct] = useState<Product>({
+    id: 0,
+    name: '',
+    price: 0,
+  });
 
   const saveProduct = async (e) => {
     e.preventDefault();

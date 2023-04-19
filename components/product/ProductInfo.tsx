@@ -1,5 +1,3 @@
-import InputMask from 'react-input-mask';
-
 function ProductInfo({product, setProduct}) {
 
     function handleFormChange(e) {

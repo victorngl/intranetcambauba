@@ -23,7 +23,7 @@ function CompanyInfo({estimate, setEstimate}) {
 
                     <div className="mb-3">
                         <label htmlFor="cnpj" className="text-sm text-navy-700 dark:text-white font-bold">CNPJ da Empresa</label>
-                        <InputMask required value={estimate.cnpj} onChange={(e) => handleFormChange(e)} mask="99.999.999/9999-99" name="cnpj" type="text" id="cnpj" placeholder="" className="mt-2 flex h-12 w-full items-center justify-center rounded-lg border bg-white/0 p-3 text-sm outline-none focus:border-gray-500 bg-gray-100"></InputMask>
+                        <InputMask pattern="^[0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2}$" required value={estimate.cnpj} onChange={(e) => handleFormChange(e)} mask="99.999.999/9999-99" name="cnpj" type="text" id="cnpj" placeholder="" className="mt-2 flex h-12 w-full items-center justify-center rounded-lg border bg-white/0 p-3 text-sm outline-none focus:border-gray-500 bg-gray-100"></InputMask>
                     </div>
 
                     {/*

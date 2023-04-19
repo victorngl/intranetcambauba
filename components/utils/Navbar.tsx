@@ -11,10 +11,10 @@ function Navbar() {
     <>
       <nav className="bg-white border-gray-200 dark:bg-gray-900">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-          <a href="https://flowbite.com/" className="flex items-center">
+          <Link href="/" className="flex items-center">
             <img src='/logo.png' className="h-12 mr-3" alt="Flowbite Logo" />
             {/*<span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Eficaz</span>*/}
-          </a>
+          </Link>
           <div className="flex items-center md:order-2">
             <button type="button"
               className="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"

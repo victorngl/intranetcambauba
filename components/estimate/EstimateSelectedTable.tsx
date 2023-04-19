@@ -22,7 +22,7 @@ export default function EstimateSelectedTable({ estimate, handleRemoveProduct })
                     <tbody className=''>
                         {estimate.products.map((row, index) => (
                             <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                <td scope="row" className="text-center px-6 py-2 font-medium text-gray-900 dark:text-white">
+                                <td scope="row" className="text-left px-6 py-2 font-medium text-gray-900 dark:text-white">
                                     {row.name}
                                 </td>
                                 <td scope="row" className="text-center px-6 py-2 font-medium text-gray-900 dark:text-white whitespace-nowrap">
