@@ -3,24 +3,37 @@ import * as React from 'react';
 import { useRouter } from 'next/router'
 import { useState } from 'react';
 import ConfirmModal from '../utils/ConfirmModal';
+import { paginate } from '../../helpers/paginate';
+import Pagination from '../utils/Paginations';
 
-export default function EstimateShowTable({ data }) {
+export default function EstimateShowTable({ data, setData }) {
   const router = useRouter();
 
-  const [modalOpen, setModalOpen] = useState(false)
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 10;
+  const paginatedEstimates = paginate(data, currentPage, pageSize);
+  const onPageChange = (page) => {
+    setCurrentPage(page);
+  };
 
+  const [modalOpen, setModalOpen] = useState(false)
   const [estimateToDelete, setEstimateToDelete] = useState(null);
 
   const deleteEstimate = (id) => {
     if (id != undefined) {
       fetch(`/api/estimate/delete/${id}`)
-        .then((response) => { return response.json(); })
+        .then((response) => { 
+            if(response.ok)
+              return response.json(); })
+        .then( (resData) => {
+          setData(paginatedEstimates.filter(estimate => estimate.id !== resData.id))
+        })
     }
   }
 
   return (
     <>
-      <ConfirmModal open={modalOpen} setOpen={setModalOpen} performerDelete={deleteEstimate} estimateId={estimateToDelete}><p>Você tem certeza que deseja excluir esse orçamento ?</p></ConfirmModal>
+      <ConfirmModal open={modalOpen} setOpen={setModalOpen} performerDelete={deleteEstimate} idToDelete={estimateToDelete}><p>Você tem certeza que deseja excluir esse orçamento ?</p></ConfirmModal>
 
       <div className='hidden md:block'>
         <table className="w-fit md:w-full text-sm text-gray-500 dark:text-gray-400">
@@ -35,9 +48,9 @@ export default function EstimateShowTable({ data }) {
             </tr>
           </thead>
           <tbody className=''>
-            {data.map((estimate, index) => (
+            {paginatedEstimates.map((estimate, index) => (
               <tr key={estimate.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                <td scope="row" className="text-center px-6 py-2 font-medium text-gray-900 dark:text-white">
+                <td scope="row" className="text-center px-6 py-2 font-semibold text-gray-900 dark:text-white">
                   #{estimate.id}
                 </td>
                 <td scope="row" className="text-center px-6 py-2 font-medium text-gray-900 dark:text-white">
@@ -45,9 +58,9 @@ export default function EstimateShowTable({ data }) {
                 </td>
                 <td scope="row" className="text-center px-6 py-2 font-medium text-gray-900 dark:text-white whitespace-nowrap">
                   {estimate.cnpj}</td>
-                <td scope="row" className="w-32 text-center px-6 py-2 font-medium text-gray-900 dark:text-white">
+                <td scope="row" className="whitespace-nowrap w-32 text-center px-6 py-2 font-medium text-gray-900 dark:text-white">
                   {estimate.status.name}</td>
-                <td scope="row" className="text-center px-6 py-2 font-medium text-gray-900 dark:text-white whitespace-nowrap">
+                <td scope="row" className="text-center px-6 py-2 font-bold text-gray-900 dark:text-white whitespace-nowrap">
                   R$ {estimate.totalprice}</td>
                 <td scope="row" className="text-center px-6 py-2 font-medium text-gray-900 dark:text-white">
                   <div className='flex gap-2 justify-center'>
@@ -67,7 +80,7 @@ export default function EstimateShowTable({ data }) {
 
 
       <div className='md:hidden space-y-3'>
-        {data.map((estimate, index) => (
+        {paginatedEstimates.map((estimate, index) => (
           <div key={estimate.id} className='grid grid-cols-1 shadow'>
             <div className='bg-white p-4 rounded-lg shadow space-y-2'>
               <div className='items-center space-y-3 text-lg'>
@@ -90,6 +103,14 @@ export default function EstimateShowTable({ data }) {
           </div>
         ))}
       </div>
+
+      <Pagination
+        items={data.length} // 100
+        currentPage={currentPage} // 1
+        pageSize={pageSize} // 10
+        onPageChange={onPageChange}
+      />
+      
     </>
   );
 }

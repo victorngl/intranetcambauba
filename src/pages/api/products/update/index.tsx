@@ -6,7 +6,9 @@ const prisma = new PrismaClient()
 export default async function handler(req, res) {
     const { id } = req.body
     
-    const product = await prisma.estimate.update({
+    req.body.price = Number(req.body.price);
+
+    const product = await prisma.product.update({
         where: {
             id: Number(id),
         },

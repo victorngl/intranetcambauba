@@ -6,34 +6,39 @@ import ConfirmModal from '../utils/ConfirmModal';
 import Pagination from '../utils/Paginations';
 import { paginate } from '../../helpers/paginate';
 
-export default function ProductsShowTable({ data }) {
+
+export default function ProductsShowTable({ data, setData }) {
 
   const [currentPage, setCurrentPage] = useState(1);
-
   const pageSize = 70;
-
   const paginatedProducts = paginate(data, currentPage, pageSize);
-
   const onPageChange = (page) => {
     setCurrentPage(page);
   };
 
   const router = useRouter();
 
-  const [modalOpen, setModalOpen] = useState(false)
+  const [deleteModalOpen, SetDeleteModalOpen] = useState(false)
 
-  const [estimateToDelete, setEstimateToDelete] = useState(null);
+  const [productToDelete, setProductToDelete] = useState(undefined);
 
-  const deleteEstimate = (id) => {
-    if (id != undefined) {
-      fetch(`/api/estimate/delete/${id}`)
-        .then((response) => { return response.json(); })
+  const deleteProduct = (deleteId) => {
+
+    if (deleteId != undefined) {
+      fetch(`/api/products/delete/${deleteId}`)
+        .then((response) => {
+          if (response.ok)
+            return response.json();
+        })
+        .then((data) => {
+          setData(paginatedProducts.filter(product => product.id !== data.id))
+        })
     }
   }
 
   return (
     <>
-      <ConfirmModal open={modalOpen} setOpen={setModalOpen} performerDelete={deleteEstimate} estimateId={estimateToDelete}><p>Você tem certeza que deseja excluir esse orçamento ?</p></ConfirmModal>
+      <ConfirmModal open={deleteModalOpen} setOpen={SetDeleteModalOpen} performerDelete={deleteProduct} idToDelete={productToDelete}><p>Você tem certeza que deseja excluir esse produto ?</p></ConfirmModal>
 
       <div className='hidden md:block'>
         <table className="w-fit md:w-full text-sm text-gray-500 dark:text-gray-400">
@@ -61,10 +66,10 @@ export default function ProductsShowTable({ data }) {
                   R$ {product.price}</td>
                 <td scope="row" className="text-center px-6 py-2 font-medium text-gray-900 dark:text-white">
                   <div className='flex gap-2 justify-center'>
-                    <button className='p-2 rounded bg-red-500 text-white  hover:bg-red-200' onClick={() => { setEstimateToDelete(product.id); setModalOpen(true) }}>
+                    <button className='p-2 rounded bg-red-500 text-white  hover:bg-red-200' onClick={() => { setProductToDelete(product.id); SetDeleteModalOpen(true) }}>
                       Excluir
                     </button>
-                    <button className='p-2 rounded bg-yellow-400 text-white hover:bg-yellow-200' onClick={(e) => router.push(`/orcamento/edit/${estimate.id}`)}>
+                    <button className='p-2 rounded bg-yellow-400 text-white hover:bg-yellow-200' onClick={(e) => router.push(`/produto/edit/${product.id}`)}>
                       Editar
                     </button>
                   </div>
@@ -86,10 +91,10 @@ export default function ProductsShowTable({ data }) {
               </div>
               <div>
                 <div className='flex gap-2 justify-center'>
-                  <button className='p-2 rounded bg-red-500 text-white  hover:bg-red-200' onClick={() => { setEstimateToDelete(estimate.id); setModalOpen(true) }}>
+                  <button className='p-2 rounded bg-red-500 text-white  hover:bg-red-200' onClick={() => { setProductToDelete(product.id); SetDeleteModalOpen(true) }}>
                     Excluir
                   </button>
-                  <button className='p-2 rounded bg-yellow-400 text-white hover:bg-yellow-200' onClick={(e) => router.push(`/orcamento/edit/${estimate.id}`)}>
+                  <button className='p-2 rounded bg-yellow-400 text-white hover:bg-yellow-200' onClick={(e) => router.push(`/produto/edit/${product.id}`)}>
                     Editar
                   </button>
                 </div>

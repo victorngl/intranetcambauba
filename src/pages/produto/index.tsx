@@ -58,7 +58,7 @@ export default function ProdutosPage() {
 
         <Divider className='my-2' />
 
-        <ProductsShowTable data={filteredProducts} />
+        <ProductsShowTable data={filteredProducts} setData={setProducts} />
 
       </Container>
       <Footer />

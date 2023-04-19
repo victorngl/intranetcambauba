@@ -55,7 +55,7 @@ export default function EstimatePage() {
 
         <Divider className='my-2' />
 
-        <EstimateShowTable data={filteresEstimates} />
+        <EstimateShowTable data={filteresEstimates} setData={setEstimates} />
 
       </Container>
       <Footer />
