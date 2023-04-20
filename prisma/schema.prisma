@@ -11,13 +11,18 @@ datasource db {
 }
 
 model User {
-  id          Int     @id @default(autoincrement())
-  email       String  @unique
+  id              Int     @id @default(autoincrement())
+  email       String   @unique
+  password    String
   name        String?
   phone       String?
-  createdAt    DateTime   @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  cpf         String?
+  role        Role     @default(USER)
+  estimates   Estimate[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now()) @updatedAt
 }
+
 
 model Product {
   id              Int     @id @default(autoincrement())
@@ -27,7 +32,7 @@ model Product {
   quantity        Int?  @default(1)
   price_amount    Float?
   createdAt       DateTime   @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  updatedAt       DateTime @default(now()) @updatedAt
 }
 
 model EstimateStatus {
@@ -37,14 +42,21 @@ model EstimateStatus {
 }
 
 model Estimate {
-  id       Int     @id @default(autoincrement())
-  name     String? 
-  company_name     String? 
-  cnpj     String?
-  products Json?
+  id              Int     @id @default(autoincrement())
+  name            String? 
+  company_name    String? 
+  cnpj            String?
+  products        Json?
   status          EstimateStatus @relation(fields: [statusId], references: [id])
   statusId        Int
   totalprice      Float?
+  author          User       @relation(fields: [authorId], references: [id])
+  authorId        Int
   createdAt       DateTime   @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
+  updatedAt       DateTime @default(now()) @updatedAt
+}
+
+enum Role {
+  USER
+  ADMIN
 }

@@ -4,14 +4,12 @@ import { PrismaClient } from "@prisma/client"
 const prisma = new PrismaClient()
 
 export default async function handler(req, res) {
-  const { body } = req;
+    const emailId = req.query.id
 
-  body.price = Number(body.price);
-  
-  const product = await prisma.product.create({
-    data: body });
-
-  res.json(product)
-  
-
+    const user = await prisma.user.findUnique({
+        where: {
+            email: emailId,
+        }
+    })
+    res.json(user)
 }

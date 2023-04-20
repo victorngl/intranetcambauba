@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo, useRef } from 'react';
+import React, { useEffect, useState, useMemo, useRef, useContext } from 'react';
 
 import Divider from '../../../components/utils/Divider';
 import Navbar from '../../../components/utils/Navbar';
@@ -15,7 +15,13 @@ import { useRouter } from 'next/router';
 import { Product } from '../../../types/types';
 import Head from 'next/head';
 
+import { useSession } from "next-auth/react"
+import { UserContext } from '../../../providers/user';
+
 export default function EstimatePage() {
+  const { data: session, status } = useSession();
+  const { user, setUsuario } = useContext(UserContext);
+
   const router = useRouter();
 
   const notifyCreateSuccefull = () => toast.success("Orçamento criado com sucesso!");
@@ -24,12 +30,12 @@ export default function EstimatePage() {
   const [products, setProducts] = useState<Product[]>([]);
 
   const [estimate, setEstimate] = useState({
-    id: 0,
     name: "",
     cnpj: "",
     statusId: 1,
     products: [],
     totalprice: 0,
+    authorId: user?.id,
   });
 
   const [busca, setBusca] = useState<String>('');

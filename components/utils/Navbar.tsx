@@ -5,6 +5,8 @@ const pagesLink = ['/orcamento/', '/produto/'];
 const settings = ['Dashboard', 'Perfil', 'Suporte', 'Sair'];
 const settingsLink = ['/', '/perfil/', '/suporte/', '/signout/'];
 
+import { signOut } from "next-auth/react"
+
 function Navbar() {
 
   return (
@@ -65,7 +67,11 @@ function Navbar() {
               ))}
             </ul>
           </div>
+          <div>
+            <button onClick={ (e) => signOut() } className='rounded px-4 py-2 text-sm font-bold text-white bg-blue-500 hover:bg-blue-700'>Sair</button>
+          </div>
         </div>
+
       </nav>
     </>
   );

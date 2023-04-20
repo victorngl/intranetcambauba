@@ -14,10 +14,14 @@ export default async function handler(req, res) {
         connect: {
           id: Number(body.statusId),
         }
-
       },
       products: body.products,
       totalprice: body.totalprice,
+      author: {
+        connect: {
+          id: Number(body.authorId),
+        }
+      },
     }});
   res.json(estimate)
   
