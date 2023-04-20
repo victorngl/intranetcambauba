@@ -20,7 +20,7 @@ import { UserContext } from '../../../providers/user';
 
 export default function EstimatePage() {
   const { data: session, status } = useSession();
-  const { user, setUsuario } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
 
   const router = useRouter();
 
@@ -83,6 +83,8 @@ export default function EstimatePage() {
   }
 
   const saveEstimate = async (e: any) => {
+    console.log(user);
+    console.log(estimate);
     e.preventDefault();
 
     fetch("/api/estimate/create", {

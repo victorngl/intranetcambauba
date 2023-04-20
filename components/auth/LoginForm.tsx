@@ -3,12 +3,14 @@ import Header from "../header/Header";
 import Head from "next/head";
 
 import { signIn } from "next-auth/react"
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { UserContext } from "../../providers/user";
 
+
 function LoginForm() {
     const { user, setUser } = useContext(UserContext);
+    const { data: session, status } = useSession();
 
     const [error, setError] = useState('');
     const [loginInfo, setLoginInfo] = useState({
@@ -39,15 +41,21 @@ function LoginForm() {
             }
 
             if (res.ok) {
-
-                fetch(`/api/user/${loginInfo.email}`)
-                .then((response) => { return response.json(); })
-                .then(data => { setUser(data); notifyLoginSuccessful(); })
-                
+                notifyLoginSuccessful();
             }
 
         })
     }
+
+    useEffect(() => {
+        
+        if (session) {
+            console.log('FETOU')
+            fetch(`/api/user/${session.user.email}`)
+                .then((response) => { return response.json(); })
+                .then(data => { setUser(data) })
+        }
+    }, [status])
 
     return (
         <>
