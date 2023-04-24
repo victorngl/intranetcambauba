@@ -1,18 +1,20 @@
 import { useSession } from "next-auth/react"
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useContext } from "react";
 import LoginForm from "./LoginForm";
+import { UserContext } from "../../providers/user";
 
-function AuthChecker({ children }) {
+function SessionChecker({ children }) {
     const router = useRouter();
 
     const { data: session } = useSession()
 
-    if (session)
+    if (session) {
         return children
+    }
     
     return (<LoginForm />)
     
 }
 
-export default AuthChecker;
+export default SessionChecker;

@@ -3,13 +3,13 @@ import Header from "../header/Header";
 import Head from "next/head";
 
 import { signIn } from "next-auth/react"
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { UserContext } from "../../providers/user";
+import { useRouter } from "next/router";
 
 
 function LoginForm() {
-    const { user, setUser } = useContext(UserContext);
+    const router = useRouter()
     const { data: session, status } = useSession();
 
     const [error, setError] = useState('');
@@ -34,40 +34,40 @@ function LoginForm() {
             redirect: false,
             email: loginInfo.email,
             password: md5(loginInfo.password),
+            callbackUrl: '/'
 
         }).then((res) => {
-            if (res.status == 401) {
+            
+            if (res?.error) {
                 setError('Email ou Senha inválidos!')
             }
 
-            if (res.ok) {
+            if (res?.ok) 
                 notifyLoginSuccessful();
-            }
+                router.push('/')
+            
 
         })
     }
 
-    useEffect(() => {
-        
-        if (session) {
-            console.log('FETOU')
-            fetch(`/api/user/${session.user.email}`)
-                .then((response) => { return response.json(); })
-                .then(data => { setUser(data) })
-        }
-    }, [status])
+    //useEffect(() => {
+    //if (router.query.error) {
+    //    setError(router.query.error) // To prefill the email after redirect
+    //  }
+    //}, [router])
+    
 
     return (
         <>
             <Header />
             <Head>
-                <title>Eficaz - Dashboard</title>
+                <title>Eficaz - Login</title>
             </Head>
 
             <section className="bg-gray-50 dark:bg-gray-900">
                 <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
 
-                    <img className="m-5" src="/logo.png" alt="logo" />
+                    <img className="m-5" src='/logo.png' alt="" />
                     {error &&
 
                         <div className="mb-5 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">

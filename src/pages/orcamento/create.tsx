@@ -16,12 +16,11 @@ import { Product } from '../../../types/types';
 import Head from 'next/head';
 
 import { useSession } from "next-auth/react"
-import { UserContext } from '../../../providers/user';
+
 
 export default function EstimatePage() {
   const { data: session, status } = useSession();
-  const { user, setUser } = useContext(UserContext);
-
+  
   const router = useRouter();
 
   const notifyCreateSuccefull = () => toast.success("Orçamento criado com sucesso!");
@@ -35,7 +34,7 @@ export default function EstimatePage() {
     statusId: 1,
     products: [],
     totalprice: 0,
-    authorId: user?.id,
+    authorId: session.user.id,
   });
 
   const [busca, setBusca] = useState<String>('');
@@ -45,7 +44,6 @@ export default function EstimatePage() {
       .then((response) => { return response.json(); })
       .then(data => { setProducts(data); })
   }, [])
-
 
   //Add a item to orçamento
   function handleAddProduct(product: Product) {
@@ -83,8 +81,6 @@ export default function EstimatePage() {
   }
 
   const saveEstimate = async (e: any) => {
-    console.log(user);
-    console.log(estimate);
     e.preventDefault();
 
     fetch("/api/estimate/create", {

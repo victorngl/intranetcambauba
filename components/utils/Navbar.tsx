@@ -68,7 +68,7 @@ function Navbar() {
             </ul>
           </div>
           <div>
-            <button onClick={ (e) => signOut() } className='rounded px-4 py-2 text-sm font-bold text-white bg-blue-500 hover:bg-blue-700'>Sair</button>
+            <button onClick={ (e) => signOut({ callbackUrl: '/' }) } className='rounded px-4 py-2 text-sm font-bold text-white bg-blue-500 hover:bg-blue-700'>Sair</button>
           </div>
         </div>
 

@@ -1,7 +1,4 @@
-import { PrismaClient } from "@prisma/client"
-
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-const prisma = new PrismaClient()
+import { prisma } from "../../../../db/prisma"
 
 export default async function handler(req, res) {
     const { id } = req.body

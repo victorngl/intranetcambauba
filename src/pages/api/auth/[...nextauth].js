@@ -1,6 +1,6 @@
 import NextAuth from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials";
-import { PrismaClient } from '@prisma/client';
+import { prisma } from "../../../db/prisma"
 
 export const authOptions = {
     // Configure one or more authentication providers
@@ -19,8 +19,6 @@ export const authOptions = {
             async authorize(credentials, req) {
                 // Add logic here to look up the user from the credentials supplied
 
-                const prisma = new PrismaClient();
-
                 const getUser = await prisma.user.findUnique({
                     where: {
                         email: credentials.email,
@@ -30,13 +28,14 @@ export const authOptions = {
                 if (getUser) {
 
                     var md5 = require('md5');
-
+                    
                     if (getUser.password === md5(credentials.password)) {
 
                         const userReturned = {
                             id: getUser.id,
                             name: getUser.name,
                             email: getUser.email,
+                            image: getUser.role,
                         }
 
                         return userReturned;
@@ -58,6 +57,7 @@ export const authOptions = {
     ],
     callbacks: {
         jwt: ({ token, user }) => {
+            
             // first time jwt callback is run, user object is available
             if (user) {
                 token.id = user.id;
@@ -84,6 +84,7 @@ export const authOptions = {
     },
     pages: {
         signIn: "/login",
+        signOut: '/login'
     },
 }
 export default NextAuth(authOptions)
