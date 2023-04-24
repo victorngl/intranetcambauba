@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import Divider from '../../../components/utils/Divider';
-import Navbar from '../../../components/utils/Navbar';
+import Navbar from '../../../components/navbar/Navbar';
 import Container from '../../../components/utils/Container';
 import Footer from '../../../components/footer/Footer';
 

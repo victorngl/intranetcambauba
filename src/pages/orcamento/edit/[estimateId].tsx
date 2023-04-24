@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useMemo, useRef } from 'react';
 
 import Divider from '../../../../components/utils/Divider';
-import Navbar from '../../../../components/utils/Navbar';
+import Navbar from '../../../../components/navbar/Navbar';
 import Container from '../../../../components/utils/Container';
 import SearchField from '../../../../components/utils/SearchField';
 import EstimateSelectedTable from '../../../../components/estimate/EstimateSelectedTable';

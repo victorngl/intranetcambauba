@@ -2,7 +2,7 @@ import React, { useEffect, useState, useMemo } from 'react';
 import Head from 'next/head'
 import router from 'next/router';
 
-import Navbar from '../../../components/utils/Navbar';
+import Navbar from '../../../components/navbar/Navbar';
 import Container from '../../../components/utils/Container';
 import SearchField from '../../../components/utils/SearchField';
 import Divider from '../../../components/utils/Divider';
