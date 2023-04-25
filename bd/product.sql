@@ -17,12 +17,12 @@
 --
 -- Banco de dados: `eficaz`
 --
-SET SQL_MODE='ALLOW_INVALID_DATES';
+
 -- --------------------------------------------------------
 
 -- Estrutura da tabela `product`
 --
-INSERT INTO `product` (`id`, `name`, `unity`, `price`, `quantity`, `price_amount`, `createdAt`) VALUES
+INSERT INTO `Product` (`id`, `name`, `unity`, `price`, `quantity`, `price_amount`, `createdAt`) VALUES
 (10, 'ABRAÇADEIRA INOX EXTREMIDADE P/ SISTEMA\r\nTRI CLAMP POL INT GRANA 220 POL EXT GRANA\r\n150 PADRÃO SANITÁRIO, ANEL PTFE Ø4\"', 'PÇ', 595, 1, NULL, '2023-04-17 13:30:55.207'),
 (8, 'ABRAÇADEIRA GALVANIZADA \"D\" L 1/2\" COM\r\nCUNHA', 'PÇ', 166, 1, NULL, '2023-04-17 13:30:55.207'),
 (9, 'ABRAÇADEIRA GALVANIZADA \"D\" L 3/4\" COM\r\nCUNHA', 'PÇ', 174, 1, NULL, '2023-04-17 13:30:55.207'),
@@ -552,7 +552,7 @@ INSERT INTO `product` (`id`, `name`, `unity`, `price`, `quantity`, `price_amount
 (534, 'TUBO 304L Ø 3\" SCH 10S', 'MT', 412, 1, NULL, '2023-04-17 13:30:55.207'),
 (535, 'TUBO 304L Ø 4\" SCH 10S', 'MT', 825, 1, NULL, '2023-04-17 13:30:55.207'),
 (536, 'TUBO 304L Ø 6\" SCH 10S', 'MT', 941, 1, NULL, '2023-04-17 13:30:55.207');
-INSERT INTO `product` (`id`, `name`, `unity`, `price`, `quantity`, `price_amount`, `createdAt`) VALUES
+INSERT INTO `Product` (`id`, `name`, `unity`, `price`, `quantity`, `price_amount`, `createdAt`) VALUES
 (537, 'TUBO 60x40x3x1550mm', 'PÇ', 187, 1, NULL, '2023-04-17 13:30:55.207'),
 (538, 'TUBO 60x40x3x840mm', 'PÇ', 114, 1, NULL, '2023-04-17 13:30:55.207'),
 (539, 'TUBO 60x40x5x1700mm', 'PÇ', 352, 1, NULL, '2023-04-17 13:30:55.207'),
