@@ -35,7 +35,8 @@ export const authOptions = {
                             id: getUser.id,
                             name: getUser.name,
                             email: getUser.email,
-                            image: getUser.role,
+                            image: getUser.image,
+                            role: getUser.role,
                         }
 
                         return userReturned;
@@ -58,19 +59,12 @@ export const authOptions = {
     callbacks: {
         jwt: ({ token, user }) => {
             
-            // first time jwt callback is run, user object is available
-            if (user) {
-                token.id = user.id;
-            }
-
-            return token;
+            return ({ ...token, ...user} )
         },
-        session: ({ session, token }) => {
-            if (token) {
-                session.id = token.id;
-            }
-
-            session.user.id = session.id
+        session: ({ session, token, user }) => {
+           
+            
+            session.user = token;
 
             return session;
         },

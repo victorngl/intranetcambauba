@@ -3,8 +3,10 @@ import '../styles/globals.css'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Header from '../../components/header/Header';
-import { SessionProvider } from "next-auth/react"
+import { SessionProvider, useSession } from "next-auth/react"
 import SessionChecker from '../../components/auth/SessionChecker';
+import LoginForm from '../../components/auth/LoginForm';
+
 
 export default function App({
   Component,
@@ -16,8 +18,17 @@ export default function App({
       <ToastContainer />
       <SessionChecker>
         <Component {...pageProps} />
+        <Header />
       </SessionChecker>
       <Header />
+
     </SessionProvider>
   );
 }
+
+/*
+<SessionChecker>
+        <Component {...pageProps} />
+        <Header />
+      </SessionChecker>
+      */

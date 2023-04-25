@@ -20,7 +20,7 @@ import { useSession } from "next-auth/react"
 
 export default function EstimatePage() {
   const { data: session, status } = useSession();
-  
+
   const router = useRouter();
 
   const notifyCreateSuccefull = () => toast.success("Orçamento criado com sucesso!");
@@ -40,7 +40,7 @@ export default function EstimatePage() {
   const [busca, setBusca] = useState<String>('');
 
   useEffect(() => {
-    fetch('/api/products/products')
+     fetch('/api/products/products')
       .then((response) => { return response.json(); })
       .then(data => { setProducts(data); })
   }, [])
