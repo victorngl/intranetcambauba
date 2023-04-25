@@ -1,5 +1,5 @@
 import { useSession } from "next-auth/react"
-import Header from "../header2/Header";
+import Header from "../header/Header";
 import Head from "next/head";
 
 import { signIn } from "next-auth/react"

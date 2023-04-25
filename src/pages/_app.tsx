@@ -2,7 +2,7 @@ import '../styles/globals.css'
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Header from '../../components/header2/Header';
+import Header from '../../components/header/Header';
 import { SessionProvider, useSession } from "next-auth/react"
 import SessionChecker from '../../components/auth/SessionChecker';
 import LoginForm from '../../components/auth/LoginForm';
