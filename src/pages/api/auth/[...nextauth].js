@@ -30,6 +30,7 @@ export const authOptions = {
                     var md5 = require('md5');
                     
                     console.log(md5(credentials.password));
+                    
                     if (getUser.password === md5(credentials.password)) {
 
                         const userReturned = {
