@@ -25,7 +25,7 @@ function Footer() {
                     </ul>
                 </div>
                 <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
-                <span className="block text-sm text-gray-500 text-center dark:text-gray-400">© 2023<Link href="/" className="hover:underline"> Eficaz Industrial</Link>. Todos os direitos reservados.</span>
+                <span className="block text-sm text-gray-500 text-center dark:text-gray-400">© 2023<Link href="/" className="hover:underline"> Escola Modelar Cambaúba</Link>. Todos os direitos reservados.</span>
             </div>
         </footer>
 

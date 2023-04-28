@@ -1,14 +1,6 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-//generator client {
-//  provider = "prisma-client-js"
-//}
-//
-//datasource db {
-//  provider = "mysql"
-//  url      = env("DATABASE_URL")
-//}
 
 generator client {
   provider = "prisma-client-js"
@@ -20,53 +12,97 @@ datasource db {
 }
 
 model User {
-  id              Int     @id @default(autoincrement())
-  email       String   @unique
+  id          Int     @id @default(autoincrement())
+  email       String  
   password    String
-  image    String?
+  image       String?
   name        String?
   phone       String?
-  cpf         String?
-  role        Role     @default(USER)
-  estimates   Estimate[]
+  cpf         String  @unique
+  role        Role    @relation(fields: [roleId], references: [id])
+  roleId      Int 
+  comunicados Comunicado[]
+  alunos      Alunos_Responsaveis[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now()) @updatedAt
 }
 
-
-model Product {
+model Aluno {
   id              Int     @id @default(autoincrement())
-  name            String  
-  unity           String?
-  price           Float
-  quantity        Int?  @default(1)
-  price_amount    Float?
-  createdAt       DateTime   @default(now())
-  updatedAt       DateTime @default(now()) @updatedAt
+  naluno          Int     @unique
+  name            String
+  cpf             String?
+  turma           Turma @relation(fields: [turmaId], references: [id])
+  turmaId         Int
+  responsaveis    Alunos_Responsaveis[]
+  rupd            Rupd[] 
 }
 
-model EstimateStatus {
+model Alunos_Responsaveis {
+  usuarios            User     @relation(fields: [cpf], references: [cpf])
+  cpf                 String // relation scalar field (used in the `@relation` attribute above)
+  alunos              Aluno @relation(fields: [naluno], references: [naluno])
+  naluno              Int // relation scalar field (used in the `@relation` attribute above)
+  assignedAt          DateTime @default(now())
+  assignedBy          String? 
+  @@id([cpf, naluno])
+}
+
+model Role {
   id        Int     @id @default(autoincrement())
   name      String
-  estimates Estimate[]
+  users     User[]
 }
 
-model Estimate {
-  id              Int     @id @default(autoincrement())
-  name            String? 
-  company_name    String? 
-  cnpj            String?
-  products        Json?
-  status          EstimateStatus @relation(fields: [statusId], references: [id])
-  statusId        Int
-  totalprice      Float?
-  author          User       @relation(fields: [authorId], references: [id])
-  authorId        Int
-  createdAt       DateTime   @default(now())
-  updatedAt       DateTime @default(now()) @updatedAt
+model Comunicado {
+  id          Int     @id @default(autoincrement())
+  title       String  
+  summary     String?
+  description String?
+  file        String
+  coverPhoto  String?
+  classes     Json
+  author      User @relation(fields: [authorId], references: [id])
+  authorId    Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now()) @updatedAt
 }
 
-enum Role {
-  USER
-  ADMIN
+model Turma {
+  id          Int     @id @default(autoincrement())
+  name        String  
+  year        Int
+  alunos      Aluno[]
+  disciplinas Turmas_Disciplinas[]
 }
+
+model Disciplina {
+  id          Int     @id @default(autoincrement())
+  name        String
+  turmas      Turmas_Disciplinas[]
+}
+
+model Turmas_Disciplinas {
+  id                  Int   @id @default(autoincrement())
+  turma               Turma     @relation(fields: [turmaId], references: [id])
+  turmaId             Int // relation scalar field (used in the `@relation` attribute above)
+  disciplina          Disciplina @relation(fields: [disciplinaId], references: [id])
+  disciplinaId        Int // relation scalar field (used in the `@relation` attribute above)
+  profId              Int?
+  rupd                Rupd[]
+  assignedAt          DateTime @default(now())
+  assignedBy          String? 
+}
+
+model Rupd {
+  id            Int     @id @default(autoincrement())
+  firstNote     Float?  
+  secondNote    Float?
+  thirdNote     Float?
+  fourthNote    Float?
+  disciplina    Turmas_Disciplinas @relation(fields: [disciplinaId], references: [id])
+  disciplinaId  Int  // relation scalar field (used in the `@relation` attribute above)
+  aluno         Aluno @relation(fields: [alunoId], references: [naluno])
+  alunoId       Int @unique // relation scalar field (used in the `@relation` attribute above)
+}
+

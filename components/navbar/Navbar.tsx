@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
-const pages = ['Orçamento', 'Produtos'];
-const pagesLink = ['/orcamento/', '/produto/'];
+const pages = ['Associação', 'Comunicados'];
+const pagesLink = ['/associacao/', '/comunicados/'];
 const settings = ['Dashboard', 'Perfil', 'Suporte',];
 const settingsLink = ['/', '/perfil/', '/suporte/', ];
 
@@ -19,7 +19,8 @@ function Navbar() {
     window.addEventListener("resize", () => setWidth(window.innerWidth));
   }, [])
   
-
+  const avatarUrl = `https://avatar-letter.site/api/file/set1/big/${session.user.name[0]}/png`;
+  
   return (
     <>
       <nav className="bg-white border-gray-200 dark:bg-gray-900">
@@ -33,7 +34,7 @@ function Navbar() {
               className="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
               id="user-menu-button">
               <span className="sr-only">Open user menu</span>
-              <img className="w-8 h-8 rounded-full" src="/docs/images/people/profile-picture-3.jpg" alt="user photo" />
+              <img className="w-8 h-8 rounded-full" src={avatarUrl} alt="user photo" />
             </button>
 
             { profileOpen &&

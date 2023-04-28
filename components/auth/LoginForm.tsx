@@ -6,14 +6,14 @@ import { signIn } from "next-auth/react"
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
-
+import InputMask from 'react-input-mask';
 
 function LoginForm() {
     const router = useRouter()
 
     const [error, setError] = useState('');
     const [loginInfo, setLoginInfo] = useState({
-        email: '',
+        cpf: '',
         password: '',
     });
 
@@ -31,7 +31,7 @@ function LoginForm() {
 
         await signIn('credentials', {
             redirect: false,
-            email: loginInfo.email,
+            cpf: loginInfo.cpf,
             password: md5(loginInfo.password),
             callbackUrl: '/'
 
@@ -60,13 +60,16 @@ function LoginForm() {
         <>
             <Header />
             <Head>
-                <title>Eficaz - Login</title>
+                <title>AEMC - Login</title>
             </Head>
 
             <section className="bg-gray-50 dark:bg-gray-900">
                 <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
 
-                    <img className="m-5" src='/logo.png' alt="" />
+                    <div className="flex justify-center">
+                        <img className="m-5 w-5/12" src='/logo.png' alt="" />
+                    </div>
+
                     {error &&
 
                         <div className="mb-5 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
@@ -83,12 +86,12 @@ function LoginForm() {
                             </h1>
                             <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6" action="#">
                                 <div>
-                                    <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
-                                    <input onChange={(e) => { handleFormChange(e) }} type="email" name="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 outline-none" placeholder="nome@email.com" required />
+                                    <label htmlFor="cpf" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">CPF</label>
+                                    <InputMask autoComplete="cpf" onChange={(e) => { handleFormChange(e) }} mask="999.999.999-99" name="cpf"  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 outline-none" required ></InputMask>
                                 </div>
                                 <div>
                                     <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Senha</label>
-                                    <input onChange={(e) => { handleFormChange(e) }} type="password" name="password" id="password" placeholder="••••••••" className="outline-none bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+                                    <input autoComplete="password" onChange={(e) => { handleFormChange(e) }} type="password" name="password" id="password" placeholder="••••••••" className="outline-none bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
                                 </div>
                                 <div className="flex items-center justify-between">
                                     <a href="#" className="text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">Esqueceu a senha?</a>

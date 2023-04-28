@@ -7,13 +7,7 @@ import LoginForm from '../../../components/auth/LoginForm';
 export default function LoginPage() {
   const router = useRouter();
 
-  const { message } = router.query;
-  
-  console.log(router.query)
-
   return (
-
     <LoginForm />
-
   );
 }

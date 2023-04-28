@@ -1,7 +1,5 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import { useMemo, useState } from 'react';
 import SearchField from './SearchField';
@@ -15,8 +13,6 @@ const style = {
     height: '100%',
     maxHeight: 500,
     width: '90%',
-
-
 };
 
 export default function ProductsModal({ open, setOpen, products = [], handleSelectProduct }) {

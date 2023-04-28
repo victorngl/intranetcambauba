@@ -13,24 +13,24 @@ export const authOptions = {
             // e.g. domain, username, password, 2FA token, etc.
             // You can pass any HTML attribute to the <input> tag through the object.
             credentials: {
-                email: { label: "Email", type: "text", placeholder: "Exemplo: joao.silva" },
+                cpf: { label: "CPF", type: "text", placeholder: "CPF" },
                 password: { label: "Password", type: "password" }
             },
             async authorize(credentials, req) {
                 // Add logic here to look up the user from the credentials supplied
-
+                
+                console.log(credentials);
+                
                 const getUser = await prisma.user.findUnique({
                     where: {
-                        email: credentials.email,
+                        cpf: credentials.cpf,
                     }
                 })
-
+                
                 if (getUser) {
 
                     var md5 = require('md5');
-                    
-                    console.log(md5(credentials.password));
-                    
+                                        
                     if (getUser.password === md5(credentials.password)) {
 
                         const userReturned = {
